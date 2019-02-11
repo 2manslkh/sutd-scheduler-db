@@ -22,9 +22,11 @@ class db_helper:
             json.dump(self.data, write_file)
             
     def add_module(self, new_module):
-        a = [self.data["MODULES_DB"]]
-        a.append(new_module)
-        self.data["MODULES_DB"] = a
+        module_id = list(new_module.keys())[0]
+        self.data["MODULES_DB"][module_id] = new_module
+        
+    def get_moduleID(module):
+        return module
         
     def remove_module():
         #TODO
@@ -210,6 +212,7 @@ new_module = (
     )
 
 stored_db = db_helper("module_database.json")
+#print(list(stored_db.data["MODULES_DB"].keys()))
 stored_db.add_module(new_module)
 stored_db.print_json()
 stored_db.save_json()
