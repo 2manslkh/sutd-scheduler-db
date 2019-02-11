@@ -1,0 +1,10 @@
+{
+    "LOGIN_DB": {
+        "kenghin": {
+            "First Name": "Lim",
+            "Last Name": "Keng Hin",
+            "password": "123",
+            "Admin Level": 1
+        }
+    }
+}
