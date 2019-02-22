@@ -18,3 +18,9 @@
 - Filter by course/venue
 - Generate schedule 
 - See errors in schedule 
+
+### How to run
+1. Download the `mysite` folder
+2. cd inside the folder on your cmd/terminal 
+3. run `python manage.py runserver` 
+4. Go to localhost:8000 on your browser and you should see the website
