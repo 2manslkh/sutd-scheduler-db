@@ -1,12 +1,123 @@
-{% extends "schedule/base.html" %}
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-{% block headcontent %}
-<link rel='stylesheet' href='fullcalendar/fullcalendar.css' />
-<script src='C:\Users\Tea\Desktop\50.003-EventScheduler_Website\sutd-scheduler-website\mysite\fullcalendar_lib/jquery.min.js'></script>
-<script src='C:\Users\Tea\Desktop\50.003-EventScheduler_Website\sutd-scheduler-website\mysite\fullcalendar_lib/moment.min.js'></script>
-<script src='C:\Users\Tea\Desktop\50.003-EventScheduler_Website\sutd-scheduler-website\mysite\fullcalendar_lib/fullcalendar.js'></script>
-{% endblock headcontent %}
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
-{% block content %}
-    <h1>Schedule Home</h1>
-{% endblock content %}
+    <link rel="stylesheet" type="text/css" href="{% static 'schedule/main.css' %}">
+
+
+    {% if title %}
+        <title>Event Scheduler - {{ title }}</title>
+    {% else %}
+        <title>Event Scheduler</title>
+    {% endif %}
+
+    <link rel='stylesheet' href="..\..\static\schedule\fullcalendar.css">
+    <script src="..\..\static\schedule\jquery.min.js"></script>
+    <script src="..\..\static\schedule\moment.min.js"></script>
+    <script src="..\..\static\schedule\fullcalendar.js"></script>
+
+    <script>
+    $(document).ready(function(){
+        $('#calendar').fullCalendar({
+            //hiddenDays:[0,6], same as below
+            weekends: false,
+            header : {
+                left: "month,agendaWeek,agendaDay", //space leaves a gap between buttons
+                center: "title",
+                right:"today, prev,next"
+            },
+            /* Change button text for prev and next year
+            buttonText: {
+                prevYear: new moment().year() - 1,
+                nextYear: new moment().year() + 1
+            },
+            viewRender: function (view) {
+                var y = moment($('#calendar').fullCalendar('getDate')).year();
+                $(".fc-prevYear-button").text(y-1);
+                $(".fc-nextYear-button").text(y+1);
+            },*/
+            // themeSystem: 'bootstrap4',
+            allDaySlot: false,
+            /* Min and Max time on calendar */
+            // minTime: "08:00:00",
+            // maxTime: "18:00:00",
+            events:[
+                {
+                    title: "Event1",
+                    start: "2019-02-25", //YYYY-MM-DD
+                    end: "2019-02-25",
+                    allDay:true
+                },
+                {
+                    title: "Event2",
+                    start: "2019-02-27",
+                    end: "2019-02-28 09:00",
+                    allDay:false
+                }
+            ],
+            selectable:false,
+            select: function(start, end, jsEvent, view){
+                var obj = {};
+                obj.title = prompt("Enter a title:", "Event");
+                obj.start = moment(start).format("YYYY-MM-DD hh:mm");
+                obj.end = moment(end).format("YYYY-MM-DD hh:mm");
+                allDay = false;
+            },
+            // googleCalendarApiKey: 'AIzaSyBrdMz3MNGRudZfvIL5rhc7bO56J0W3u-k',
+            // events: {
+            //     googleCalendarId:'cuc1ieh5sg33in6dmfel61b6vg@group.calendar.google.com'
+            // }
+
+        });
+    });
+
+    </script>
+<body>
+    <header class="site-header">
+      <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
+        <div class="container">
+          <a class="navbar-brand mr-4" href="{% url 'schedule-home' %}">Event Scheduler</a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarToggle">
+            <div class="navbar-nav mr-auto">
+              <a class="nav-item nav-link" href="{% url 'schedule-home' %}">Home</a>
+              <a class="nav-item nav-link" href="{% url 'request-form' %}">Make a request</a>
+            </div>
+            <!-- Navbar Right Side -->
+            <div class="navbar-nav">
+              {% if user.is_authenticated %}
+                <a class="nav-item nav-link" href = "{% url 'profile' %}">Profile</a>
+                <a class="nav-item nav-link" href = "{% url 'logout' %}">Logout</a>
+              {% else %}
+                <a class="nav-item nav-link" href="{% url 'login' %}">Login</a>
+                <a class="nav-item nav-link" href="{% url 'register' %}">Register</a>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+    <main role="main" class="container">
+      <div class="row">
+        <div class="col-md-12">
+          {% if messages %}
+            {% for message in messages %}
+              <div class="alert alert-{{ message.tags }}">
+                {{ message }}
+              </div>
+            {% endfor %}
+          {% endif %}
+            <div id="calendar"></div>
+        </div>
+      </div>
+    </main>
+
+
+
