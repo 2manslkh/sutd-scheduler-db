@@ -26,5 +26,5 @@
 4. Go to localhost:8000 on your browser and you should see the website
 
 **Required libraries**
-django: `pip install django`
-crispy-forms: `pip install --upgrade django-crispy-forms`
+- django: `pip install django`
+- crispy-forms: `pip install --upgrade django-crispy-forms`
