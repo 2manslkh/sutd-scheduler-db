@@ -119,7 +119,9 @@ class Slot_Builder():
         return self
     
     def add_sessions(self, sessions):
-        self.json_data[self.slot_name]["sessions"] = sessions
+        self.json_data[self.slot_name]["sessions"] = {}
+        for j in range(len(sessions)):
+            self.json_data[self.slot_name]["sessions"][j] = {"duration":sessions[j],"start_time":"","end_time":""}
         return self
     
     def add_others(self, others):
