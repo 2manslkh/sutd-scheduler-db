@@ -1,9 +1,8 @@
 class Group:
     groups = None
 
-    def __init__(self, name, size):
+    def __init__(self, name):
         self.name = name
-        self.size = size
 
     @staticmethod
     def find(name):
@@ -16,7 +15,7 @@ class Group:
 
         
     def __repr__(self):
-        return "Group: " + self.name + ", Size: " + str(self.size)
+        return "Group: " + self.name
 
 
 class Professor:
@@ -41,10 +40,9 @@ class Professor:
 class CourseClass:
     classes = None
 
-    def __init__(self, code, is_lab=False):
+    def __init__(self, code):
         self.code = code
-        self.is_lab = is_lab
-
+        
     @staticmethod
     def find(code):
         for i in range(len(CourseClass.classes)):
@@ -60,10 +58,8 @@ class CourseClass:
 class Room:
     rooms = None
 
-    def __init__(self, name, size, is_lab=False):
+    def __init__(self, name):
         self.name = name
-        self.size = size
-        self.is_lab = is_lab
 
     @staticmethod
     def find(name):
@@ -75,17 +71,17 @@ class Room:
 
 
     def __repr__(self):
-        return "Room: " + self.name + " Size: " + str(self.size)
+        return "Room: " + self.name
 
 
 class Slot:
     slots = None
 
-    def __init__(self, start, end, day, is_lab_slot=False):
+    def __init__(self, start, end, day):
         self.start = start
         self.end = end
         self.day = day
-        self.is_lab_slot = is_lab_slot
+
         
 
     def __repr__(self):

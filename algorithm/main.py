@@ -2,41 +2,42 @@ import random, copy
 from Classes import Group, Professor, CourseClass, Room, Slot
 from math import ceil, log2
 import math
-'''
-Group.groups = [Group("Cl01", 50), Group("Cl02", 50), Group("Cl03", 50)]
 
-Professor.professors = [Professor("Natalie"), Professor("David"), Professor("Sudipta"),
-                        Professor("Sun Jun"), Professor("Tony"), Professor("Ernest")]
-
-CourseClass.classes = [CourseClass("CSE"), CourseClass("ESC"), CourseClass("Probs&Stats"),
-                       CourseClass("HASS"), CourseClass("CSE lab", is_lab=True)]
-'''
-Room.rooms = [Room("lt2", 200), Room("lt5", 150), Room("CC12", 60), Room("lab", 50, is_lab=True)]
-
-Slot.slots = [Slot("08:30", "10:00", "Mon"), Slot("10:15", "11:45", "Mon")]
-
-
+Slot.slots = [Slot("9:00", "11:00", "Mon"), Slot("11:00", "13:00", "Mon"), Slot("13:00", "15:00", "Mon"),
+              Slot("9:00", "11:00","Tue"), Slot("11:00", "13:00", "Tue"), Slot("13:00", "15:00", "Tue"),
+              Slot("9:00", "11:00","Wed"), Slot("11:00", "13:00", "Wed"), Slot("9:00", "11:00","Thu"), 
+              Slot("11:00", "13:00", "Thu"), Slot("13:00", "15:00", "Thu"), Slot("9:00", "11:00","Fri"),
+              Slot("11:00", "13:00", "Fri")]
 
 max_score = None
 
 cpg = []
-lts = []
 slots = []
 CourseClass.classes = []
 Professor.professors = []
 Group.groups = []
+Room.rooms = []
 bits_needed_backup_store = {}  # to improve performance
 
-inputls = [["CSE", "Natalie", "Cl02", 50], ["CSE", "David", "Cl03", 50], ["CSE", "Natalie", "Cl01", 50]]
+inputls = [["CSE1", "Natalie", "Cl02", "CC11"], ["CSE1", "David", "Cl03", "CC11"], ["CSE1", "Natalie", "Cl01", "CC12"],\
+           ["CSE2", "Natalie", "Cl02", "CC11"], ["CSE2", "David", "Cl03", "CC11"], ["CSE2", "Natalie", "Cl01", "CC12"],\
+           ["ESC1", "Sun Jun", "Cl02", "CC11"], ["ESC1", "Sun Jun", "Cl03", "CC11"], ["ESC1", "Sun Jun", "Cl01", "CC12"],\
+           ["ESC2", "Sun Jun", "Cl02", "CC11"], ["ESC2", "Sun Jun", "Cl03", "CC11"], ["ESC2", "Sun Jun", "Cl01", "CC12"],\
+           ["ESC3", "Sun Jun", "Cl02", "CC11"], ["ESC3", "Sun Jun", "Cl03", "CC11"], ["ESC3", "Sun Jun", "Cl01", "CC12"],\
+           ["P&S1", "Tony", "Cl02", "CC12"], ["P&S1", "Tony", "Cl03", "CC12"], ["P&S1", "Tony", "Cl01", "CC12"]]
+           
 def input_info(): 
 
     for e in inputls:
-        if e[0] not in CourseClass.classes:
+        if CourseClass.find(e[0]) == -1:
             CourseClass.classes.append(CourseClass(e[0]))
-        if e[1] not in Professor.professors:
+        if Professor.find(e[1]) == -1:
             Professor.professors.append(Professor(e[1]))
-        if e[2] not in Group.groups:
-            Group.groups.append(Group(e[2],e[3]))   
+        if Group.find(e[2]) == -1:
+            Group.groups.append(Group(e[2]))  
+        if Room.find(e[3]) == -1:
+            Room.rooms.append(Room(e[3]))
+
    
 def get_cpg():
     input_info()
@@ -46,6 +47,7 @@ def get_cpg():
        cpg.append(CourseClass.find(inputls[i][0]))
        cpg.append(Professor.find(inputls[i][1]))
        cpg.append(Group.find(inputls[i][2]))
+       cpg.append(Room.find(inputls[i][3]))
 
 
 def bits_needed(x):
@@ -59,13 +61,13 @@ def bits_needed(x):
 
 def join_cpg_pair(_cpg):
     res = []
-    for i in range(0, len(_cpg), 3):
-        res.append(_cpg[i] + _cpg[i + 1] + _cpg[i + 2])
+    for i in range(0, len(_cpg), 4):
+        res.append(_cpg[i] + _cpg[i + 1] + _cpg[i + 2] + _cpg[i + 3])
     return res
 
 
 def convert_input_to_bin():
-    global cpg, lts, slots, max_score, inputls
+    global cpg, slots, max_score, inputls
     input_info()
     cpg.clear()
     '''
@@ -79,19 +81,21 @@ def convert_input_to_bin():
     for _c in range(len(cpg)):
         #print(type(_c))
         
-        if _c % 3 == 0:  # CourseClass
-            cpg[_c] = (bin(cpg[_c])[2:]).rjust(bits_needed(CourseClass.classes), '0')
-        
-        elif _c % 3 == 1:  # Professor
+        if _c % 4 == 0:  # CourseClass
+            cpg[_c] = (bin(cpg[_c])[2:]).rjust(bits_needed(CourseClass.classes), '0')       
+        elif _c % 4 == 1:  # Professor
             cpg[_c] = (bin(cpg[_c])[2:]).rjust(bits_needed(Professor.professors), '0')
-        else:  # Group
+        elif _c % 4 == 2:  # Group
             cpg[_c] = (bin(cpg[_c])[2:]).rjust(bits_needed(Group.groups), '0')
-
+        else:
+            cpg[_c] = (bin(cpg[_c])[2:]).rjust(bits_needed(Room.rooms), '0')
+    print("here")
+    print(cpg)
 
     cpg = join_cpg_pair(cpg)
+    print("there")
+    print(cpg)
 
-    for r in range(len(Room.rooms)):
-        lts.append((bin(r)[2:]).rjust(bits_needed(Room.rooms), '0'))
 
     for t in range(len(Slot.slots)):
         slots.append((bin(t)[2:]).rjust(bits_needed(Slot.slots), '0'))
@@ -116,19 +120,17 @@ def group_bits(chromosome):
 
     return chromosome[i:i + bits_needed(Group.groups)]
 
-
-def slot_bits(chromosome):
+def lt_bits(chromosome):
     i = bits_needed(CourseClass.classes) + bits_needed(Professor.professors) + \
         bits_needed(Group.groups)
 
-    return chromosome[i:i + bits_needed(Slot.slots)]
+    return chromosome[i:i + bits_needed(Room.rooms)]
 
-
-def lt_bits(chromosome):
+def slot_bits(chromosome):
     i = bits_needed(CourseClass.classes) + bits_needed(Professor.professors) + \
-        bits_needed(Group.groups) + bits_needed(Slot.slots)
+        bits_needed(Group.groups) + bits_needed(Room.rooms)
 
-    return chromosome[i: i + bits_needed(Room.rooms)]
+    return chromosome[i:i + bits_needed(Slot.slots)]
 
 
 def slot_clash(a, b):
@@ -153,7 +155,18 @@ def faculty_member_one_class(chromosome):
             scores = scores + 1
     return scores
 
-
+def room_member_one_class(chromosome):
+    scores = 0
+    for i in range(len(chromosome) - 1):
+        clash = False
+        for j in range(i + 1, len(chromosome)):
+            if slot_clash(chromosome[i], chromosome[j])\
+                and lt_bits(chromosome[i]) == lt_bits(chromosome[j]):
+                clash = True
+                break
+        if not clash:
+            scores = scores + 1
+    return scores
 # check that a group member takes only one class at a time.
 def group_member_one_class(chromosomes):
     scores = 0
@@ -178,59 +191,13 @@ def group_member_one_class(chromosomes):
     return scores
 
 
-# checks that a course is assigned to an available classroom. 
-def use_spare_classroom(chromosome):
-    scores = 0
-    for i in range(len(chromosome) - 1):  # select one cpg pair
-        clash = False
-        for j in range(i + 1, len(chromosome)):  # check it with all other cpg pairs
-            if slot_clash(chromosome[i], chromosome[j]) and lt_bits(chromosome[i]) == lt_bits(chromosome[j]):
-                # print("These classes have slot/lts clash")
-                # printChromosome(chromosome[i])
-                # printChromosome(chromosome[j])
-                clash = True
-        if not clash:
-            scores = scores + 1
-    return scores
-
-
-# checks that the classroom capacity is large enough for the classes that
-# are assigned to that classroom.
-def classroom_size(chromosomes):
-    scores = 0
-    for _c in chromosomes:
-        if Group.groups[int(group_bits(_c), 2)].size <= Room.rooms[int(lt_bits(_c), 2)].size:
-            scores = scores + 1
-    return scores
-
-
-# check that room is appropriate for particular class/lab
-def appropriate_room(chromosomes):
-    scores = 0
-    for _c in chromosomes:
-        if CourseClass.classes[int(course_bits(_c), 2)].is_lab == Room.rooms[int(lt_bits(_c), 2)].is_lab:
-            scores = scores + 1
-    return scores
-
-
-# check that lab is allocated appropriate time slot
-def appropriate_timeslot(chromosomes):
-    scores = 0
-    for _c in chromosomes:
-        if CourseClass.classes[int(course_bits(_c), 2)].is_lab == Slot.slots[int(slot_bits(_c), 2)].is_lab_slot:
-            scores = scores + 1
-    return scores
-
 
 def evaluate(chromosomes):
     global max_score
     score = 0
-    score = score + use_spare_classroom(chromosomes)
     score = score + faculty_member_one_class(chromosomes)
-    score = score + classroom_size(chromosomes)
+    score = score + room_member_one_class(chromosomes)
     score = score + group_member_one_class(chromosomes)
-    score = score + appropriate_room(chromosomes)
-    score = score + appropriate_timeslot(chromosomes)
     return score / max_score
 
 def cost(solution):
@@ -241,12 +208,12 @@ def cost(solution):
     return 1 / float(evaluate(solution))
 
 def init_population(n):
-    global cpg, lts, slots
+    global cpg, slots
     chromosomes = []
     for _n in range(n):
         chromosome = []
         for _c in cpg:
-            chromosome.append(_c + random.choice(slots) + random.choice(lts))
+            chromosome.append(_c + random.choice(slots))
         chromosomes.append(chromosome)
     return chromosomes
 
@@ -257,12 +224,11 @@ def mutate(chromosome):
     # printChromosome(chromosome)
 
     rand_slot = random.choice(slots)
-    rand_lt = random.choice(lts)
 
     a = random.randint(0, len(chromosome) - 1)
     
     chromosome[a] = course_bits(chromosome[a]) + professor_bits(chromosome[a]) +\
-        group_bits(chromosome[a]) + rand_slot + rand_lt
+        group_bits(chromosome[a]) + lt_bits(chromosome[a]) + rand_slot
 
     # print("After mutation: ", end="")
     # printChromosome(chromosome)
@@ -285,20 +251,20 @@ def print_chromosome(chromosome):
     print(CourseClass.classes[int(course_bits(chromosome), 2)], " | ",
           Professor.professors[int(professor_bits(chromosome), 2)], " | ",
           Group.groups[int(group_bits(chromosome), 2)], " | ",
-          Slot.slots[int(slot_bits(chromosome), 2)], " | ",
-          Room.rooms[int(lt_bits(chromosome), 2)])
+          Room.rooms[int(lt_bits(chromosome), 2)], " | ",
+          Slot.slots[int(slot_bits(chromosome), 2)])
 
 # Simple Searching Neighborhood
 # It randomly changes timeslot of a class/lab
 def ssn(solution):
     rand_slot = random.choice(slots)
-    rand_lt = random.choice(lts)
+
     
     a = random.randint(0, len(solution) - 1)
     
     new_solution = copy.deepcopy(solution)
     new_solution[a] = course_bits(solution[a]) + professor_bits(solution[a]) +\
-        group_bits(solution[a]) + rand_slot + lt_bits(solution[a])
+        group_bits(solution[a]) + lt_bits(solution[a]) + rand_slot 
     return [new_solution]
 
 # Swapping Neighborhoods
@@ -309,10 +275,10 @@ def swn(solution):
     new_solution = copy.deepcopy(solution)
     temp = slot_bits(solution[a])
     new_solution[a] = course_bits(solution[a]) + professor_bits(solution[a]) +\
-        group_bits(solution[a]) + slot_bits(solution[b]) + lt_bits(solution[a])
+        group_bits(solution[a]) + lt_bits(solution[a]) + slot_bits(solution[b])
 
     new_solution[b] = course_bits(solution[b]) + professor_bits(solution[b]) +\
-        group_bits(solution[b]) + temp + lt_bits(solution[b])
+        group_bits(solution[b]) + lt_bits(solution[b]) + temp 
     # print("Diff", solution)
     # print("Meiw", new_solution)
     return [new_solution]
