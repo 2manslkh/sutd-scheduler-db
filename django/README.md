@@ -24,3 +24,8 @@
 2. cd inside the folder on your cmd/terminal 
 3. run `python manage.py runserver` 
 4. Go to localhost:8000 on your browser and you should see the website
+
+### Requirements
+- Python3 `pip install python3`
+- Django `pip install django`
+- crispy_forms `pip install django-crispy-forms`

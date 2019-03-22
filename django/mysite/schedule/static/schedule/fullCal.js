@@ -4,6 +4,7 @@ $(document).ready(function(){
 
         $('#calendar').fullCalendar({
             //hiddenDays:[0,6], same as below
+
             weekends: false,
             header : {
                 left: "month,agendaWeek,agendaDay", //space leaves a gap between buttons

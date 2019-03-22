@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
-from .forms import RequestForm, inputModuleInformation
+from .forms import ScheduleRequestForm, inputModuleInformation
 
 # Create your views here.
 
@@ -9,23 +9,31 @@ from .forms import RequestForm, inputModuleInformation
 @login_required
 def index(request):
     if request.method == "POST":
-        form = RequestForm(request.POST)
+        form = ScheduleRequestForm(request.POST)
         if form.is_valid():
             messages.success(request, 'Request submitted')
             form.save()
 
     else:
-        form = RequestForm()
+        form = ScheduleRequestForm()
     return render(request, 'formstoadmin/index.html', {'form': form})
 
 
 def inputModule(request):
     if request.method == "POST":
-        form = inputModuleInformation(request.POST)
-        if form.is_valid():
+        module_form = inputModuleInformation(request.POST)
+        if module_form.is_valid():
             messages.success(request, 'Request submitted')
-            form.save()
+            module_form.save()
 
     else:
-        form = RequestForm()
-    return render(request, 'formstoadmin/index.html', {'form': form})
+        module_form = inputModuleInformation()
+    return render(request, 'formstoadmin/index.html', {'form': module_form})
+
+
+def addEvent(request):
+    pass
+
+
+def viewRequests(request):
+    return render(request, 'formstoadmin/viewrequests.html')

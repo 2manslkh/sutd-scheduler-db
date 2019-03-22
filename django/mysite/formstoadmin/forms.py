@@ -8,7 +8,7 @@ PREFERRED_TIMINGS = (
 )
 
 
-class RequestForm(forms.Form):
+class ScheduleRequestForm(forms.Form):
     name = forms.CharField()
     course_code = forms.CharField(required=True, widget=forms.Textarea(attrs={'rows': 1, 'cols': 20, 'placeholder': "Enter the course code this request is relevant to"}))
     class_related = forms.CharField(required=True, widget=forms.Textarea(attrs={'rows': 3, 'cols': 20, 'placeholder': "Input relevant classes separated by a comma. Eg. CC1, CC2. \n**This will be replaced by a multiple choice question with options that fetch from database"}))
@@ -21,16 +21,13 @@ class EventRequestForm(forms.Form):
     pass
 
 
-class ScheduleRequestForm(forms.Form):
-    pass
-
-
 LOCATION_TYPE = (
     ('LT', "Lecture Theatre"),
     ('Cohort', "Cohort classroom"),
 )
 
 
+# TODO: FOR RELEVANT FIELDS, SEARCH FROM DATABASE ONCE FIELDS ARE BEING FILLED
 class inputModuleInformation(forms.Form):
     module_name = forms.CharField()
     location_type = forms.ChoiceField(choices=LOCATION_TYPE)
