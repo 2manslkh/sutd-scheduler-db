@@ -2,16 +2,4 @@
 
 {% block content %}
 <h2>View Requests</h2>
-<table>
-    <tr>
-        {% for field in fields %}
-            <th> {{field.name}} </th>
-        {% endfor %}
-    </tr>
-    <tr>
-        {% for item in query_results %}
-            <td> {{item}} </td>
-        {% endfor %}
-    </tr>
-</table>
 {% endblock %}

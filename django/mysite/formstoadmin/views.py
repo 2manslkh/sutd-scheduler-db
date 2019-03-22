@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from .forms import ScheduleRequestForm, inputModuleInformation, EventRequestForm
 from django.contrib import messages
-from .models import ScheduleRequest
+
 # Create your views here.
 
 
@@ -48,6 +48,4 @@ def addEvent(request):
 
 @login_required
 def viewRequests(request):
-    query_results = ScheduleRequest.objects.all()
-    fields = ScheduleRequest._meta.get_fields()
     return render(request, 'formstoadmin/viewrequests.html')
