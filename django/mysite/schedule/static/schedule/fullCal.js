@@ -1,4 +1,7 @@
 $(document).ready(function(){
+
+        $('.selectpicker').selectpicker();
+
         $('#calendar').fullCalendar({
             //hiddenDays:[0,6], same as below
             weekends: false,

@@ -2,7 +2,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-    {% block headcontent %} {% endblock %}
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -17,6 +16,8 @@
     {% else %}
         <title>Event Scheduler</title>
     {% endif %}
+
+    {% block headcontent %} {% endblock %}
 </head>
 <body>
     <header class="site-header">
@@ -29,7 +30,17 @@
           <div class="collapse navbar-collapse" id="navbarToggle">
             <div class="navbar-nav mr-auto">
               <a class="nav-item nav-link" href="{% url 'schedule-home' %}">Home</a>
-              <a class="nav-item nav-link" href="{% url 'request-form' %}">Make a request</a>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Forms
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <a class="dropdown-item" href="{% url 'request-form' %}">Schedule Request</a>
+                  <a class="dropdown-item" href="{% url 'input-module-info' %}">Input Module Information</a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="#">In-vivo Event</a>
+                </div>
+              </li>
             </div>
             <!-- Navbar Right Side -->
             <div class="navbar-nav">
@@ -55,7 +66,7 @@
               </div>
             {% endfor %}
           {% endif %}
-          {% block content %}{% endblock %}
+
         </div>
       </div>
     </main>

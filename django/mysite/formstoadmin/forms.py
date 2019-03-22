@@ -7,28 +7,45 @@ PREFERRED_TIMINGS = (
     ('lateAfternoon', 'Late Afternoon')
 )
 
-TITLE = (
-    ('nil', 'Select your title'),
-    ('faculty', 'Faculty'),
-    ('staff', 'Staff'),
-    ('student', 'Student')
-)
-
-FORM_TYPE = (
-    ('nil', 'Select your form type'),
-    ("acad", "Academic Schedule Request"),
-    ("event", "In-vivo event")
-)
-
 
 class RequestForm(forms.Form):
-    form_type = forms.ChoiceField(choices=FORM_TYPE)
-    title = forms.ChoiceField(choices=TITLE)
+    name = forms.CharField()
+    course_code = forms.CharField(required=True, widget=forms.Textarea(attrs={'rows': 1, 'cols': 20, 'placeholder': "Enter the course code this request is relevant to"}))
+    class_related = forms.CharField(required=True, widget=forms.Textarea(attrs={'rows': 3, 'cols': 20, 'placeholder': "Input relevant classes separated by a comma. Eg. CC1, CC2. \n**This will be replaced by a multiple choice question with options that fetch from database"}))
     preferred_timings = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple, choices=PREFERRED_TIMINGS)
-    reasons = forms.CharField(widget=forms.Textarea(attrs={'rows': 3, 'cols': 20, 'placeholder': "N.A. if not applicable"}))
+    reasons = forms.CharField(widget=forms.Textarea(attrs={'rows': 3, 'cols': 20}))
     remarks = forms.CharField(required=False, widget=forms.Textarea(attrs={'rows': 3, 'cols': 20}))
 
 
-# class EventRequestForm(forms.Form):
-#     pass
-# class ScheduleRequestForm(forms.Form):
+class EventRequestForm(forms.Form):
+    pass
+
+
+class ScheduleRequestForm(forms.Form):
+    pass
+
+
+LOCATION_TYPE = (
+    ('LT', "Lecture Theatre"),
+    ('Cohort', "Cohort classroom"),
+)
+
+
+class inputModuleInformation(forms.Form):
+    module_name = forms.CharField()
+    location_type = forms.ChoiceField(choices=LOCATION_TYPE)
+    location = forms.CharField()
+    duration = forms.IntegerField()
+
+    # TODO: implement multiple date picker https://github.com/FabianWe/django-bootstrap3-multidatepicker
+    makeup = forms.CharField()
+
+    # TODO: Press 'Tab' when half of the answers are typed
+    # list of all classes attending this timeslot
+    class_related = forms.CharField()
+    assigned_professors = forms.CharField()
+
+    # TODO: automatically generate the following when module is selected
+    course_lead = forms.CharField()
+    cohort_size = forms.IntegerField()
+    enrolment_size = forms.IntegerField()
