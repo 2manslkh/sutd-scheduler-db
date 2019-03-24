@@ -4,13 +4,13 @@
 <h2>View Requests</h2>
 <table>
     <tr>
-        {% for field in fields %}
-            <th> {{field.name}} </th>
+        {% for obj in query_results %}
+            <th> {{obj.name}} </th>
         {% endfor %}
     </tr>
     <tr>
         {% for item in query_results %}
-            <td> {{item}} </td>
+            <td> {{item.course_code}} </td>
         {% endfor %}
     </tr>
 </table>

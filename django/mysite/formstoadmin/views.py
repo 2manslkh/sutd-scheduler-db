@@ -50,4 +50,4 @@ def addEvent(request):
 def viewRequests(request):
     query_results = ScheduleRequest.objects.all()
     fields = ScheduleRequest._meta.get_fields()
-    return render(request, 'formstoadmin/viewrequests.html')
+    return render(request, 'formstoadmin/viewrequests.html', {"query_results" : query_results})
