@@ -2,16 +2,22 @@
 
 {% block content %}
 <h2>View Requests</h2>
-<table>
+<table class="table">
     <tr>
-        {% for obj in query_results %}
-            <th> {{obj.name}} </th>
-        {% endfor %}
+        <th>Name</th>
+        <th>Course Code</th>
+        <th>Related class(es)</th>
+        <th>Preferred Timings</th>
+        <th>Reasons</th>
     </tr>
+    {% for obj in query_results %}
     <tr>
-        {% for item in query_results %}
-            <td> {{item.course_code}} </td>
-        {% endfor %}
+        <td> {{obj.name}} </td>
+        <td> {{obj.course_code}} </td>
+        <td> {{obj.class_related}} </td>
+        <td> {{obj.preferred_timings}} </td>
+        <td> {{obj.reasons}} </td>
     </tr>
+    {% endfor %}
 </table>
 {% endblock %}
