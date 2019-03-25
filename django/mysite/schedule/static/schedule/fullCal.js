@@ -1,6 +1,10 @@
 $(document).ready(function(){
+
+        $('.selectpicker').selectpicker();
+
         $('#calendar').fullCalendar({
             //hiddenDays:[0,6], same as below
+
             weekends: false,
             header : {
                 left: "month,agendaWeek,agendaDay", //space leaves a gap between buttons
@@ -18,18 +22,25 @@ $(document).ready(function(){
             maxTime: "20:00:00",
             events:[
                 {
-                    title: "Event1",
-                    start: "2019-02-25", //YYYY-MM-DD
-                    end: "2019-02-25",
-                    allDay:true
+                    title: "Elements of Software Construction",
+                    start: "2019-02-25 10:00", //YYYY-MM-DD
+                    end: "2019-02-25 11:30",
+                    description: "Prof",
+                    location: "LT"
                 },
                 {
-                    title: "Event2",
-                    start: "2019-02-27",
-                    end: "2019-02-28 09:00",
+                    title: "Probs and Stats",
+                    start: "2019-02-27 08:00",
+                    end: "2019-02-27 09:00",
+                    description: "Prof",
+                    location: "CC13",
                     allDay:false
                 }
             ],
+             eventRender: function(objEvent, element, view) {
+                if (view.name === "agendaWeek" || view.name === "agendaDay"){
+                 element.find(".fc-content").append(objEvent.location + "</br>" + objEvent.description);
+                }},
             selectable:false,
             select: function(start, end, jsEvent, view){
                 var obj = {};

@@ -7,6 +7,8 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
+
+
     <link rel="stylesheet" type="text/css" href="{% static 'schedule/main.css' %}">
 
 
@@ -16,12 +18,20 @@
         <title>Event Scheduler</title>
     {% endif %}
 
+    <!-- For fullcalendar -->
     <link rel='stylesheet' href="..\..\static\schedule\fullcalendar.css">
     <script src="..\..\static\schedule\jquery.min.js"></script>
     <script src="..\..\static\schedule\moment.min.js"></script>
     <script src="..\..\static\schedule\fullcalendar.js"></script>
     <script src="..\..\static\schedule\fullCal.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
+    <!-- For bootstrap-select -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.6/dist/css/bootstrap-select.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.6/dist/js/bootstrap-select.min.js"></script>
+    <script src="..\..\static\schedule\others.js"></script>
+    <link rel='stylesheet' href="..\..\static\schedule\others.css">
 
 <body>
     <header class="site-header">
@@ -34,7 +44,18 @@
           <div class="collapse navbar-collapse" id="navbarToggle">
             <div class="navbar-nav mr-auto">
               <a class="nav-item nav-link" href="{% url 'schedule-home' %}">Home</a>
-              <a class="nav-item nav-link" href="{% url 'request-form' %}">Make a request</a>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Forms
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <a class="dropdown-item" href="{% url 'request-form' %}">Schedule Request</a>
+                  <a class="dropdown-item" href="{% url 'input-module-info' %}">Input Module Information</a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="{% url 'add-event' %}">In-vivo Event</a>
+                </div>
+              </li>
+              <a class="nav-item nav-link" href="{% url 'view-requests' %}">View Requests</a>
             </div>
             <!-- Navbar Right Side -->
             <div class="navbar-nav">
@@ -60,7 +81,19 @@
               </div>
             {% endfor %}
           {% endif %}
+
+        <!-- DOESN'T GO TO THE RIGHT :(
+          <div id="schedule-filter">
+            <select class="selectpicker" multiple data-actions-box="true"
+            title="Filter">
+              <option>Course 1</option>
+              <option>Course 2</option>
+              <option>Events</option>
+            </select>
+          </div>
+        -->
             <div id="calendar"></div>
+
         </div>
       </div>
     </main>
