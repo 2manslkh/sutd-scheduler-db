@@ -13,7 +13,18 @@ def index(request):
         form = ScheduleRequestForm(request.POST)
         if form.is_valid():
             messages.success(request, 'Request submitted')
-            # form.save()
+
+            # def save(self):
+            data = form.cleaned_data
+            s = ScheduleRequest(
+                name=data['name'],
+                course_code=data['course_code'],
+                class_related=data['class_related'],
+                preferred_timings=data['preferred_timings'],
+                reasons=data['reasons'],
+                remarks=data['remarks']
+            )
+            s.save()
 
     else:
         form = ScheduleRequestForm()
@@ -50,4 +61,4 @@ def addEvent(request):
 def viewRequests(request):
     query_results = ScheduleRequest.objects.all()
     fields = ScheduleRequest._meta.get_fields()
-    return render(request, 'formstoadmin/viewrequests.html', {"query_results" : query_results})
+    return render(request, 'formstoadmin/viewrequests.html', {"query_results": query_results})
