@@ -35,3 +35,4 @@ Make sure that you are in the folder with `manage.py`
 - Django `pip install django`
 - crispy_forms `pip install django-crispy-forms`
 - multiselectfield `pip install django-multiselectfield`
+>>>>>>> origin/master
