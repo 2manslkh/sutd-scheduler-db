@@ -30,17 +30,35 @@ $(document).ready(function(){
                 },
                 {
                     title: "Probs and Stats",
-                    start: "2019-02-27 08:00",
-                    end: "2019-02-27 09:00",
+                    start: "2019-04-01 08:00",
+                    end: "2019-04-01 09:40",
                     description: "Prof",
-                    location: "CC13",
-                    allDay:false
+                    location: "CC13"
                 }
             ],
-             eventRender: function(objEvent, element, view) {
+            color: 'yellow',
+            textColor: 'black',
+
+            eventRender: function(objEvent, element, view) {
                 if (view.name === "agendaWeek" || view.name === "agendaDay"){
                  element.find(".fc-content").append(objEvent.location + "</br>" + objEvent.description);
                 }},
+
+            eventAfterAllRender: function (view, element) {
+                //The title isn't rendered until after this callback, so we need to use a timeout.
+                if(view.type === "agendaWeek"){
+                    window.setTimeout(function(){
+                        $("#calendar").find('.fc-toolbar').append(
+                            "<div id='schedule-filter'>"+
+                            "<select class='selectpicker' multiple data-actions-box='true' title='Filter'>"+
+                            "<option>Course 1</option>"+
+                            "<option>Course 2</option>"
+                        );
+                    },0);
+                }
+            },
+
+
             selectable:false,
             select: function(start, end, jsEvent, view){
                 var obj = {};
