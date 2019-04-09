@@ -21,7 +21,7 @@ class EventScheduler_FrontEndTest:
     def setup(self, test_registration=False):
         self.eyes = Eyes()
         self.eyes.api_key = 'IlUcgRAO105BlmoORdtUxbK8CUKg3KRSa8q4f3iACoY1I110'
-        self.driver = webdriver.Chrome(r"C:\Users\Tea\Desktop\50.003 Event Scheduler\sutd-scheduler-db\django\chromedriver_win32 (1)\chromedriver.exe")
+        self.driver = webdriver.Chrome(r"C:\Users\Tea\Desktop\chromedriver_win32 (1)\chromedriver.exe")
 
         self.eyes.open(driver=self.driver, app_name='Hello World!', test_name='eventScheduler')
         self.driver.get('http://localhost:8000/')
