@@ -1100,6 +1100,11 @@ be a descendant of the grid when it is being dragged.
   overflow: hidden;
   /* for when .fc-selected */ }
 
+  /* this does not work
+div.fc-title{
+  text-overflow:ellipsis;
+}*/
+
 .fc-time-grid-event .fc-time,
 .fc-time-grid-event .fc-title {
   padding: 0 1px; }
@@ -1132,6 +1137,7 @@ be a descendant of the grid when it is being dragged.
   /* seperate with a dash, wrapped in nbsp's */ }
 
 .fc-time-grid-event.fc-short .fc-title {
+  text-overflow: ellipsis;
   font-size: .85em;
   /* make the title text the same size as the time */
   padding: 0;

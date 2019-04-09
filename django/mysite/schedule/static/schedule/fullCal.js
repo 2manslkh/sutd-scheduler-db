@@ -54,11 +54,13 @@ $(document).ready(function(){
                             "<select class='selectpicker' multiple data-actions-box='true' title='Filter'>"+
                             "<option>Course 1</option>"+
                             "<option>Course 2</option>"+
-
-                            //'</div>');
                         $("#calendar").find('.fc-toolbar').append(
-                            "<button class='button-submit'>&#8629;</button>"
-                        ));
+                            "<button class='button-submit'>&#8629;</button>"+
+                       $("#calendar").find('.fc-toolbar').append(
+                            '<button id="export-button">'+
+                            '<i class="far fa-share-square"></i>'+
+                            '</button>'
+                        )));
                     },0);
                 }
             },
@@ -72,10 +74,5 @@ $(document).ready(function(){
                 obj.end = moment(end).format("YYYY-MM-DD hh:mm");
                 allDay = false;
             },
-            // googleCalendarApiKey: 'AIzaSyBrdMz3MNGRudZfvIL5rhc7bO56J0W3u-k',
-            // events: {
-            //     googleCalendarId:'cuc1ieh5sg33in6dmfel61b6vg@group.calendar.google.com'
-            // }
-
         });
     });
