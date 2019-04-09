@@ -15,8 +15,8 @@ class Group:
 
         
     def __repr__(self):
-        return "Group: " + str(self.name)
-
+        #return "Class: " + str(self.name)
+        return str(self.name)
 
 class Professor:
     professors = None
@@ -34,17 +34,18 @@ class Professor:
 
 
     def __repr__(self):
-        return "Professor: " + str(self.name)
-
+        #return str(self.name)
+        return str(self.name)
 
 class CourseClass:
     classes = None
 
-    def __init__(self, code, duration, pillar, isLecture = False):
+    def __init__(self, code, duration, pillar, isLecture = False, isLab = False):
         self.code = code
         self.duration = duration
         self.pillar = pillar
         self.isLecture = isLecture
+        self.isLab = isLab
         
     @staticmethod
     def find(code):
@@ -55,9 +56,16 @@ class CourseClass:
 
 
     def __repr__(self):
-        return "CourseClass: " + str(self.code) + "Duration" + str(self.duration)
-
-
+        if self.isLecture == True:
+            #return "Course: " + str(self.code) + " lecture"
+            return str(self.code) + " lecture"
+        elif self.isLab == True:
+            #return "Course: " + str(self.code) + " lab"
+            return str(self.code) + " lab"
+        else:
+            #return "Course: " + str(self.code) + " cohort"
+            return str(self.code) + " cohort"
+        
 class Room:
     rooms = None
 
@@ -74,7 +82,8 @@ class Room:
 
 
     def __repr__(self):
-        return "Room: " + self.name
+        #return "Room: " + self.name
+        return self.name
 
 #Every block is half an hour
 #First block starts from 8:30 
@@ -116,7 +125,8 @@ class Slot:
     
     def __repr__(self):
         #return "Slot: " + Slot.hour_start(self) + ":" + Slot.minute_start(self) + " - " + Slot.hour_end(self) + ":" + Slot.minute_end(self)
-        return "Slot: " + str(self.block[0]) + "-" + str(self.block[-1]) + "block len" + str(len(self.block)) + " Day: " + str(self.day)
+        #return "Slot: " + str(self.block[0]) + " - " + str(self.block[-1]) + " Day: " + str(self.day)
+        return str(self.block) + "\\" + str(self.day)  
 '''
 #test
 print(Slot([4,5,6,7], "Mon"))

@@ -1,0 +1,23 @@
+Course,Professors,Class,Room,Start,End
+Course,Professors,Class,Room, Day,Start,End
+CSE cohort,['Natalie'],['Cl02'],CC12,5,7,9
+CSE cohort,['David'],['Cl03'],CC12,2,4,6
+CSE cohort,['Natalie'],['Cl01'],CC12,1,12,14
+CSE cohort,['Natalie'],['Cl02'],CC12,3,3,5
+CSE cohort,['David'],['Cl03'],CC12,1,5,7
+CSE cohort,['Natalie'],['Cl01'],CC12,2,10,12
+CSE lab lab,"['Natalie', 'David']","['Cl01', 'Cl02', 'Cl03']",lt2,4,4,7
+ESC cohort,['Sun Jun'],['Cl02'],CC11,1,9,11
+ESC cohort,['Sun Jun'],['Cl03'],CC11,1,13,15
+ESC cohort,['Sun Jun'],['Cl01'],CC11,2,4,6
+ESC cohort,['Sun Jun'],['Cl02'],CC11,4,9,11
+ESC cohort,['Sun Jun'],['Cl03'],CC11,5,5,7
+ESC cohort,['Sun Jun'],['Cl01'],CC11,3,1,3
+ESC cohort,['Sun Jun'],['Cl02'],CC11,2,8,10
+ESC cohort,['Sun Jun'],['Cl03'],CC11,4,12,14
+ESC cohort,['Sun Jun'],['Cl01'],CC11,5,2,4
+P&S lec lecture,"['Tony', 'ABC']","['Cl01', 'Cl02', 'Cl03']",lt5,1,1,3
+P&S lec lecture,"['Tony', 'ABC']","['Cl01', 'Cl02', 'Cl03']",lt5,2,1,3
+P&S cohort,['Tony'],['Cl01'],CC12,4,1,3
+P&S cohort,['Tony'],['Cl02'],CC12,4,12,14
+P&S cohort,['Tony'],['Cl03'],CC12,5,2,4

@@ -10,6 +10,7 @@ import time
 from Classes import Group, Professor, CourseClass, Room, Slot
 from math import ceil, log2
 import math
+import csv
 
 initial_slots = [Slot([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16], 1), Slot([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16], 2), Slot([1,2,3,4,5,6,7,8,9,10], 3),
               Slot([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16], 4), Slot([1,2,3,4,5,6,7,8,9,10], 5)]
@@ -31,7 +32,7 @@ bits_needed_backup_store = {}  # to improve performance
 
 inputls = [["CSE", ["Natalie"], ["Cl02"], "CC12","ISTD",3], ["CSE", ["David"], ["Cl03"], "CC12","ISTD",3], ["CSE", ["Natalie"], ["Cl01"], "CC12","ISTD",3],\
            ["CSE", ["Natalie"], ["Cl02"], "CC12","ISTD",3], ["CSE", ["David"], ["Cl03"], "CC12","ISTD",3], ["CSE", ["Natalie"], ["Cl01"], "CC12","ISTD",3],\
-           ["CSE lec", ["Natalie", "David"], ["Cl01", "Cl02", "Cl03"], "lt2", "ISTD", 4, "lecture"], \
+           ["CSE lab", ["Natalie", "David"], ["Cl01", "Cl02", "Cl03"], "lt2", "ISTD", 4, "lab"], \
            ["ESC", ["Sun Jun"], ["Cl02"], "CC11","ISTD",3], ["ESC", ["Sun Jun"], ["Cl03"], "CC11","ISTD",3], ["ESC", ["Sun Jun"], ["Cl01"], "CC11","ISTD",3],\
            ["ESC", ["Sun Jun"], ["Cl02"], "CC11","ISTD",3], ["ESC", ["Sun Jun"], ["Cl03"], "CC11","ISTD",3], ["ESC", ["Sun Jun"], ["Cl01"], "CC11","ISTD",3],\
            ["ESC", ["Sun Jun"], ["Cl02"], "CC11","ISTD",4], ["ESC", ["Sun Jun"], ["Cl03"], "CC11","ISTD",4], ["ESC", ["Sun Jun"], ["Cl01"], "CC11","ISTD",4],\
@@ -58,6 +59,8 @@ def input_info():
             Room.rooms.append(Room(e[3]))
         if "lecture" in e:
             CourseClass.classes[CourseClass.find(e[0])].isLecture = True
+        if "lab" in e:
+            CourseClass.classes[CourseClass.find(e[0])].isLab = True
 
    
 def get_cpg():
@@ -194,7 +197,18 @@ def appropriate_lecture(chromosomes):
                         scores = scores + 1
     return scores
             
-
+def appropriate_lab(chromosomes):
+    scores = 0
+    for _c in chromosomes:
+        if CourseClass.classes[int(course_bits(_c),2)].code:
+            course_code = CourseClass.classes[int(course_bits(_c),2)].code
+            #print("course_code" + course_code)
+            for _l in chromosomes:
+                if CourseClass.classes[int(course_bits(_l),2)].code in course_code and CourseClass.classes[int(course_bits(_l),2)].isLecture == False:
+                    if Slot.slots[int(slot_bits(_l),2)].day < Slot.slots[int(slot_bits(_c),2)].day:
+                        scores = scores + 1
+    return scores
+            
 # checks that a faculty member teaches only one course at a time.
 def faculty_member_one_class(chromosome):
     scores = 0
@@ -362,6 +376,31 @@ def print_chromosome(chromosome):
           Group.groups[int(group_bits(chromosome), 2)], " | ",
           Room.rooms[int(lt_bits(chromosome), 2)], " | ",
           Slot.slots[int(slot_bits(chromosome), 2)])
+    
+def print_chromosome_csv(max_chromosomes):
+    label = ["Course", "Professors", "Class", "Room", " Day", "Start", "End"]
+    out = open('schedule.csv','a', newline='')
+    csv_write = csv.writer(out, dialect = 'excel')
+    csv_write.writerow(label)
+    for chromosome in max_chromosomes:
+        csv_row = [CourseClass.classes[int(course_bits(chromosome), 2)],\
+                   Professor.professors[int(professor_bits(chromosome), 2)],\
+                   Group.groups[int(group_bits(chromosome), 2)],\
+                   Room.rooms[int(lt_bits(chromosome), 2)],\
+                   Slot.slots[int(slot_bits(chromosome), 2)].day,\
+                   Slot.slots[int(slot_bits(chromosome),2)].block[0],\
+                   Slot.slots[int(slot_bits(chromosome),2)].block[-1]]
+        csv_write.writerow(csv_row)
+        print(CourseClass.classes[int(course_bits(chromosome), 2)], " | ",
+          Professor.professors[int(professor_bits(chromosome), 2)], " | ",
+          Group.groups[int(group_bits(chromosome), 2)], " | ",
+          Room.rooms[int(lt_bits(chromosome), 2)], " | ",
+          Slot.slots[int(slot_bits(chromosome), 2)])
+    
+    out.close()
+    print("finish csv writing")
+               
+
 
 # Simple Searching Neighborhood
 # It randomly changes timeslot of a class/lab
@@ -426,8 +465,7 @@ def simulated_annealing():
     print(population)
     # print("Cost of altered solution: ", cost(population[0]))
     print("\n------------- Simulated Annealing --------------\n")
-    for lec in population[0]:
-        print_chromosome(lec)
+    print_chromosome_csv(population[0])
     print("Score: ", evaluate(population[0]))
 
 def genetic_algorithm():
@@ -445,6 +483,10 @@ def genetic_algorithm():
             print("Generations:", generation)
             print("Best Chromosome fitness value", evaluate(max(population, key=evaluate)))
             print("Best Chromosome: ", max(population, key=evaluate))
+            label = ["Course", "Professors", "Class", "Room", "Start", "End"]
+            out = open('schedule.csv','a', newline='')
+            csv_write = csv.writer(out, dialect = 'excel')
+            csv_write.writerow(label)
             for lec in max(population, key=evaluate):
                 print_chromosome(lec)
             break
