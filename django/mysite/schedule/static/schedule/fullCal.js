@@ -1,6 +1,6 @@
 $(document).ready(function(){
 
-        $('.selectpicker').selectpicker();
+        // $('.selectpicker').selectpicker();
 
         $('#calendar').fullCalendar({
             //hiddenDays:[0,6], same as below
@@ -50,21 +50,21 @@ $(document).ready(function(){
                 if(view.type === "agendaWeek"){
                     // tried to use flex to align, didn't work out well
                     window.setTimeout(function(){
-                        $("#calendar").find('.fc-toolbar').append(
-                            "<div id='schedule-filter'>"+
-                            "<select class='selectpicker' multiple data-actions-box='true' title='Filter'>"+
+                        $("#calendar").find('#schedule-filter').remove();
+                        $("#calendar").find('.fc-toolbar').append("<div id='schedule-filter'>"+
+                            "<select class='selectpicker f-left' multiple data-actions-box='true' title='Filter'>"+
                             "<option>Course 1</option>"+
                             "<option>Course 2</option>"+
-                            "</div>"+
-                       $("#calendar").find('.fc-toolbar').append(
+                            "</select>"+
                             "<button id='export-button'>"+
                             '<i class="far fa-share-square"></i>'+
-                            "<p id='export_text'>Export</>"+
-                            "</button>")+
-                       $("#calendar").find('.fc-toolbar').append(
-                            "<button class='button-submit'>&#x21B5;</button>"
-                        ));
-
+                            "<p id='export_text'>Export</p>"+
+                            "</button>"+
+                            "<button class='button-submit'>&#x21B5;</button>"+
+                            "<div id='blank_row'></div>"+
+                            "</div>"
+                        );
+                        $('.selectpicker').selectpicker();
                     },0);
                 }
             },
