@@ -116,7 +116,7 @@ class Slot:
     
     def __repr__(self):
         #return "Slot: " + Slot.hour_start(self) + ":" + Slot.minute_start(self) + " - " + Slot.hour_end(self) + ":" + Slot.minute_end(self)
-        return "Slot: " + str(self.block[0]) + "-" + str(self.block[-1]) + "block len" + str(len(self.block)) + " Day: " + self.day
+        return "Slot: " + str(self.block[0]) + "-" + str(self.block[-1]) + "block len" + str(len(self.block)) + " Day: " + str(self.day)
 '''
 #test
 print(Slot([4,5,6,7], "Mon"))

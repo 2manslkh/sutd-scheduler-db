@@ -1,8 +1,8 @@
 '''
 TODO:
     1. HASS->fixed time slot
-    2. No cohort should have same course more than once everyday (except lecture)
-    3. Input hard constraints from professors whether they would like to have lecture(s) before/after cohort(s)
+    2. No cohort should have same course more than once everyday (except lecture) 
+    3. Input hard constraints from professors whether they would like to have lecture(s) before/after cohort(s) 
     4. Final clarification: Classroom is an input from professors
 '''
 import random, copy
@@ -11,8 +11,8 @@ from Classes import Group, Professor, CourseClass, Room, Slot
 from math import ceil, log2
 import math
 
-initial_slots = [Slot([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16], "Mon"), Slot([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16], "Tue"), Slot([1,2,3,4,5,6,7,8,9,10], "Wed"),
-              Slot([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16],"Thu"), Slot([1,2,3,4,5,6,7,8,9,10], "Fri")]
+initial_slots = [Slot([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16], 1), Slot([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16], 2), Slot([1,2,3,4,5,6,7,8,9,10], 3),
+              Slot([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16], 4), Slot([1,2,3,4,5,6,7,8,9,10], 5)]
 given_duration = 0
 for i in range(len(initial_slots)):
     given_duration = given_duration + len(initial_slots[i].block)
@@ -29,14 +29,14 @@ Group.groups = []
 Room.rooms = []
 bits_needed_backup_store = {}  # to improve performance
 
-inputls = [["CSE1", ["Natalie"], ["Cl02"], "CC12","ISTD",3], ["CSE1", ["David"], ["Cl03"], "CC12","ISTD",3], ["CSE1", ["Natalie"], ["Cl01"], "CC12","ISTD",3],\
-           ["CSE2", ["Natalie"], ["Cl02"], "CC12","ISTD",3], ["CSE2", ["David"], ["Cl03"], "CC12","ISTD",3], ["CSE2", ["Natalie"], ["Cl01"], "CC12","ISTD",3],\
-           ["CSE", ["Natalie", "David"], ["Cl01", "Cl02", "Cl03"], "lt2", "ISTD", 4, "lecture"], \
-           ["ESC1", ["Sun Jun"], ["Cl02"], "CC11","ISTD",3], ["ESC1", ["Sun Jun"], ["Cl03"], "CC11","ISTD",3], ["ESC1", ["Sun Jun"], ["Cl01"], "CC11","ISTD",3],\
-           ["ESC2", ["Sun Jun"], ["Cl02"], "CC11","ISTD",3], ["ESC2", ["Sun Jun"], ["Cl03"], "CC11","ISTD",3], ["ESC2", ["Sun Jun"], ["Cl01"], "CC11","ISTD",3],\
-           ["ESC3", ["Sun Jun"], ["Cl02"], "CC11","ISTD",4], ["ESC3", ["Sun Jun"], ["Cl03"], "CC11","ISTD",4], ["ESC3", ["Sun Jun"], ["Cl01"], "CC11","ISTD",4],\
-           ["P&S", ["Tony", "ABC"], ["Cl02", "Cl03", "Cl01"],"lt5", "ISTD", 3, "lecture"], ["P&S1", ["Tony", "ABC"], ["Cl01", "Cl02", "Cl03"], "lt5", "ISTD", 3, "lecture"],\
-           ["P&S1", ["Tony"], ["Cl01"], "CC12","ISTD",3], ["P&S1", ["Tony"], ["Cl02"], "CC12","ISTD",3], ["P&S1", ["Tony"], ["Cl03"], "CC12","ISTD",3]]
+inputls = [["CSE", ["Natalie"], ["Cl02"], "CC12","ISTD",3], ["CSE", ["David"], ["Cl03"], "CC12","ISTD",3], ["CSE", ["Natalie"], ["Cl01"], "CC12","ISTD",3],\
+           ["CSE", ["Natalie"], ["Cl02"], "CC12","ISTD",3], ["CSE", ["David"], ["Cl03"], "CC12","ISTD",3], ["CSE", ["Natalie"], ["Cl01"], "CC12","ISTD",3],\
+           ["CSE lec", ["Natalie", "David"], ["Cl01", "Cl02", "Cl03"], "lt2", "ISTD", 4, "lecture"], \
+           ["ESC", ["Sun Jun"], ["Cl02"], "CC11","ISTD",3], ["ESC", ["Sun Jun"], ["Cl03"], "CC11","ISTD",3], ["ESC", ["Sun Jun"], ["Cl01"], "CC11","ISTD",3],\
+           ["ESC", ["Sun Jun"], ["Cl02"], "CC11","ISTD",3], ["ESC", ["Sun Jun"], ["Cl03"], "CC11","ISTD",3], ["ESC", ["Sun Jun"], ["Cl01"], "CC11","ISTD",3],\
+           ["ESC", ["Sun Jun"], ["Cl02"], "CC11","ISTD",4], ["ESC", ["Sun Jun"], ["Cl03"], "CC11","ISTD",4], ["ESC", ["Sun Jun"], ["Cl01"], "CC11","ISTD",4],\
+           ["P&S lec", ["Tony", "ABC"], ["Cl01", "Cl02", "Cl03"],"lt5", "ISTD", 3, "lecture"], ["P&S lec", ["Tony", "ABC"], ["Cl01", "Cl02", "Cl03"], "lt5", "ISTD", 3, "lecture"],\
+           ["P&S", ["Tony"], ["Cl01"], "CC12","ISTD",3], ["P&S", ["Tony"], ["Cl02"], "CC12","ISTD",3], ["P&S", ["Tony"], ["Cl03"], "CC12","ISTD",3]]
 
 total_duration = 0
 for inp in inputls:
@@ -172,38 +172,26 @@ def slot_clash(a, b):
 
 def appropriate_cohort(chromosomes):
     scores = 0   
-    for _c in chromosomes:
-        if CourseClass.classes[int(course_bits(_c),2)].isLecture:
-            lec_grps = Group.groups[int(group_bits(_c),2)].name
-            #print("lecture group " +lec_grps)
-            clash = False
-            for _g in chromosomes:
-                for grp in Group.groups[int(group_bits(_g),2)].name:
-                    if grp in lec_grps and _g != _c:
-                        #print(Group.groups[int(group_bits(_g),2)].name)
-                        if slot_clash(_c, _g):
-                            #print("clash "+Group.groups[int(group_bits(_g),2)].name)
-                            clash = True
-            if not clash:
-                scores = scores + 1
+    for i in range(len(chromosomes)-1):
+        course_cohort = CourseClass.classes[int(course_bits(chromosomes[i]),2)].code
+        cohort_class = Group.groups[int(group_bits(chromosomes[i]),2)].name
+        for j in range(i + 1, len(chromosomes)):
+            if CourseClass.classes[int(course_bits(chromosomes[j]),2)].code == course_cohort and Group.groups[int(group_bits(chromosomes[j]),2)].name == cohort_class: 
+                if Slot.slots[int(slot_bits(chromosomes[i]), 2)].day != Slot.slots[int(slot_bits(chromosomes[j]), 2)].day:
+                    scores = scores + 1
     return scores
 
-def appropriate_professor(chromosomes):
-    scores = 0   
+def appropriate_lecture(chromosomes):
+    scores = 0
     for _c in chromosomes:
         if CourseClass.classes[int(course_bits(_c),2)].isLecture:
-            lec_profs = Professor.professors[int(professor_bits(_c),2)].name
-            #print("lecture profs " + Professor.professors[int(professor_bits(_c),2)].name)
-            clash = False
-            for _g in chromosomes:
-                for prof in Professor.professors[int(professor_bits(_g),2)].name:
-                    if prof in lec_profs and _g != _c:
-                        #print(Professor.professors[int(professor_bits(_g),2)].name)
-                        if slot_clash(_c, _g):
-                            #print("clash "+Professor.professors[int(professor_bits(_g),2)].name)
-                            clash = True
-            if not clash:
-                scores = scores + 1
+            #print("course class" + str(Professor.professors[int(professor_bits(_c),2)].name))
+            course_code = CourseClass.classes[int(course_bits(_c),2)].code
+            #print("course_code" + course_code)
+            for _l in chromosomes:
+                if CourseClass.classes[int(course_bits(_l),2)].code in course_code and CourseClass.classes[int(course_bits(_l),2)].isLecture == False:
+                    if Slot.slots[int(slot_bits(_l),2)].day > Slot.slots[int(slot_bits(_c),2)].day:
+                        scores = scores + 1
     return scores
             
 
@@ -212,14 +200,21 @@ def faculty_member_one_class(chromosome):
     scores = 0
     for i in range(len(chromosome) - 1):  # select one cpg pair
         clash = False
+        profs = Professor.professors[int(professor_bits(chromosome[i]),2)].name
         for j in range(i + 1, len(chromosome)):  # check it with all other cpg pairs
-            if slot_clash(chromosome[i], chromosome[j])\
-                    and professor_bits(chromosome[i]) == professor_bits(chromosome[j]):
-                clash = True
-                #print("clash")
-                # print("These prof. have clashes")
-                # print_chromosome(chromosome[i])
-                # print_chromosome(chromosome[j])
+            
+            if slot_clash(chromosome[i], chromosome[j]):
+                profs1 = Professor.professors[int(professor_bits(chromosome[j]),2)].name
+                if len(profs) >= len(profs1):
+                    for prof in profs:
+                        if prof in profs1:
+                            clash = True
+                            break
+                else:
+                    for p1 in profs1:
+                        if p1 in profs:
+                            clash = True
+                            break
         if not clash:
             scores = scores + 1
     return scores
@@ -243,16 +238,20 @@ def group_member_one_class(chromosomes):
 
     for i in range(len(chromosomes) - 1):
         clash = False
+        grps1 = Group.groups[int(group_bits(chromosomes[i]),2)].name
         for j in range(i + 1, len(chromosomes)):
-            if slot_clash(chromosomes[i], chromosomes[j]) and\
-                    group_bits(chromosomes[i]) == group_bits(chromosomes[j]):
-                # print("These classes have slot/lts clash")
-                # print_chromosome(chromosomes[i])
-                # print_chromosome(chromosomes[j])
-                # print("____________")
-                clash = True
-                #print("clash")
-                break
+            if slot_clash(chromosomes[i], chromosomes[j]):
+                grps2 = Group.groups[int(group_bits(chromosomes[j]),2)].name
+                if len(grps1) >= len(grps2):
+                    for grp in grps1:
+                        if grp in grps2:
+                            clash = True
+                            break
+                else:
+                    for grp in grps2:
+                        if grp in grps1:
+                            clash = True
+                            break
         if not clash:
             # print("These classes have no slot/lts clash")
             # print_chromosome(chromosomes[i])
@@ -305,7 +304,7 @@ def evaluate(chromosomes):
     score = score + room_member_one_class(chromosomes)
     score = score + group_member_one_class(chromosomes)
     score = score + appropriate_cohort(chromosomes)
-    score = score + appropriate_professor(chromosomes)
+    score = score + appropriate_lecture(chromosomes)
     score = score + check_slots(chromosomes)
     return score / max_score
 
