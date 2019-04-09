@@ -42,6 +42,7 @@ $(document).ready(function(){
             eventRender: function(objEvent, element, view) {
                 if (view.name === "agendaWeek" || view.name === "agendaDay"){
                  element.find(".fc-content").append(objEvent.location + "</br>" + objEvent.description);
+                 //element.find(".fc-title").empty().append('<div class="fc-title"><b>Probs and Stats<b></div>')
                 }},
 
             eventAfterAllRender: function (view, element) {
@@ -52,8 +53,12 @@ $(document).ready(function(){
                             "<div id='schedule-filter'>"+
                             "<select class='selectpicker' multiple data-actions-box='true' title='Filter'>"+
                             "<option>Course 1</option>"+
-                            "<option>Course 2</option>"
-                        );
+                            "<option>Course 2</option>"+
+
+                            //'</div>');
+                        $("#calendar").find('.fc-toolbar').append(
+                            "<button class='button-submit'>&#8629;</button>"
+                        ));
                     },0);
                 }
             },

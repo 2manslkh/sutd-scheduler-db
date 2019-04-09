@@ -1,5 +1,22 @@
 #schedule-filter{
-    float: right;
     display: block;
     padding-bottom:10px;
+    float:right;
+}
+
+.button-submit{
+    background-color: #FAFAFA;
+    border: none;
+    color: #999999;
+    font-size: 1em;
+    float: right;
+    display: inline-block;
+    border: none;
+    padding:0;
+    position: relative;
+    top:-3px;
+}
+
+.button-submit:hover {
+    background-color: #f0f0f5;
 }

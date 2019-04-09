@@ -25,13 +25,14 @@
 3. run `python manage.py runserver` 
 4. Go to localhost:8000 on your browser and you should see the website
 
-<<<<<<< HEAD
+### How to migrate databases (for website admins)
+Make sure that you are in the folder with `manage.py`
+1. `python manage.py makemigrations`
+2. `python manage.py migrate`
+
 ### Requirements
 - Python3 `pip install python3`
 - Django `pip install django`
 - crispy_forms `pip install django-crispy-forms`
-=======
-**Required libraries**
-- django: `pip install django`
-- crispy-forms: `pip install --upgrade django-crispy-forms`
+- multiselectfield `pip install django-multiselectfield`
 >>>>>>> origin/master
