@@ -48,19 +48,23 @@ $(document).ready(function(){
             eventAfterAllRender: function (view, element) {
                 //The title isn't rendered until after this callback, so we need to use a timeout.
                 if(view.type === "agendaWeek"){
+                    // tried to use flex to align, didn't work out well
                     window.setTimeout(function(){
                         $("#calendar").find('.fc-toolbar').append(
                             "<div id='schedule-filter'>"+
                             "<select class='selectpicker' multiple data-actions-box='true' title='Filter'>"+
                             "<option>Course 1</option>"+
                             "<option>Course 2</option>"+
-                        $("#calendar").find('.fc-toolbar').append(
-                            "<button class='button-submit'>&#8629;</button>"+
+                            "</div>"+
                        $("#calendar").find('.fc-toolbar').append(
-                            '<button id="export-button">'+
+                            "<button id='export-button'>"+
                             '<i class="far fa-share-square"></i>'+
-                            '</button>'
-                        )));
+                            "<p id='export_text'>Export</>"+
+                            "</button>")+
+                       $("#calendar").find('.fc-toolbar').append(
+                            "<button class='button-submit'>&#x21B5;</button>"
+                        ));
+
                     },0);
                 }
             },
