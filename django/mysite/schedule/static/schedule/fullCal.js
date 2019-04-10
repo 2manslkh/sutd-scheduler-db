@@ -50,17 +50,18 @@ $(document).ready(function(){
                 if(view.type === "agendaWeek"){
                     // tried to use flex to align, didn't work out well
                     window.setTimeout(function(){
-                        $("#calendar").find('#schedule-filter').remove();
-                        $("#calendar").find('.fc-toolbar').append("<div id='schedule-filter'>"+
-                            "<select class='selectpicker f-left' multiple data-actions-box='true' title='Filter'>"+
+                        $("#calendar").find('#calendar-additions').remove();
+                        $("#calendar").find('.fc-toolbar').append(
+                            "<div id='calendar-additions'>"+
+                            "<li><select class='selectpicker' multiple data-actions-box='true' title='Filter'>"+
                             "<option>Course 1</option>"+
                             "<option>Course 2</option>"+
-                            "</select>"+
-                            "<button id='export-button'>"+
+                            "</select></li>"+
+                            "<li><button class='button-submit'>&#x21B5;</button></li>"+
+                            "<li><button id='export-button'>"+
                             '<i class="far fa-share-square"></i>'+
                             "<p id='export_text'>Export</p>"+
-                            "</button>"+
-                            "<button class='button-submit'>&#x21B5;</button>"+
+                            "</button></li>"+
                             "<div id='blank_row'></div>"+
                             "</div>"
                         );
