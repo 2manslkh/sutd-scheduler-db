@@ -69,15 +69,5 @@ $(document).ready(function(){
                     },0);
                 }
             },
-
-
-            selectable:false,
-            select: function(start, end, jsEvent, view){
-                var obj = {};
-                obj.title = prompt("Enter a title:", "Event");
-                obj.start = moment(start).format("YYYY-MM-DD hh:mm");
-                obj.end = moment(end).format("YYYY-MM-DD hh:mm");
-                allDay = false;
-            },
         });
     });

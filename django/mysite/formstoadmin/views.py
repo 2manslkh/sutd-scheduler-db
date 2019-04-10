@@ -25,7 +25,6 @@ def index(request):
                 remarks=data['remarks']
             )
             s.save()
-
     else:
         form = ScheduleRequestForm()
     return render(request, 'formstoadmin/index.html', {'form': form})

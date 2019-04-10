@@ -20,7 +20,6 @@ button.button-submit{
     font-size: 1.2em;
     position: relative;
     top: -7px;
-    line-height: 80%;
 }
 
 .button-submit:hover {
@@ -34,7 +33,6 @@ button.button-submit{
 .button-submit:active{
     outline:0;
     background-color: #d7d7dd;
-    padding: ;
 }
 
 #export-button{
