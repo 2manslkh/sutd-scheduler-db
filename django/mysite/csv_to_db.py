@@ -14,26 +14,26 @@ def csv_to_db(csv_file_name, model):
                 line_count += 1
             else:
                 if "class" in csv_file_name:
-                    title = row[0]
-                    class_type = row[1]
-                    class_related = row[2]
-                    location = row[3]
-                    duration = row[4]
-                    start = row[5]
-                    end = row[6]
-                    assigned_professors = row[7]
-                    others = row[8]
-                    makeup = row[9]
+                    Class(title = row[0],
+                    class_type = row[1],
+                    class_related = row[2],
+                    location = row[3],
+                    duration = row[4],
+                    start = row[5],
+                    end = row[6],
+                    assigned_professors = row[7],
+                    others = row[8],
+                    makeup = row[9])
 
 
                 elif "modules" in csv_file_name:
-                    subject = row[0]
-                    code = row[1]
-                    term = row[2]
-                    core = row[3]
-                    subject_lead = row[4]
-                    cohort_size = row[5]
-                    enrolment_size = row[6]
+                    Modules(subject = row[0],
+                    code = row[1],
+                    term = row[2],
+                    core = row[3],
+                    subject_lead = row[4],
+                    cohort_size = row[5],
+                    enrolment_size = row[6])
                     
         
 
