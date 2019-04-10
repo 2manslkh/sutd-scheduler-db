@@ -7,7 +7,6 @@ import csv
 def csv_to_db(csv_file_name, db_file):
     conn = create_connection(db_file)
     c = conn.cursor()
-    print(c.fetchall())
     with open(csv_file_name) as csv_file:
         csv_reader = csv.reader(csv_file, delimiter=',')
         line_count = 0
@@ -16,12 +15,19 @@ def csv_to_db(csv_file_name, db_file):
                 print(f"Filename: {csv_file_name}")
                 print(f'Column names are {", ".join(row)}')
                 line_count += 1
+                if "class" in csv_file_name:
+                    c.execute('SELECT * FROM users_class')   
+                    print(list(map(lambda x: x[0], c.description)))
+                if "modules" in csv_file_name:
+                    c.execute('SELECT * FROM users_module')
+                    print(list(map(lambda x: x[0], c.description)))
             else:
                 if "class" in csv_file_name:
+                    
                     c.execute('INSERT INTO "users_class" VALUES (NULL, ?,?,?,?,?,?,?,?,?,?)', row)
                     print(row)
                 elif "modules" in csv_file_name:
-                    c.execute('INSERT INTO "users_module" VALUES (NULL, ?,?,?,?,?,?,?)', row)
+                    c.execute('INSERT INTO "users_module" VALUES (NULL, ?,?,?,?,?,?,?,?,?,?)', row)
                     print(row)
     conn.commit()
     conn.close()
