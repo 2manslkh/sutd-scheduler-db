@@ -25,14 +25,14 @@ $(document).ready(function(){
                     title: "Elements of Software Construction",
                     start: "2019-02-25 10:00", //YYYY-MM-DD
                     end: "2019-02-25 11:30",
-                    description: "Prof",
+                    assigned_professors: "Prof",
                     location: "LT"
                 },
                 {
                     title: "Probs and Stats",
                     start: "2019-04-01 08:00",
                     end: "2019-04-01 09:40",
-                    description: "Prof",
+                    assigned_professors: "Prof",
                     location: "CC13"
                 }
             ],
@@ -41,7 +41,7 @@ $(document).ready(function(){
 
             eventRender: function(objEvent, element, view) {
                 if (view.name === "agendaWeek" || view.name === "agendaDay"){
-                 element.find(".fc-content").append(objEvent.location + "</br>" + objEvent.description);
+                 element.find(".fc-content").append(objEvent.location + "</br>" + objEvent.assigned_professors);
                  //element.find(".fc-title").empty().append('<div class="fc-title"><b>Probs and Stats<b></div>')
                 }},
 

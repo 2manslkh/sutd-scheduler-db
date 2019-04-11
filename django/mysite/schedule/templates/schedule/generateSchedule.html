@@ -3,9 +3,12 @@
 {% block content %}
 <h2>Generate Schedule</h2>
 
-<em>Fields the course coordinator will need to see before generating schedule</em><br><br>
+{# <em>Fields the course coordinator will need to see before generating schedule</em><br><br> #}
+<br>
 
-<button type="button" class="btn btn-primary btn-md">Generate Schedule</button>
-
+<form method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-primary btn-md">Generate Schedule</button>
+</form>
 
 {% endblock content %}

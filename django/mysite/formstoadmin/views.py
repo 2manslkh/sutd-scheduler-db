@@ -42,7 +42,7 @@ def inputModule(request):
 
     else:
         module_form = inputModuleInformation()
-    return render(request, 'formstoadmin/index.html', {'form': module_form})
+    return render(request, 'formstoadmin/inputmodule.html', {'form': module_form})
 
 
 @login_required
@@ -55,7 +55,7 @@ def addEvent(request):
 
     else:
         form = EventRequestForm()
-    return render(request, 'formstoadmin/index.html', {'form': form})
+    return render(request, 'formstoadmin/addevent.html', {'form': form})
 
 
 @login_required
