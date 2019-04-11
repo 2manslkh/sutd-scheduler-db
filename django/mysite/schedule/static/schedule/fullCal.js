@@ -57,7 +57,9 @@ $(document).ready(function(){
                             "<option>Course 1</option>"+
                             "<option>Course 2</option>"+
                             "</select></li>"+
-                            "<li><button class='button-submit'>&#x21B5;</button></li>"+
+                            "<li><button class='button-submit'>&#x21B5;"+
+                            // '<svg viewBox="0 0 124.73 153.14"><g><g><path d="M124.73,115.17H42.05c10.59,11.91,18.19,24.56,22.78,37.97H54.7C41.58,134.02,23.34,120.19,0,111.66v-6.89c23.34-8.53,41.58-22.36,54.7-41.48h10.12c-4.59,13.5-12.19,26.2-22.78,38.11h68.77V0h13.92V115.17z"/></g></g></svg>'+
+                            "</button></li>"+
                             "<li><button id='export-button'>"+
                             '<i class="far fa-share-square"></i>'+
                             "<p id='export_text'>Export</p>"+
@@ -71,3 +73,5 @@ $(document).ready(function(){
             },
         });
     });
+
+
