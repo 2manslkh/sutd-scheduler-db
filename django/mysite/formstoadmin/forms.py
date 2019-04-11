@@ -16,27 +16,9 @@ help_text=""
 
 class ScheduleRequestForm(forms.Form):
     name = forms.CharField(disabled=True, initial="Sudipta Chattopadhyay")
-    # course_code = forms.CharField(required=True, widget=forms.Textarea(attrs={'rows': 1, 'cols': 20, 'placeholder': "Enter the course code this request is relevant to"}))
-    course_code = forms.ModelChoiceField(
-        queryset=Module.objects.all(),
-        label="course_code",
-        widget=ModelSelect2Widget(
-            model=Module,
-            search_fields=['name__icontains'],
-        )
-    )
+    course_code = forms.CharField(required=True, widget=forms.Textarea(attrs={'rows': 1, 'cols': 20, 'placeholder': "Enter the course code this request is relevant to"}))
 
-    class_related = forms.ModelChoiceField(
-        queryset=Class.objects.all(),
-        label="class_related",
-        widget=ModelSelect2Widget(
-            model=Class,
-            search_fields=['name__icontains'],
-            dependent_fields={'course_code': 'course_code'},
-        )
-    )
-
-    # class_related = forms.CharField(required=True, widget=forms.Textarea(attrs={'rows': 3, 'cols': 20, 'placeholder': "Input relevant classes separated by a comma. Eg. CC1, CC2. \n**This will be replaced by a multiple choice question with options that fetch from database"}))
+    class_related = forms.CharField(required=True, widget=forms.Textarea(attrs={'rows': 3, 'cols': 20, 'placeholder': "Input relevant classes separated by a comma. Eg. CC1, CC2. \n**This will be replaced by a multiple choice question with options that fetch from database"}))
     preferred_timings = forms.MultipleChoiceField(required=False, widget=forms.CheckboxSelectMultiple, choices=PREFERRED_TIMINGS)
     reasons = forms.CharField(widget=forms.Textarea(attrs={'rows': 3, 'cols': 20}))
     remarks = forms.CharField(required=False, widget=forms.Textarea(attrs={'rows': 3, 'cols': 20}))
@@ -67,24 +49,22 @@ LOCATION_TYPE = (
     ('Cohort', "Cohort classroom"),
 )
 
-
+CLASSES = (
+    ('lab', "Lab"),
+    ('cohort', "Cohort Class"),
+    ('lecture', "Lecture"),
+)
 # TODO: FOR RELEVANT FIELDS, SEARCH FROM DATABASE ONCE FIELDS ARE BEING FILLED
+
+
 class inputModuleInformation(forms.Form):
-    module_name = forms.CharField()
-    location_type = forms.ChoiceField(choices=LOCATION_TYPE)
-    location = forms.CharField()
-    duration = forms.IntegerField()
-
-    # TODO: implement multiple date picker
-    # https://tempusdominus.github.io/bootstrap-4/
-    makeup = forms.DateTimeField()
-
-    # TODO: Press 'Tab' when half of the answers are typed
-    # list of all classes attending this timeslot
-    class_related = forms.CharField()
-    assigned_professors = forms.CharField()
-
-    # TODO: automatically generate the following when module is selected
-    course_lead = forms.CharField()
-    cohort_size = forms.IntegerField()
-    enrolment_size = forms.IntegerField()
+    subject_code = forms.CharField()
+    subject = forms.CharField(required=False, disabled=True)
+    term = forms.CharField()
+    core = forms.CharField(widget=forms.Textarea(attrs={'rows': 1, 'placeholder': "True/False"}))
+    subject_lead = forms.CharField()
+    cohort_size = forms.CharField()
+    enrolment_size = forms.CharField()
+    cohorts_per_week = forms.CharField()
+    lectures_per_week = forms.CharField(required=False)
+    labs_per_week = forms.CharField(required=False)
