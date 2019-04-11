@@ -1,9 +1,11 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.contrib.auth.decorators import login_required
 from .forms import ScheduleRequestForm, inputModuleInformation, EventRequestForm
 from django.contrib import messages
 from .models import ScheduleRequest
+from django.core import serializers
+from django.contrib.auth.models import User
 # Create your views here.
 
 
@@ -61,3 +63,9 @@ def viewRequests(request):
     query_results = ScheduleRequest.objects.all()
     fields = ScheduleRequest._meta.get_fields()
     return render(request, 'formstoadmin/viewrequests.html', {"query_results": query_results})
+
+
+def generate_courses(request):
+    json_serializer = serializers.get_serializer("json")()
+    data = list(User.objects.values('username'))
+    return JsonResponse(data, safe=False)
