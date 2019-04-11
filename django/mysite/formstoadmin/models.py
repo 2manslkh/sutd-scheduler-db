@@ -7,6 +7,15 @@ PREFERRED_TIMINGS = (
     ('lateAfternoon', 'Late Afternoon')
 )
 
+PILLARS = (
+
+    ('asd', 'ASD'),
+    ('epd', 'EPD'),
+    ('esd', 'ESD'),
+    ('istd', 'ISTD'),
+    ('hass', 'HASS'),
+)
+
 
 class ScheduleRequest(models.Model):
     name = models.CharField(max_length=200)
@@ -15,3 +24,12 @@ class ScheduleRequest(models.Model):
     preferred_timings = MultiSelectField(choices=PREFERRED_TIMINGS)
     reasons = models.CharField(max_length=200)
     remarks = models.CharField(max_length=200)
+
+
+class EventRequest(models.Model):
+    persons_in_charge = models.CharField(max_length=200)
+    event_name = models.CharField(max_length=200)
+    relevant_pillars = MultiSelectField(choices=PILLARS)
+    start_date = models.DateTimeField()
+    end_date = models.DateTimeField()
+    duration = models.DurationField()

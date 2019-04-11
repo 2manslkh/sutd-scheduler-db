@@ -7,3 +7,8 @@ from django.contrib.auth.decorators import login_required
 @login_required
 def home(request):
     return render(request, 'schedule/home.html')
+
+
+@login_required
+def generateSchedule(request):
+    return render(request, 'schedule/generateSchedule.html')

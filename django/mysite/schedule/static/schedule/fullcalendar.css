@@ -852,13 +852,14 @@ NOTE: use percentage font sizes or else old IE chokes
 .fc-view-container *:after {
   -webkit-box-sizing: content-box;
   -moz-box-sizing: content-box;
-  box-sizing: content-box; }
+  box-sizing: content-box;
+   }
 
 .fc-view,
 .fc-view > table {
   /* so dragged elements can be above the view's main element */
   position: relative;
-  z-index: 1; }
+  z-index: 0; }
 
 /* BasicView
 --------------------------------------------------------------------------------------------------*/
@@ -1100,6 +1101,11 @@ be a descendant of the grid when it is being dragged.
   overflow: hidden;
   /* for when .fc-selected */ }
 
+  /* this does not work
+div.fc-title{
+  text-overflow:ellipsis;
+}*/
+
 .fc-time-grid-event .fc-time,
 .fc-time-grid-event .fc-title {
   padding: 0 1px; }
@@ -1132,6 +1138,7 @@ be a descendant of the grid when it is being dragged.
   /* seperate with a dash, wrapped in nbsp's */ }
 
 .fc-time-grid-event.fc-short .fc-title {
+  text-overflow: ellipsis;
   font-size: .85em;
   /* make the title text the same size as the time */
   padding: 0;
@@ -1220,7 +1227,8 @@ be a descendant of the grid when it is being dragged.
 
 .fc-list-table td {
   border-width: 1px 0 0;
-  padding: 8px 14px; }
+  padding: 8px 14px;
+   }
 
 .fc-list-table tr:first-child td {
   border-top-width: 0; }

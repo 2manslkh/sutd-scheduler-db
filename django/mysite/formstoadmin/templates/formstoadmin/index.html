@@ -1,5 +1,13 @@
 {% extends "schedule/base.html" %}
 
+{% block headcontent %}
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+{% endblock %}
+
+{% block morejs %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+{% endblock %}
+
 {% load crispy_forms_tags %}
 
 {% block content %}
