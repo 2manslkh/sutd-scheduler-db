@@ -187,7 +187,7 @@ class EventScheduler_FrontEndTest:
     def test_links(self):
         self.driver.find_element_by_xpath("//a[contains(text(),'Schedule R')]").click()
 
-        assert(self.driver.current_url == "http://localhost:8000/requestform/")
+        assert(self.driver.current_url == "http://localhost:8000/request-form/")
 
         self.driver.find_element_by_xpath("//a[contains(text(),'Forms')]").click()
         self.eyes.check_window('Dropdown menu')
