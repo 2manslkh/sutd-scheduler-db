@@ -160,3 +160,8 @@ class Exam_Builder():
     
     def build(self):
         return self.json_data
+
+def csv_to_db(csv, model):
+    
+            
+    return

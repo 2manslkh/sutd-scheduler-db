@@ -1,0 +1,10 @@
+﻿subject,code,term,core,subject_lead,cohort_size,enrolment_size,cohorts_per_week,lectures_per_week,labs_per_week
+Introduction to Probability and Statistics,50.034,5,Core,"Subhajit Datta,
+Alexander Binder, Tony Quek",50 x 3,150,2,1,0
+Elements of Software Construction,50.003,5,Core,"Sun Jun,
+Sudipta",50 x 3,150,3,0,0
+Computer System Engineering,50.005,5,Core,"David Yau,
+Jit Biswas",50 x 3,150,2,0,1
+User Interface Design and Implementation,50.006,7,Elective,Hyowon Lee,50 x 1,50,3,0,0
+Graphics & Visualisation,50.017,7,Elective,Yeung Sai-Kit,50 x 1,50,3,0,0
+Security,50.02,7,Elective,"Nils Ole Tippenhauer, Martin Ochoa",50 x 2,100,3,0,0
