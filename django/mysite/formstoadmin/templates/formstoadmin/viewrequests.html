@@ -1,5 +1,12 @@
 {% extends "schedule/base.html" %}
 
+{% block headcontent %}
+{# net::ERR_ABORTED 404 (Not Found) #}
+{# <script src="..\..\static\formstoadmin\forms.js"></script> #}
+
+
+{% endblock %}
+
 {% block content %}
 <h2>View Requests</h2>
 <table class="table">
@@ -9,6 +16,7 @@
         <th>Related class(es)</th>
         <th>Preferred Timings</th>
         <th>Reasons</th>
+        <th>Action</th>
     </tr>
     {% for obj in query_results %}
     <tr>
@@ -17,7 +25,13 @@
         <td> {{obj.class_related}} </td>
         <td> {{obj.preferred_timings}} </td>
         <td> {{obj.reasons}} </td>
+        <td>
+            <button id="view-request-accept" type="button" class="btn btn-success">Accept</button>
+            <button id="view-request-reject"type="button" class="btn btn-danger">Reject</button>
+
+        </td>
     </tr>
     {% endfor %}
 </table>
 {% endblock %}
+
