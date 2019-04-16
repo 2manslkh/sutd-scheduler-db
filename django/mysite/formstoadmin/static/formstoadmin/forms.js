@@ -2,30 +2,30 @@ $(document).ready(function(){;
     $(".view-request-accept").click(function(e){
         var bid = this.id;
         var btnr = "#btnr-" + bid.substring(bid.indexOf('-')+1,bid.length)
+        var str_bid ="#"+bid;
 
-        if($(bid).hasClass('button-clicked')){
-            $(bid).removeClass('button-clicked');
+        if($(str_bid).hasClass('button-clicked')){
+            $(str_bid).removeClass('button-clicked');
             $(btnr).removeAttr('disabled');
         }
         else{
-            $(bid).addClass('button-clicked');
-            alert($(bid).attr('class'));
+            $(str_bid).addClass('button-clicked');
             $(btnr).attr('disabled', 'disabled');
         }
     })
 
-    var reject = false;
     $(".view-request-reject").click(function(e){
-        if(reject!=true){
-            reject = true;
-            $(".view-request-reject").addClass('button-clicked');
-            $(".view-request-accept").attr('disabled', 'disabled');
+        var bid = this.id;
+        var btna = "#btna-" + bid.substring(bid.indexOf('-')+1,bid.length)
+        var str_bid ="#"+bid;
 
+        if($(str_bid).hasClass('button-clicked')){
+            $(str_bid).removeClass('button-clicked');
+            $(btna).removeAttr('disabled');
         }
         else{
-            reject = false;
-            $(".view-request-reject").removeClass('button-clicked');
-            $(".view-request-accept").removeAttr('disabled');
+            $(str_bid).addClass('button-clicked');
+            $(btna).attr('disabled', 'disabled');
         }
     })
 })

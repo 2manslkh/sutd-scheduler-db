@@ -1,11 +1,11 @@
 button[id*='btna']:hover,
-.view-request-accept .button-clicked {
+.view-request-accept.button-clicked {
      background-color: #28a745;
      color: white;
 }
 
 .view-request-reject:hover,
-.view-request-reject .button-clicked{
+.view-request-reject.button-clicked{
     background-color: #c6313e;
     color:white;
 }
