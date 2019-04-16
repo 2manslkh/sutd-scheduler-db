@@ -16,8 +16,9 @@ initial_slots = [Slot([1,2,3,4,5,6,7,8,9,10,11,12,13], 1), Slot([4,5,6,7,8,9,10,
               Slot([1,2,3,4,5,6,7,8,9,10,11,12,13], 4), Slot([1,2,3,4,5,6], 5)]
 initial_slots_HASS = [Slot([14,15,16,17,18,19], 1, True), Slot([1,2,3], 2, True),
               Slot([14,15,16,17,18,19], 4, True), Slot([7,8,9,10], 5, True)]
-
-temp = initial_slots + initial_slots_HASS
+initial_slots_other = [Slot([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19], 1), Slot([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19], 2), Slot([1,2,3,4,5,6,7,8,9], 3),
+              Slot([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19], 4), Slot([1,2,3,4,5,6,7,8,9,10], 5)]
+temp = initial_slots + initial_slots_HASS + initial_slots_other
 
 Slot.slots = copy.deepcopy(temp)
 print(initial_slots_HASS)
@@ -385,14 +386,14 @@ def random_slot(cpg_c):
     elif CourseClass.classes[int(course_bits(cpg_c),2)].pillar == "ASD" or CourseClass.classes[int(course_bits(cpg_c),2)].pillar == "freshmore":
         temp_duration = CourseClass.classes[int(course_bits(cpg_c),2)].duration
         #print(temp_duration)
-        temp_slot = random.choice(temp)
+        temp_slot = random.choice(initial_slots_other)
         #print(temp_slot)
 
         while temp_duration > len(temp_slot.block):
             #print(temp_duration)
             #print(len(temp_slot.block))
             #print(temp_duration > len(temp_slot.block))
-            temp_slot = random.choice(temp)
+            temp_slot = random.choice(initial_slots_other)
             #print("new", temp_slot)
         #print("finish while loop")
         #print(initial_slots)
@@ -642,7 +643,7 @@ def main():
     starttime = time.time()
     print(starttime)
     random.seed()
-    #genetic_algorithm()
+    genetic_algorithm()
     startsimu = time.time()
     simulated_annealing()
     endsimu = time.time()
