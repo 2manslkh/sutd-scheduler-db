@@ -11,6 +11,14 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
+
+  <form>
+    <div class="form-group">
+      <label for="exampleFormControlFile1">Upload file</label>
+      <input type="file" class="form-control-file" id="exampleFormControlFile1">
+    </div>
+  </form>
+
  <form method="post">
     {% csrf_token %}
 

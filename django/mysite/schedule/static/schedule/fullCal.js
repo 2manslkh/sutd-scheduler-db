@@ -1,9 +1,9 @@
 $(document).ready(function(){
 
         // $('.selectpicker').selectpicker();
-
         $('#calendar').fullCalendar({
             //hiddenDays:[0,6], same as below
+
 
             weekends: false,
             header : {
@@ -49,7 +49,7 @@ $(document).ready(function(){
                 //The title isn't rendered until after this callback, so we need to use a timeout.
                 if(view.type === "agendaWeek"){
                     // tried to use flex to align, didn't work out well
-                    window.setTimeout(function(){
+                    // window.setTimeout(function(){
                         $("#calendar").find('#calendar-additions').remove();
                         $("#calendar").find('.fc-toolbar').append(
                             "<div id='calendar-additions'>"+
@@ -68,10 +68,11 @@ $(document).ready(function(){
                             "</div>"
                         );
                         $('.selectpicker').selectpicker();
-                    },0);
+                    // },0);
                 }
             },
         });
+
     });
 
 
