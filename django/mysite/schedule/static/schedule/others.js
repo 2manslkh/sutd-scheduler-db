@@ -5,4 +5,8 @@ $(document).ready(function(){
             alert("THIS WORKS!");
             $('#calendar').fullCalendar('rerenderEvents');
         })
+
+        $('#export-button').click(function(){
+            // TODO: EXPORT EVENTS FROM 2
+        })
 });
