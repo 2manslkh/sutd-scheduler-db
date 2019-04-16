@@ -15,6 +15,7 @@ class Module(models.Model):
     core = models.CharField(max_length =200, default="")
     subject_lead = models.CharField(max_length=200, default="")
     cohort_size = models.CharField(max_length=200, default="")
+    cohorts = models.CharField(max_length=200, default="")
     enrolment_size = models.CharField(max_length=200, default="")    
     cohorts_per_week = models.CharField(max_length=200, default="")
     lectures_per_week = models.CharField(max_length=200, default="")
