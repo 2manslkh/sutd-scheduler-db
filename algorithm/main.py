@@ -403,7 +403,8 @@ def random_slot(cpg_c):
         #print(CourseClass.classes[int(course_bits(cpg_c),2)])
         
         #print(temp_duration)
-        random_start = temp_block[0]
+        random_start = random.randint(temp_block[0], temp_block[-1] - temp_duration)
+        #print(random_start)
         temp_block = []
         random_end = random_start + int(temp_duration)
         for i in range(random_start, random_end):
@@ -412,7 +413,6 @@ def random_slot(cpg_c):
         if Slot.find(random_slot.block, random_slot.day) == -1:
             Slot.slots.append(random_slot)
             slots.append((bin(Slot.find(random_slot.block, random_slot.day))[2:]).rjust(bits_needed(Slot.slots) * ceil(log2(max_size)), '0'))
-        
         return slots[Slot.find(random_slot.block, random_slot.day)]
     
     else:
