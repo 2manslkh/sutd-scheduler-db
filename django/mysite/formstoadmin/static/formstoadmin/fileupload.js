@@ -1,40 +1,45 @@
-$(document).ready(function(){
-    function loadHandler(event) {
-      var csv = event.target.result;
-      processData(csv);
-    }
+function handleFiles(files) {
+  if (window.FileReader) {
+      // FileReader are supported.
+      getAsText(files[0]);
+  } else {
+      alert('FileReader are not supported in this browser.');
+  }
+}
 
-    function processData(csv) {
-        var allTextLines = csv.split(/\r\n|\n/);
-        var lines = [];
-        for (var i=0; i<allTextLines.length; i++) {
-            var data = allTextLines[i].split(';');
-                var tarr = [];
-                for (var j=0; j<data.length; j++) {
-                    tarr.push(data[j]);
-                }
-                lines.push(tarr);
-        }
-      console.log(lines);
-    }
+function getAsText(fileToRead) {
+  var reader = new FileReader();
+  // Read file into memory as UTF-8
+  reader.readAsText(fileToRead);
+  // Handle errors load
+  reader.onload = loadHandler;
+  reader.onerror = errorHandler;
+}
 
-    var fileInput = document.getElementById('exampleFormControlFile1');
-    var fileDisplayArea = document.getElementById('fileDisplayArea');
+function loadHandler(event) {
+  var csv = event.target.result;
+  processData(csv);
+}
 
-    fileInput.addEventListener('change', function(e) {
-        var file = fileInput.files[0];
-        var textType = /csv.*/;
-
-        if (file.type.match(textType)) {
-            var reader = new FileReader();
-
-            reader.onload = function(e) {
-                fileDisplayArea.innerText = reader.result;
+function processData(csv) {
+    var allTextLines = csv.split(/\r\n|\n/);
+    var lines = [];
+    for (var i=0; i<allTextLines.length; i++) {
+        var data = allTextLines[i].split(';');
+            var tarr = [];
+            for (var j=0; j<data.length; j++) {
+                tarr.push(data[j]);
             }
+            lines.push(tarr);
+    }
+    console.log(lines);
 
-            reader.readAsText(file);
-        } else {
-            fileDisplayArea.innerText = "File not supported!"
-        }
-    });
+function errorHandler(evt) {
+  if(evt.target.error.name == "NotReadableError") {
+      alert("Cannot read file !");
+  }
+}
+
+$(document).ready(function(){
+
 })
