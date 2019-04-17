@@ -40,13 +40,15 @@ class Professor:
 class CourseClass:
     classes = None
 
-    def __init__(self, code, duration, pillar, isLecture = False, isLab = False, isHASS = False):
+    def __init__(self, code, duration, pillar, isLecture = False, isLab = False, isHASS = False, isMorning = False, isAfternoon = False):
         self.code = code
         self.duration = duration
         self.pillar = pillar
         self.isLecture = isLecture
         self.isLab = isLab
         self.isHASS = isHASS
+        self.isMorning = isMorning
+        self.isAfternoon = isAfternoon
         
     @staticmethod
     def find(code, duration):
