@@ -10,6 +10,7 @@ class myUser(models.Model):
 
 class Module(models.Model):
     subject = models.CharField(max_length=200, default="")
+    pillar = models.CharField(max_length=200, default="")
     code = models.CharField(max_length=200, default="")
     term = models.CharField(max_length=200, default="")
     core = models.CharField(max_length =200, default="")
@@ -24,6 +25,7 @@ class Module(models.Model):
 
 class Class(models.Model):
     module = models.ForeignKey(Module,on_delete=models.CASCADE,default="")
+    pillar = models.CharField(max_length=200, default="")
     title = models.CharField(max_length = 200, default = "")
     Type = models.CharField(max_length=200, default = "")
     class_related =  models.CharField(max_length=200, default = "")

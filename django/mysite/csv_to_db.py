@@ -25,10 +25,10 @@ def csv_to_db(csv_file_name, db_file):
                 if "class" in csv_file_name:
                     print(row[0])
                     row.append(get_module_id(row[0], c))
-                    c.execute('INSERT INTO "users_class" VALUES (NULL, ?,?,?,?,?,?,?,?,?,?,?)', row)
+                    c.execute('INSERT INTO "users_class" VALUES (NULL, ?,?,?,?,?,?,?,?,?,?,?,?)', row)
                     print(row)
                 elif "modules" in csv_file_name:
-                    c.execute('INSERT INTO "users_module" VALUES (NULL, ?,?,?,?,?,?,?,?,?,?,?)', row)
+                    c.execute('INSERT INTO "users_module" VALUES (NULL, ?,?,?,?,?,?,?,?,?,?,?,?)', row)
                     print(row)
     conn.commit()
     conn.close()
@@ -37,20 +37,6 @@ def get_module_id(name, cursor):
     cursor.execute('SELECT id FROM users_module WHERE subject=?', [name])
     # print(cursor.fetchone()[0])
     return cursor.fetchone()[0]
-
-
-
-def modulecsv_to_db(title,class_type,class_related,location,duration,start,end,assigned_professors,other,makeup):
-    # Add modules to db
-    pass
-
-def classescsv_to_db():
-    # Add classes to db
-    pass
-
-def add_to_db():
-    # Add entry to DB
-    pass
 
 def parse_modules_to_class(module_csv, class_csv):
 
@@ -68,25 +54,27 @@ def parse_modules_to_class(module_csv, class_csv):
             csv_writer = csv.writer(f, delimiter=',')
             
             if (is_new_file(class_csv)):
-                csv_writer.writerow(['title','class_type','class_related','location','duration','start','end','assigned_professors','description','makeup'])
+                csv_writer.writerow(['title','pillar','class_type','class_related','location','duration','start','end','assigned_professors','description','makeup'])
             else:
                 csv_writer.writerow(data)
-
-    with open(module_csv) as csv_file:
+    
+    with open(module_csv,"r",encoding='utf-8') as csv_file:
         csv_reader = csv.reader(csv_file, delimiter=',')
         line_count = 0
         for row in csv_reader:
             if line_count == 0:
                 col_headers = row
                 name_index = get_col_index(row,"subject")
+                pillar_index = get_col_index(row,"pillar")
                 print(name_index)
                 cohort_size_index = get_col_index(row,"cohorts")
                 print(cohort_size_index)
                 cohort_index = get_col_index(row,"cohorts_per_week")
                 lecture_index = get_col_index(row,"lectures_per_week")
                 lab_index = get_col_index(row,"labs_per_week")
+                professors_index = get_col_index(row,"subject_lead")
                 print(f"Filename: {module_csv}")
-                print(f'Column name s are {", ".join(row)}')
+                print(f'Column names are {", ".join(row)}')
                 line_count += 1
             else:
                 num_cohorts = row[cohort_size_index]
@@ -98,20 +86,24 @@ def parse_modules_to_class(module_csv, class_csv):
                     i = 1
                     for c in cohorts:
                         for j in range(int(num_cohorts)):
-                            insert_row(class_csv,[row[name_index],f"CBL{i}",f"CI{j+1}","",c,"","","","",""])
+                            insert_row(class_csv,[row[name_index],row[pillar_index],f"CBL{i}",f"CI{j+1}","",c,"","",row[professors_index],"",""])
                             print("a")
                             i += 1
                 if (len(lectures) != 0): 
                     lectures = lectures.split(",")
                     i = 1
+                    a = ""
+                    for c in range(1,int(num_cohorts)+1):
+                        a += f"CI{c},"
+                    a = a[0:len(a)-1]
                     for l in lectures:
-                        insert_row(class_csv,[row[name_index],f"LEC{i}","ALL","",l,"","","","",""])
+                        insert_row(class_csv,[row[name_index],row[pillar_index],f"LEC{i}",f"{a}","",l,"","",row[professors_index],"",""])
                         i += 1
                 if (len(labs) != 0): 
                     labs = labs.split(",")
                     i = 1
                     for l in labs:
-                        insert_row(class_csv,[row[name_index],f"LAB{i}","ALL","",l,"","","","",""])
+                        insert_row(class_csv,[row[name_index],row[pillar_index],f"LAB{i}",f"{a}","",l,"","",row[professors_index],"",""])
                         i += 1
 
                 

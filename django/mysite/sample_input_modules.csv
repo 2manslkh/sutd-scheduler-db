@@ -1,14 +1,11 @@
-subject,code,term,core,subject_lead,cohort_size,cohorts,enrolment_size,cohorts_per_week,lectures_per_week,labs_per_week
-Introduction to Probability and Statistics,50.034,5,Core,"Subhajit Datta,
-Alexander Binder, Tony Quek",50,3,150,2,"1.5,1.5",
-Elements of Software Construction,50.003,5,Core,"Sun Jun,
-Sudipta",50,3,150,"1.5,1.5,2",,
-Computer System Engineering,50.005,5,Core,"David Yau,
-Jit Biswas",50,3,150,"1.5,1.5",,2
-User Interface Design and Implementation,50.006,7,Elective,Hyowon Lee,50,1,50,"1.5,1.5,2",,
-Graphics & Visualisation,50.017,7,Elective,Yeung Sai-Kit,50,1,50,"1.5,1.5,2",,
-Security,50.020,7,Elective,"Nils Ole Tippenhauer, Martin Ochoa",50,2,100,"1.5,1.5,2",,
-Introduction to Information Systems & Programming,50.001,4,Core,Norman Lee,50,3,150,"1.5,1.5,2",,
-Introduction to Algorithms,50.004,4,Core,Gemma Roig,50,3,150,"1.5,1.5,2",,
-Computation Structures,50.002,4,Core,Oka,50,3,150,"1.5,1.5",,2
-Computational Fabrication,01.110,0,Elective,"Nils Ole Tippenhauer, Martin Ochoa",50,1,50,"1.5,1.5,2",,
+subject,pillar,code,term,core,subject_lead,cohort_size,cohorts,enrolment_size,cohorts_per_week,lectures_per_week,labs_per_week
+Introduction to Probability and Statistics,ISTD,50.034,5,Core,"Subhajit Datta,Alexander Binder,Tony Quek",50,3,150,2,"1.5,1.5",
+Elements of Software Construction,ISTD,50.003,5,Core,"Sun Jun,Sudipta",50,3,150,"1.5,1.5,2",,
+Computer System Engineering,ISTD,50.005,5,Core,"David Yau,Jit Biswas",50,3,150,"1.5,1.5",,2
+User Interface Design and Implementation,ISTD,50.006,7,Elective,Hyowon Lee,50,1,50,"1.5,1.5,2",,
+Graphics & Visualisation,ISTD,50.017,7,Elective,Yeung Sai-Kit,50,1,50,"1.5,1.5,2",,
+Security,ISTD,50.02,7,Elective,"Nils Ole Tippenhauer, Martin Ochoa",50,2,100,"1.5,1.5,2",,
+Introduction to Information Systems & Programming,ISTD,50.001,4,Core,Norman Lee,50,3,150,"1.5,1.5,2",,
+Introduction to Algorithms,ISTD,50.004,4,Core,Gemma Roig,50,3,150,"1.5,1.5,2",,
+Computation Structures,ISTD,50.002,4,Core,Oka,50,3,150,"1.5,1.5",,2
+Computational Fabrication,ISTD,1.11,0,Elective,"Nils Ole Tippenhauer, Martin Ochoa",50,1,50,"1.5,1.5,2",,
