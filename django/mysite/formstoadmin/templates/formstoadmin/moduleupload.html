@@ -1,0 +1,31 @@
+{% extends "schedule/base.html" %}
+
+{% block morejs %}
+<link rel='stylesheet' href="..\..\static\formstoadmin\forms.css">
+{% endblock %}
+
+{% block content %}
+<h2>Upload module information via CSV</h2>
+<br>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <input type="file" name="file" accept=".csv">
+    <button type="submit">Upload</button>
+</form><br>
+<p>Please ensure that your data is in the following format:</p>
+<table class="table">
+    <tr>
+        <th>Subject</th>
+        <th>Code</th>
+        <th>Term</th>
+        <th>Subject Lead</th>
+        <th>Cohort Size</th>
+        <th>Enrolment_Size</th>
+        <th>Cohorts Per Week</th>
+        <th>Lectures Per Week</th>
+        <th>Labs Per Week</th>
+    </tr>
+</table>
+
+
+{% endblock %}

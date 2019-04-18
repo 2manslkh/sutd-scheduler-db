@@ -40,7 +40,7 @@ button.button-submit{
     fill: #FAFAFA;
     color:#999999;
     position: relative;
-    padding:0px;
+    padding-left:4px;
 }
 
 #export-button:focus{
@@ -59,7 +59,7 @@ button.button-submit{
 #export_text{
     display:inline-block;
     color: #999999;
-    margin-bottom:0px;
+    margin-bottom:1px;
 }
 
 #blank_row{

@@ -9,3 +9,9 @@ button[id*='btna']:hover,
     background-color: #c6313e;
     color:white;
 }
+
+div.alert-error {
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+}
