@@ -32,7 +32,7 @@ Make sure that you are in the folder with `manage.py`
 
 ### Requirements
 - Python3 `pip install python3`
-- Django `pip install django`
+- Django `pip install django` **Note**: Ensure that you download 2.1.5 and up as there has been a bug fix.
 - crispy_forms `pip install django-crispy-forms`
 - multiselectfield `pip install django-multiselectfield`
 - django_select2 `pip install django_select2`
