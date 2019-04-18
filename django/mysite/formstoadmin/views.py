@@ -8,6 +8,12 @@ from django.core import serializers
 from django.contrib.auth.models import User
 # Create your views here.
 
+import csv
+import io
+from django.contrib import messages
+from django.contrib.auth.decorators import permission_required
+from users.models import Module
+
 
 @login_required
 def index(request):
@@ -69,3 +75,39 @@ def generate_courses(request):
     json_serializer = serializers.get_serializer("json")()
     data = list(User.objects.values('username'))
     return JsonResponse(data, safe=False)
+
+
+@permission_required('admin.can_add_log_entry')
+def moduleUpload(request):
+    template = "formstoadmin/test.html"
+    prompt = {
+        'order': "Order of csv should be Subject, Code, Term, Core, Subject_Lead, Cohort_Size, Cohorts, Enrolment_Size, Cohorts Per Week, Lectures Per Week, Labs Per Week"
+    }
+
+    if request.method == "GET":
+        return render(request, template, prompt)
+
+    csv_file = request.FILES['file']
+
+    if not csv_file.name.endswith('.csv'):
+        messages.error(request, "This file is not a .csv file")
+
+    data_set = csv_file.read().decode('utf-8')
+    io_string = io.StringIO(data_set)
+    next(io_string)
+    for column in csv.reader(io_string, delimiter=',', quotechar="|"):
+        _, created = Module.objects.update_or_create(
+            subject=column[0],
+            code=column[1],
+            term=column[2],
+            core=column[3],
+            subject_lead=column[4],
+            cohort_size=column[5],
+            enrolment_size=column[6],
+            cohorts_per_week=column[7],
+            lectures_per_week=column[8],
+            labs_per_week=column[9],
+        )
+
+    context = {}
+    return render(request, template, context)
