@@ -77,6 +77,8 @@ def input_info():
             CourseClass.classes[CourseClass.find(e[0], e[5])].isHASS = True
         if "morning" in e:
             CourseClass.classes[CourseClass.find(e[0], e[5])].isMorning = True
+        if "afternoon" in e:
+            CourseClass.classes[CourseClass.find(e[0], e[5])].isAfternoon = True
 
    
 def get_cpg():
