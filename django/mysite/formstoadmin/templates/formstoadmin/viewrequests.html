@@ -1,7 +1,15 @@
 {% extends "schedule/base.html" %}
 
+{% block morejs %}
+{# net::ERR_ABORTED 404 (Not Found) #}
+<script src="..\..\static\formstoadmin\forms.js"></script>
+<link rel='stylesheet' href="..\..\static\formstoadmin\forms.css">
+
+
+{% endblock %}
+
 {% block content %}
-<h2>View Requests</h2>
+<h2>Requests pending action</h2>
 <table class="table">
     <tr>
         <th>Name</th>
@@ -9,15 +17,24 @@
         <th>Related class(es)</th>
         <th>Preferred Timings</th>
         <th>Reasons</th>
+        <th>Remarks</th>
+        <th>Action</th>
     </tr>
     {% for obj in query_results %}
     <tr>
-        <td> {{obj.name}} </td>
+        <td> {% if obj.name %}{{obj.name}} {% else %} - {% endif %} </td>
         <td> {{obj.course_code}} </td>
         <td> {{obj.class_related}} </td>
         <td> {{obj.preferred_timings}} </td>
         <td> {{obj.reasons}} </td>
+        <td> {% if obj.remarks %}{{obj.remarks}} {% else %} - {% endif %} </td>
+        <td>
+            <button type="button" class="btn view-request-accept" id="btna-{{obj.id}}">Accept</button>
+            <button type="button" class="btn view-request-reject" id="btnr-{{obj.id}}">Reject</button>
+
+        </td>
     </tr>
     {% endfor %}
 </table>
 {% endblock %}
+

@@ -1,25 +1,20 @@
 #calendar-additions{
     align-items:center;
     float: right;
+    text-align: right;
+    padding-left:5px;
 }
 
 #calendar-additions li{
     list-style: none;
     display: inline;
-    margin-left: -5px;
-/*  somehow flex doesn't work
-    display: flex;
-    flex-direction: row-reverse;*/
-
 }
 
 button.button-submit{
     background-color: #FAFAFA;
     color: #999999;
     border: none;
-    font-size: 1.2em;
-    position: relative;
-    top: -7px;
+    padding-left:0px;
 }
 
 .button-submit:hover {
@@ -36,8 +31,8 @@ button.button-submit{
 }
 
 .button-submit svg{
-    width:16px;
-    height:17px;
+    width:14px;
+    height:14px;
 }
 #export-button{
     background-color: transparent;
@@ -45,8 +40,7 @@ button.button-submit{
     fill: #FAFAFA;
     color:#999999;
     position: relative;
-    padding-top: 2px;
-    padding-bottom: 1px;
+    padding-left:4px;
 }
 
 #export-button:focus{
@@ -60,13 +54,12 @@ button.button-submit{
 #export-button:active{
     outline:0;
     background-color: #d7d7dd;
-    padding: 3.1px 9.6px 0.8px 9.6px; /*top,bottom left,right OR top,right,bottom,left*/
 }
 
 #export_text{
     display:inline-block;
     color: #999999;
-    margin-left:5px;
+    margin-bottom:1px;
 }
 
 #blank_row{
@@ -75,3 +68,8 @@ button.button-submit{
     width: 100%;
 }
 
+
+svg.enter-img{
+    fill:#999999;
+    margin-top:5px;
+}

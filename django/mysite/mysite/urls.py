@@ -27,11 +27,12 @@ urlpatterns = [
     path('profile/', user_views.profile, name='profile'),
     path('login/', auth_views.LoginView.as_view(template_name="users/login.html"), name='login'),
     path('logout/', auth_views.LogoutView.as_view(template_name="users/logout.html"), name='logout'),
-    # path('requestform/', include('formstoadmin.urls')),
+    path('requestform/', include('formstoadmin.urls')),
     # '' contains string after /requestform
     path('request-form', formstoadminViews.index, name='request-form'),
     path('input-module-info', formstoadminViews.inputModule, name='input-module-info'),
     path('view-requests', formstoadminViews.viewRequests, name='view-requests'),
     path('add-event', formstoadminViews.addEvent, name='add-event'),
     path('generate-schedule', scheduleViews.generateSchedule, name="generate-schedule"),
+    path('module-upload/', formstoadminViews.moduleUpload, name="module-upload"),
 ]

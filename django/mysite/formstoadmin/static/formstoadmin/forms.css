@@ -1,0 +1,17 @@
+button[id*='btna']:hover,
+.view-request-accept.button-clicked {
+     background-color: #28a745;
+     color: white;
+}
+
+.view-request-reject:hover,
+.view-request-reject.button-clicked{
+    background-color: #c6313e;
+    color:white;
+}
+
+div.alert-error {
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+}
