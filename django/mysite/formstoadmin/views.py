@@ -101,8 +101,7 @@ def moduleUpload(request):
         first_row = True
         for row in csv.reader(io_string, delimiter=',', quotechar="|"):
             if first_row:
-                first_row_length = len(row)
-                if first_row_length != 12:
+                if len(row) != 12:
                     raise IndexError
                 first_row = False
 
