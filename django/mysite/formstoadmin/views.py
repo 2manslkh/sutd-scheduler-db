@@ -1,11 +1,12 @@
 from django.shortcuts import render
-from django.http import HttpResponse, JsonResponse
+from django.http import JsonResponse, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from .forms import ScheduleRequestForm, inputModuleInformation, EventRequestForm
 from django.contrib import messages
 from .models import ScheduleRequest
 from django.core import serializers
 from django.contrib.auth.models import User
+import pandas as pd
 # Create your views here.
 
 import csv
@@ -33,6 +34,7 @@ def index(request):
                 remarks=data['remarks']
             )
             s.save()
+            form = ScheduleRequestForm()
     else:
         form = ScheduleRequestForm()
     return render(request, 'formstoadmin/index.html', {'form': form})
@@ -45,7 +47,6 @@ def inputModule(request):
         if module_form.is_valid():
             messages.success(request, 'Input module form submitted')
             # module_form.save()
-
     else:
         module_form = inputModuleInformation()
     return render(request, 'formstoadmin/inputmodule.html', {'form': module_form})
@@ -79,35 +80,42 @@ def generate_courses(request):
 
 @permission_required('admin.can_add_log_entry')
 def moduleUpload(request):
-    template = "formstoadmin/test.html"
-    prompt = {
-        'order': "Order of csv should be Subject, Code, Term, Core, Subject_Lead, Cohort_Size, Cohorts, Enrolment_Size, Cohorts Per Week, Lectures Per Week, Labs Per Week"
-    }
-
+    template = "formstoadmin/moduleupload.html"
+    context = {'loaded_data': None}
     if request.method == "GET":
-        return render(request, template, prompt)
+        return render(request, template)
 
     csv_file = request.FILES['file']
 
     if not csv_file.name.endswith('.csv'):
-        messages.error(request, "This file is not a .csv file")
+        messages.error(request, "Please upload a CSV file")
+        return render(request, template, context)
 
-    data_set = csv_file.read().decode('utf-8')
-    io_string = io.StringIO(data_set)
-    next(io_string)
-    for column in csv.reader(io_string, delimiter=',', quotechar="|"):
-        _, created = Module.objects.update_or_create(
-            subject=column[0],
-            code=column[1],
-            term=column[2],
-            core=column[3],
-            subject_lead=column[4],
-            cohort_size=column[5],
-            enrolment_size=column[6],
-            cohorts_per_week=column[7],
-            lectures_per_week=column[8],
-            labs_per_week=column[9],
-        )
+    try:
 
-    context = {}
+        data_set = csv_file.read().decode('utf-8')
+        io_string = io.StringIO(data)
+        next(io_string)
+        for column in csv.reader(io_string, delimiter=',', quotechar="|"):
+            _, created = Module.objects.update_or_create(
+                subject=column[0],
+                code=column[1],
+                term=column[2],
+                core=column[3],
+                subject_lead=column[4],
+                cohort_size=column[5],
+                enrolment_size=column[6],
+                cohorts_per_week=column[7],
+                lectures_per_week=column[8],
+                labs_per_week=column[9],
+            )
+    except IndexError:
+        messages.error(request, "I SAID PROPERLY FORMATTED YOU IDIOT")
+        return render(request, template, context)
+
+    data = pd.read_csv(csv_file, encoding='utf-8')
+    data_html = data.to_html(classes='table', justify="left", border=0)
+    context = {'loaded_data': data_html}
+    messages.success(request, 'File uploaded')
+
     return render(request, template, context)

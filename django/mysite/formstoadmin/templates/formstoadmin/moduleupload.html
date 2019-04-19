@@ -12,6 +12,8 @@
     <input type="file" name="file" accept=".csv">
     <button type="submit">Upload</button>
 </form><br>
+
+{% if not loaded_data %}
 <p>Please ensure that your data is in the following format:</p>
 <table class="table">
     <tr>
@@ -26,6 +28,8 @@
         <th>Labs Per Week</th>
     </tr>
 </table>
+{% endif %}
 
+{{ loaded_data| safe }}
 
 {% endblock %}
