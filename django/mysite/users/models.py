@@ -29,7 +29,7 @@ class Class(models.Model):
     module = models.ForeignKey(Module, on_delete=models.CASCADE, default="")
     title = models.CharField(max_length=200, default="")
     pillar = models.CharField(max_length=200, default="")
-    _type = models.CharField(max_length=200, default="")
+    Type = models.CharField(max_length=200, default="")
     class_related = models.CharField(max_length=200, default="")
     location = models.CharField(max_length=200, default="")
     duration = models.CharField(max_length=200, default="")
@@ -38,3 +38,6 @@ class Class(models.Model):
     description = models.CharField(max_length=200, default="")
     makeup = models.CharField(max_length=200, default="")
     assigned_professors = models.CharField(max_length=200, default="")
+
+    def __str__(self):
+        return self.module.id

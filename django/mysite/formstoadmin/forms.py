@@ -78,3 +78,16 @@ class inputModuleInformation(forms.Form):
     cohorts_per_week = forms.CharField()
     lectures_per_week = forms.CharField(required=False)
     labs_per_week = forms.CharField(required=False)
+
+
+class inputClassInformation(forms.ModelForm):
+    class Meta:
+        model = Class
+        # fields = ['module', 'title', 'pillar', '_type', 'class_related', 'location', 'duration', 'start', 'end', 'description', 'makeup', 'assigned_professors']
+        fields = '__all__'
+        # labels = {
+        #     '_type': 'Type',
+        # }
+        help_texts = {
+            'assigned_professors': "Please separate professors\' names with a comma",
+        }

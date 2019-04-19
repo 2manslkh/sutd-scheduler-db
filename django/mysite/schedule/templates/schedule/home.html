@@ -12,11 +12,8 @@
 
     <link rel="stylesheet" type="text/css" href="{% static 'schedule/main.css' %}">
 
-    {% if title %}
-        <title>Event Scheduler - {{ title }}</title>
-    {% else %}
-        <title>Event Scheduler</title>
-    {% endif %}
+    <title>Event Scheduler</title>
+
 
     <!-- For fullcalendar -->
     <link rel='stylesheet' href="..\..\static\schedule\fullcalendar.css">
@@ -55,6 +52,7 @@
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                   <a class="dropdown-item" href="{% url 'request-form' %}">Schedule Request</a>
                   <a class="dropdown-item" href="{% url 'input-module-info' %}">Input Module Information</a>
+                  <a class="dropdown-item" href="{% url 'input-class-info' %}">Input Class Information</a>
                   <div class="dropdown-divider"></div>
                   <a class="dropdown-item" href="{% url 'add-event' %}">In-vivo Event</a>
                   <div class="dropdown-divider"></div>

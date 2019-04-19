@@ -35,4 +35,5 @@ urlpatterns = [
     path('add-event', formstoadminViews.addEvent, name='add-event'),
     path('generate-schedule', scheduleViews.generateSchedule, name="generate-schedule"),
     path('module-upload/', formstoadminViews.moduleUpload, name="module-upload"),
+    path('input-class-info/', formstoadminViews.inputClassInfo, name="input-class-info"),
 ]

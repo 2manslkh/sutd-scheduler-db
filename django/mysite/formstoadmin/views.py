@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import JsonResponse, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
-from .forms import ScheduleRequestForm, inputModuleInformation, EventRequestForm
+from .forms import ScheduleRequestForm, inputModuleInformation, EventRequestForm, inputClassInformation
 from django.contrib import messages
 from .models import ScheduleRequest
 from django.core import serializers
@@ -47,10 +47,21 @@ def inputModule(request):
         module_form = inputModuleInformation(request.POST)
         if module_form.is_valid():
             messages.success(request, 'Input module form submitted')
-            # module_form.save()
+            module_form.save()
     else:
         module_form = inputModuleInformation()
     return render(request, 'formstoadmin/inputmodule.html', {'form': module_form})
+
+
+def inputClassInfo(request):
+    if request.method == "POST":
+        class_form = inputClassInformation(request.POST)
+        if class_form.is_valid():
+            messages.success(request, 'Added class information')
+            class_form.save()
+    else:
+        class_form = inputClassInformation()
+    return render(request, 'formstoadmin/inputclass.html', {'form': class_form})
 
 
 @login_required
