@@ -7,6 +7,7 @@ from .models import ScheduleRequest
 from django.core import serializers
 from django.contrib.auth.models import User
 import pandas as pd
+import copy
 # Create your views here.
 
 import csv
@@ -82,19 +83,21 @@ def generate_courses(request):
 def moduleUpload(request):
     template = "formstoadmin/moduleupload.html"
     context = {'loaded_data': None}
+
     if request.method == "GET":
         return render(request, template)
 
     csv_file = request.FILES['file']
+    csv_file2 = copy.deepcopy(csv_file)
 
     if not csv_file.name.endswith('.csv'):
         messages.error(request, "Please upload a CSV file")
         return render(request, template, context)
 
     try:
-
         data_set = csv_file.read().decode('utf-8')
-        io_string = io.StringIO(data)
+
+        io_string = io.StringIO(data_set)
         next(io_string)
         for column in csv.reader(io_string, delimiter=',', quotechar="|"):
             _, created = Module.objects.update_or_create(
@@ -110,12 +113,12 @@ def moduleUpload(request):
                 labs_per_week=column[9],
             )
     except IndexError:
-        messages.error(request, "I SAID PROPERLY FORMATTED YOU IDIOT")
+        messages.error(request, "Incorrect number of columns. Please ensure data is in the right format")
         return render(request, template, context)
 
-    data = pd.read_csv(csv_file, encoding='utf-8')
+    data = pd.read_csv(csv_file2)
     data_html = data.to_html(classes='table', justify="left", border=0)
     context = {'loaded_data': data_html}
-    messages.success(request, 'File uploaded')
 
+    messages.success(request, 'File uploaded')
     return render(request, template, context)
