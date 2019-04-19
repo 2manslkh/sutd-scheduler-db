@@ -15,8 +15,10 @@ class Group:
 
         
     def __repr__(self):
-        #return "Class: " + str(self.name)
-        return str(self.name)
+        group = ""
+        for g in self.name:
+            group = group + g + ", "
+        return group.strip(", ")
 
 class Professor:
     professors = None
@@ -35,23 +37,29 @@ class Professor:
 
     def __repr__(self):
         #return str(self.name)
-        return str(self.name)
+        prof = ""
+        for p in self.name:
+            prof = prof + p + ", "
+        return prof.strip(", ")
 
 class CourseClass:
     classes = None
 
-    def __init__(self, code, duration, pillar, isLecture = False, isLab = False, isHASS = False):
+    def __init__(self, dbid, code, duration, pillar, isLecture = False, isLab = False, isHASS = False, isMorning = False, isAfternoon = False):
+        self.dbid = dbid
         self.code = code
         self.duration = duration
         self.pillar = pillar
         self.isLecture = isLecture
         self.isLab = isLab
         self.isHASS = isHASS
+        self.isMorning = isMorning
+        self.isAfternoon = isAfternoon
         
     @staticmethod
-    def find(code, duration):
+    def find(dbid, code, duration):
         for i in range(len(CourseClass.classes)):
-            if CourseClass.classes[i].code == code and CourseClass.classes[i].duration == duration:
+            if CourseClass.classes[i].dbid == dbid and CourseClass.classes[i].code == code and CourseClass.classes[i].duration == duration:
                 return i
         return -1
 
@@ -60,13 +68,13 @@ class CourseClass:
     def __repr__(self):
         if self.isLecture == True:
             #return "Course: " + str(self.code) + " lecture"
-            return str(self.code) + " lecture" + " duration " + str(self.duration)
+            return str(self.dbid) + str(self.code) + " lecture" + " duration " + str(self.duration)
         elif self.isLab == True:
             #return "Course: " + str(self.code) + " lab"
-            return str(self.code) + " lab" + " duration " + str(self.duration)
+            return str(self.dbid) + str(self.code) + " lab" + " duration " + str(self.duration)
         else:
             #return "Course: " + str(self.code) + " cohort"
-            return str(self.code) + " cohort" + " duration " + str(self.duration)
+            return str(self.dbid) + str(self.code) + " cohort" + " duration " + str(self.duration)
         
 class Room:
     rooms = None
@@ -127,9 +135,18 @@ class Slot:
         return "00"
     
     def __repr__(self):
+        start_time = Slot.hour_start(self) + ":" + Slot.minute_start(self)
+        end_time = Slot.hour_end(self) + ":" + Slot.minute_end(self)
         #return "Slot: " + Slot.hour_start(self) + ":" + Slot.minute_start(self) + " - " + Slot.hour_end(self) + ":" + Slot.minute_end(self)
         #return "Slot: " + str(self.block[0]) + " - " + str(self.block[-1]) + " Day: " + str(self.day)
-        return str(self.block) + "\\" + str(self.day)#  + str(self.isHASS)
+
+        return start_time + "-" + end_time
+
 
 #test
-#print(Slot([1,6], "Mon"))
+#test = str(Slot([1,6], "Mon"))
+#a = test.split("-")
+#print(a)
+        
+
+
