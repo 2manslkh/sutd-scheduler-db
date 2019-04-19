@@ -24,6 +24,7 @@ class ScheduleRequest(models.Model):
     preferred_timings = MultiSelectField(choices=PREFERRED_TIMINGS)
     reasons = models.CharField(max_length=200)
     remarks = models.CharField(max_length=200)
+    approved = models.BooleanField(null=True)
 
 
 class EventRequest(models.Model):
