@@ -4,6 +4,8 @@ TODO:
     2. No cohort should have same course more than once everyday (except lecture) 
     3. Input hard constraints from professors whether they would like to have lecture(s) before/after cohort(s) 
     4. Final clarification: Classroom is an input from professors
+    5.
+
 '''
 import random, copy
 import time
@@ -11,6 +13,15 @@ from Classes import Group, Professor, CourseClass, Room, Slot
 from math import ceil, log2
 import math
 import csv
+import db_to_algo as dbh
+
+"""
+Get inputs from sqlite DB:
+dbh = db_helper("db.sqlite3")
+dbh.print_all_columns("users_class")
+dbh.get_columns(["title","assigned_professors","class_related","location","pillar","duration","type"],"users_class"))
+"""
+
 
 initial_slots = [Slot([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16], 1), Slot([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16], 2), Slot([1,2,3,4,5,6,7,8,9,10], 3),
               Slot([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16], 4), Slot([1,2,3,4,5,6,7,8,9,10], 5)]
@@ -30,7 +41,9 @@ Group.groups = []
 Room.rooms = []
 bits_needed_backup_store = {}  # to improve performance
 
-inputls = [["CSE", ["Natalie"], ["Cl02"], "CC12","ISTD",3], ["CSE", ["David"], ["Cl03"], "CC12","ISTD",3], ["CSE", ["Natalie"], ["Cl01"], "CC12","ISTD",3],\
+inputls = [["CSE", ["Natalie"], ["Cl02"], "CC12","ISTD",3],\
+           ["CSE", ["David"], ["Cl03"], "CC12","ISTD",3],\
+           ["CSE", ["Natalie"], ["Cl01"], "CC12","ISTD",3],\
            ["CSE", ["Natalie"], ["Cl02"], "CC12","ISTD",3], ["CSE", ["David"], ["Cl03"], "CC12","ISTD",3], ["CSE", ["Natalie"], ["Cl01"], "CC12","ISTD",3],\
            ["CSE lab", ["Natalie", "David"], ["Cl01", "Cl02", "Cl03"], "lt2", "ISTD", 4, "lab"], \
            ["ESC", ["Sun Jun"], ["Cl02"], "CC11","ISTD",3], ["ESC", ["Sun Jun"], ["Cl03"], "CC11","ISTD",3], ["ESC", ["Sun Jun"], ["Cl01"], "CC11","ISTD",3],\
