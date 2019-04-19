@@ -96,22 +96,31 @@ def moduleUpload(request):
 
     try:
         data_set = csv_file.read().decode('utf-8')
-
         io_string = io.StringIO(data_set)
-        next(io_string)
-        for column in csv.reader(io_string, delimiter=',', quotechar="|"):
-            _, created = Module.objects.update_or_create(
-                subject=column[0],
-                code=column[1],
-                term=column[2],
-                core=column[3],
-                subject_lead=column[4],
-                cohort_size=column[5],
-                enrolment_size=column[6],
-                cohorts_per_week=column[7],
-                lectures_per_week=column[8],
-                labs_per_week=column[9],
-            )
+
+        first_row = True
+        for row in csv.reader(io_string, delimiter=',', quotechar="|"):
+            if first_row:
+                first_row_length = len(row)
+                if first_row_length != 12:
+                    raise IndexError
+                first_row = False
+
+            else:
+                _, created = Module.objects.update_or_create(
+                    subject=row[0],
+                    pillar=row[1],
+                    code=row[2],
+                    term=row[3],
+                    core=row[4],
+                    subject_lead=row[5],
+                    cohort_size=row[6],
+                    cohorts=row[7],
+                    enrolment_size=row[8],
+                    cohorts_per_week=row[9],
+                    lectures_per_week=row[10],
+                    labs_per_week=row[11]
+                )
     except IndexError:
         messages.error(request, "Incorrect number of columns. Please ensure data is in the right format")
         return render(request, template, context)

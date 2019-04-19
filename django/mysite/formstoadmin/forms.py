@@ -54,16 +54,26 @@ CLASSES = (
     ('cohort', "Cohort Class"),
     ('lecture', "Lecture"),
 )
+
+PILLARS = (
+    ('asd', 'ASD'),
+    ('epd', 'EPD'),
+    ('esd', 'ESD'),
+    ('istd', 'ISTD'),
+    ('hass', 'HASS'),
+)
 # TODO: FOR RELEVANT FIELDS, SEARCH FROM DATABASE ONCE FIELDS ARE BEING FILLED
 
 
 class inputModuleInformation(forms.Form):
-    subject_code = forms.CharField()
     subject = forms.CharField(required=False, disabled=True)
+    pillar = forms.ChoiceField(choices=PILLARS)
+    subject_code = forms.CharField()
     term = forms.CharField()
     core = forms.CharField(widget=forms.Textarea(attrs={'rows': 1, 'placeholder': "True/False"}))
     subject_lead = forms.CharField()
     cohort_size = forms.CharField()
+    cohorts = forms.CharField()
     enrolment_size = forms.CharField()
     cohorts_per_week = forms.CharField()
     lectures_per_week = forms.CharField(required=False)

@@ -18,10 +18,12 @@
 <table class="table">
     <tr>
         <th>Subject</th>
+        <th>Pillar</th>
         <th>Code</th>
         <th>Term</th>
         <th>Subject Lead</th>
         <th>Cohort Size</th>
+        <th>Cohorts</th>
         <th>Enrolment_Size</th>
         <th>Cohorts Per Week</th>
         <th>Lectures Per Week</th>
@@ -30,7 +32,9 @@
 </table>
 {% endif %}
 
-
-{{loaded_data | safe}}
+{% if loaded_data %}
+    <h5>Uploaded file:</h5>
+    {{loaded_data | safe }}
+{% endif %}
 
 {% endblock %}
