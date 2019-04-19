@@ -37,10 +37,11 @@ Group.groups = []
 Room.rooms = []
 bits_needed_backup_store = {}  # to improve performance
 
-inputls = [["CSE", ["Natalie"], ["Cl02"], "CC12","ISTD",3], ["CSE", ["David"], ["Cl03"], "CC12","ISTD",3], ["CSE", ["Natalie"], ["Cl01"], "CC12","ISTD", 3],\
-           ["CSE", ["Natalie"], ["Cl02"], "CC12","ISTD",3], ["CSE", ["David"], ["Cl03"], "CC12","ISTD",3], ["CSE", ["Natalie"], ["Cl01"], "CC12","ISTD",3],\
-           ["CSE lab", ["Natalie", "David"], ["Cl01", "Cl02", "Cl03"], "lt2", "ISTD", 4, "lab", "morning"], \
-           ["ESC", ["Sun Jun"], ["Cl02"], "CC11","ISTD",3], ["ESC", ["Sun Jun"], ["Cl03"], "CC11","ISTD",3], ["ESC", ["Sun Jun"], ["Cl01"], "CC11","ISTD",3],\
+inputls = [[500051, "CSE", ["Natalie"], ["Cl02"], "CC12","ISTD",3], [500052, "CSE", ["David"], ["Cl03"], "CC12","ISTD",3], [500053, "CSE", ["Natalie"], ["Cl01"], "CC12","ISTD", 3],\
+           [500054, "CSE", ["Natalie"], ["Cl02"], "CC12","ISTD",3], [500055, "CSE", ["David"], ["Cl03"], "CC12","ISTD",3], [500056, "CSE", ["Natalie"], ["Cl01"], "CC12","ISTD",3],\
+           [500057, "CSE lab", ["Natalie", "David"], ["Cl01", "Cl02", "Cl03"], "lt2", "ISTD", 4, "lab", "morning"], \
+           [500031, "ESC", ["Sun Jun"], ["Cl02"], "CC11","ISTD",3], [500032, "ESC", ["Sun Jun"], ["Cl03"], "CC11","ISTD",3], [500033, "ESC", ["Sun Jun"], ["Cl01"], "CC11","ISTD",3]]
+'''
            ["ESC", ["Sun Jun"], ["Cl02"], "CC11","ISTD",3], ["ESC", ["Sun Jun"], ["Cl03"], "CC11","ISTD",3], ["ESC", ["Sun Jun"], ["Cl01"], "CC11","ISTD",3],\
            ["ESC", ["Sun Jun"], ["Cl02"], "CC11","ISTD",4], ["ESC", ["Sun Jun"], ["Cl03"], "CC11","ISTD",4], ["ESC", ["Sun Jun"], ["Cl01"], "CC11","ISTD",4],\
            ["P&S lec", ["Tony", "ABC"], ["Cl01", "Cl02", "Cl03"],"lt5", "ISTD", 3, "lecture", "morning"], ["P&S lec", ["Tony", "ABC"], ["Cl01", "Cl02", "Cl03"], "lt5", "ISTD", 3, "lecture", "morning"],\
@@ -49,11 +50,12 @@ inputls = [["CSE", ["Natalie"], ["Cl02"], "CC12","ISTD",3], ["CSE", ["David"], [
            ["MICROE lec", ["zsombor"], ["microe1", "microe2"], "lt4", "HASS", 2, "lecture", "morning"],
            ["urban planning", ["Samsom Lim"], ["urban1"], "tt9", "HASS", 6], ["urban planning", ["Samsom Lim"], ["urban2"], "tt9", "HASS", 6],\
            ["DW", ["Natalie"], ["FC01"], "CC01", "freshmore", 4], ["core design", ["Jackson"], ["ASD01"], "studio01", "ASD", 16]]
+'''
 
 total_duration = 0
 for inp in inputls:
     #print(inp)
-    total_duration = total_duration + inp[5]
+    total_duration = total_duration + inp[6]
 print("total duration")
 print(total_duration)  
 
@@ -61,24 +63,24 @@ print(total_duration)
 def input_info(): 
 
     for e in inputls:
-        if CourseClass.find(e[0], e[5]) == -1:
-            CourseClass.classes.append(CourseClass(e[0],e[5],e[4]))
-        if Professor.find(e[1]) == -1:
-            Professor.professors.append(Professor(e[1]))
-        if Group.find(e[2]) == -1:
-            Group.groups.append(Group(e[2]))  
-        if Room.find(e[3]) == -1:
-            Room.rooms.append(Room(e[3]))
+        if CourseClass.find(e[0], e[1], e[6]) == -1:
+            CourseClass.classes.append(CourseClass(e[0], e[1], e[6], e[5]))
+        if Professor.find(e[2]) == -1:
+            Professor.professors.append(Professor(e[2]))
+        if Group.find(e[3]) == -1:
+            Group.groups.append(Group(e[3]))  
+        if Room.find(e[4]) == -1:
+            Room.rooms.append(Room(e[4]))
         if "lecture" in e:
-            CourseClass.classes[CourseClass.find(e[0], e[5])].isLecture = True
+            CourseClass.classes[CourseClass.find(e[0], e[1], e[6])].isLecture = True
         if "lab" in e:
-            CourseClass.classes[CourseClass.find(e[0], e[5])].isLab = True
+            CourseClass.classes[CourseClass.find(e[0], e[1], e[6])].isLab = True
         if "HASS" in e:
-            CourseClass.classes[CourseClass.find(e[0], e[5])].isHASS = True
+            CourseClass.classes[CourseClass.find(e[0], e[1], e[6])].isHASS = True
         if "morning" in e:
-            CourseClass.classes[CourseClass.find(e[0], e[5])].isMorning = True
+            CourseClass.classes[CourseClass.find(e[0], e[1], e[6])].isMorning = True
         if "afternoon" in e:
-            CourseClass.classes[CourseClass.find(e[0], e[5])].isAfternoon = True
+            CourseClass.classes[CourseClass.find(e[0], e[1], e[6])].isAfternoon = True
 
    
 def get_cpg():
@@ -86,10 +88,10 @@ def get_cpg():
     len1 = len(inputls)
     for i in range(len1):
         
-       cpg.append(CourseClass.find(inputls[i][0], inputls[i][5]))
-       cpg.append(Professor.find(inputls[i][1]))
-       cpg.append(Group.find(inputls[i][2]))
-       cpg.append(Room.find(inputls[i][3]))
+       cpg.append(CourseClass.find(inputls[i][0], inputls[i][1], inputls[i][6]))
+       cpg.append(Professor.find(inputls[i][2]))
+       cpg.append(Group.find(inputls[i][3]))
+       cpg.append(Room.find(inputls[i][4]))
 
 
 def bits_needed(x):
@@ -365,8 +367,8 @@ def check_slot_time(chromosomes):
             max_score = max_score + 1
             if Slot.slots[int(slot_bits(_c),2)].block[0] >= 11:
                 scores = scores + 1
-    print("score", scores)
-    print("max score", max_score)
+    #print("score", scores)
+    #print("max score", max_score)
     if max_score == 0:
         return 1
     
@@ -539,18 +541,18 @@ def print_chromosome(chromosome):
           Slot.slots[int(slot_bits(chromosome), 2)])
     
 def print_chromosome_csv(max_chromosomes):
-    label = ["Course", "Professors", "Class", "Room", " Day", "Start", "End"]
+    label = ["id", "Course", "Professors", "Class", "Room", " Day", "Start", "End"]
     out = open('schedule.csv','a', newline='')
     csv_write = csv.writer(out, dialect = 'excel')
     csv_write.writerow(label)
     for chromosome in max_chromosomes:
-        csv_row = [CourseClass.classes[int(course_bits(chromosome), 2)],\
+        time = str(Slot.slots[int(slot_bits(chromosome),2)]).split("-")
+        csv_row = [CourseClass.classes[int(course_bits(chromosome), 2)].dbid,\
+                   CourseClass.classes[int(course_bits(chromosome), 2)].code,\
                    Professor.professors[int(professor_bits(chromosome), 2)],\
                    Group.groups[int(group_bits(chromosome), 2)],\
                    Room.rooms[int(lt_bits(chromosome), 2)],\
-                   Slot.slots[int(slot_bits(chromosome), 2)].day,\
-                   Slot.slots[int(slot_bits(chromosome),2)].block[0],\
-                   Slot.slots[int(slot_bits(chromosome),2)].block[-1]]
+                   Slot.slots[int(slot_bits(chromosome), 2)].day] + time
         csv_write.writerow(csv_row)
         print(CourseClass.classes[int(course_bits(chromosome), 2)], " | ",
           Professor.professors[int(professor_bits(chromosome), 2)], " | ",
