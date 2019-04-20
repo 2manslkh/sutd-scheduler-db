@@ -80,14 +80,19 @@ class inputModuleInformation(forms.Form):
     labs_per_week = forms.CharField(required=False)
 
 
-class inputClassInformation(forms.ModelForm):
-    class Meta:
-        model = Class
-        # fields = ['module', 'title', 'pillar', '_type', 'class_related', 'location', 'duration', 'start', 'end', 'description', 'makeup', 'assigned_professors']
-        fields = '__all__'
-        # labels = {
-        #     '_type': 'Type',
-        # }
-        help_texts = {
-            'assigned_professors': "Please separate professors\' names with a comma",
-        }
+class inputClassInformation(forms.Form):
+    module = forms.CharField(disabled=True, required=False)
+    title = forms.CharField(disabled=True, required=False)
+    pillar = forms.CharField(disabled=True, required=False)
+    Type = forms.CharField(disabled=True, required=False)
+    class_related = forms.CharField(disabled=True, required=False)
+    location = forms.CharField()
+    duration = forms.CharField(disabled=True, required=False)
+    start = forms.CharField(disabled=True, required=False)
+    end = forms.CharField(disabled=True, required=False)
+    description = forms.CharField()
+    makeup = forms.CharField()
+    assigned_professors = forms.CharField(help_text="Please separate professors\' names with a comma")
+
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user')

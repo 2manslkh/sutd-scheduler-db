@@ -38,6 +38,3 @@ class Class(models.Model):
     description = models.CharField(max_length=200, default="")
     makeup = models.CharField(max_length=200, default="")
     assigned_professors = models.CharField(max_length=200, default="")
-
-    def __str__(self):
-        return self.module.id

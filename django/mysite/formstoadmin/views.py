@@ -8,13 +8,14 @@ from django.core import serializers
 from django.contrib.auth.models import User
 import pandas as pd
 import copy
+from django.views.generic import TemplateView
 # Create your views here.
 
 import csv
 import io
 from django.contrib import messages
 from django.contrib.auth.decorators import permission_required
-from users.models import Module
+from users.models import Module, Class
 
 
 @login_required
@@ -53,15 +54,20 @@ def inputModule(request):
     return render(request, 'formstoadmin/inputmodule.html', {'form': module_form})
 
 
-def inputClassInfo(request):
-    if request.method == "POST":
-        class_form = inputClassInformation(request.POST)
-        if class_form.is_valid():
-            messages.success(request, 'Added class information')
-            class_form.save()
-    else:
-        class_form = inputClassInformation()
-    return render(request, 'formstoadmin/inputclass.html', {'form': class_form})
+class InputClassInfo(TemplateView):
+    template_name = "formstoadmin/inputclass.html"
+
+    def get(self, request):
+        form = inputClassInformation()
+        classes = Class.objects.all()
+        print(classes)
+        return render(request, self.template_name, {'form': form})
+
+    def post(self, request):
+        form = inputClassInformation(request.POST)
+        if form.is_valid():
+            form.save()
+        return render(request, self.template_name, {'form': form})
 
 
 @login_required
