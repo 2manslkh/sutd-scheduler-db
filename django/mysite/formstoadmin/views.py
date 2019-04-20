@@ -19,7 +19,7 @@ from users.models import Module, Class
 
 
 @login_required
-def index(request):
+def scheduleRequest(request):
     if request.method == "POST":
         form = ScheduleRequestForm(request.POST)
         if form.is_valid():
@@ -39,7 +39,7 @@ def index(request):
             form = ScheduleRequestForm()
     else:
         form = ScheduleRequestForm()
-    return render(request, 'formstoadmin/index.html', {'form': form})
+    return render(request, 'formstoadmin/schedulerequest.html', {'form': form})
 
 
 @login_required
