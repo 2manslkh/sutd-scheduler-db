@@ -8,7 +8,7 @@ from django.core import serializers
 from django.contrib.auth.models import User
 import pandas as pd
 import copy
-from django.views.generic import TemplateView
+from django.views.generic import FormView
 # Create your views here.
 
 import csv
@@ -54,14 +54,14 @@ def inputModule(request):
     return render(request, 'formstoadmin/inputmodule.html', {'form': module_form})
 
 
-class InputClassInfo(TemplateView):
+class InputClassInfo(FormView):
     template_name = "formstoadmin/inputclass.html"
 
     def get(self, request):
         form = inputClassInformation()
         classes = Class.objects.all()
-        print(classes)
-        return render(request, self.template_name, {'form': form})
+        context = {'form': form, 'classes': classes}
+        return render(request, self.template_name, context)
 
     def post(self, request):
         form = inputClassInformation(request.POST)

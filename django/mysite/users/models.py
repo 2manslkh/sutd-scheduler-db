@@ -24,6 +24,9 @@ class Module(models.Model):
     lectures_per_week = models.CharField(max_length=200, default="")
     labs_per_week = models.CharField(max_length=200, default="")
 
+    def __str__(self):
+        return self.subject
+
 
 class Class(models.Model):
     module = models.ForeignKey(Module, on_delete=models.CASCADE, default="")

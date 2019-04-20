@@ -81,7 +81,7 @@ class inputModuleInformation(forms.Form):
 
 
 class inputClassInformation(forms.Form):
-    module = forms.CharField(disabled=True, required=False)
+    module = forms.ModelChoiceField(queryset=Module.objects.all())
     title = forms.CharField(disabled=True, required=False)
     pillar = forms.CharField(disabled=True, required=False)
     Type = forms.CharField(disabled=True, required=False)
@@ -93,6 +93,3 @@ class inputClassInformation(forms.Form):
     description = forms.CharField()
     makeup = forms.CharField()
     assigned_professors = forms.CharField(help_text="Please separate professors\' names with a comma")
-
-    def __init__(self, *args, **kwargs):
-        user = kwargs.pop('user')
