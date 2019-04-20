@@ -38,7 +38,7 @@ def scheduleRequest(request):
             s.save()
             form = ScheduleRequestForm()
     else:
-        form = ScheduleRequestForm()
+        form = ScheduleRequestForm(initial={'name': request.user.get_full_name()}) # or use user.get_username() for username
     return render(request, 'formstoadmin/schedulerequest.html', {'form': form})
 
 
