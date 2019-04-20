@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import JsonResponse, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
-from .forms import ScheduleRequestForm, inputModuleInformation, EventRequestForm, inputClassInformation
+from .forms import ScheduleRequestForm, InputModuleInformation, EventRequestForm, InputClassInformation
 from django.contrib import messages
 from .models import ScheduleRequest
 from django.core import serializers
@@ -38,19 +38,35 @@ def scheduleRequest(request):
             s.save()
             form = ScheduleRequestForm()
     else:
-        form = ScheduleRequestForm(initial={'name': request.user.get_full_name()}) # or use user.get_username() for username
+        form = ScheduleRequestForm(initial={'name': request.user.get_full_name()})  # or use user.get_username() for username
     return render(request, 'formstoadmin/schedulerequest.html', {'form': form})
 
 
 @login_required
 def inputModule(request):
     if request.method == "POST":
-        module_form = inputModuleInformation(request.POST)
+        module_form = InputModuleInformation(request.POST)
         if module_form.is_valid():
             messages.success(request, 'Input module form submitted')
-            module_form.save()
+            data = module_form.cleaned_data
+            s = Module(
+                subject=data['subject'],
+                code=data['subject_code'],
+                pillar=data['pillar'],
+                term=data['term'],
+                core=data['core'],
+                subject_lead=data['subject_lead'],
+                cohort_size=data['cohort_size'],
+                enrolment_size=data['enrolment_size'],
+                cohorts=data['cohorts'],
+                cohorts_per_week=data['cohorts_per_week'],
+                lectures_per_week=data['lectures_per_week'],
+                labs_per_week=data['labs_per_week'],
+            )
+            s.save()
+            module_form = InputModuleInformation()
     else:
-        module_form = inputModuleInformation()
+        module_form = InputModuleInformation()
     return render(request, 'formstoadmin/inputmodule.html', {'form': module_form})
 
 
@@ -58,13 +74,13 @@ class InputClassInfo(FormView):
     template_name = "formstoadmin/inputclass.html"
 
     def get(self, request):
-        form = inputClassInformation()
+        form = InputClassInformation()
         classes = Class.objects.all()
         context = {'form': form, 'classes': classes}
         return render(request, self.template_name, context)
 
     def post(self, request):
-        form = inputClassInformation(request.POST)
+        form = InputClassInformation(request.POST)
         if form.is_valid():
             form.save()
         return render(request, self.template_name, {'form': form})

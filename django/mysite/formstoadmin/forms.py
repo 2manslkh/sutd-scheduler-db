@@ -50,37 +50,37 @@ LOCATION_TYPE = (
 )
 
 CLASSES = (
-    ('lab', "Lab"),
-    ('cohort', "Cohort Class"),
-    ('lecture', "Lecture"),
+    ('Lab', "Lab"),
+    ('Cohort Class', "Cohort Class"),
+    ('Lecture', "Lecture"),
 )
 
 PILLARS = (
-    ('asd', 'ASD'),
-    ('epd', 'EPD'),
-    ('esd', 'ESD'),
-    ('istd', 'ISTD'),
-    ('hass', 'HASS'),
+    ('ASD', 'ASD'),
+    ('EPD', 'EPD'),
+    ('ESD', 'ESD'),
+    ('ISTD', 'ISTD'),
+    ('HASS', 'HASS'),
 )
 # TODO: FOR RELEVANT FIELDS, SEARCH FROM DATABASE ONCE FIELDS ARE BEING FILLED
 
 
-class inputModuleInformation(forms.Form):
-    subject = forms.CharField(required=False, disabled=True)
+class InputModuleInformation(forms.Form):
+    subject = forms.CharField()  # $, disabled=True)
     pillar = forms.ChoiceField(choices=PILLARS)
     subject_code = forms.CharField()
-    term = forms.CharField()
+    term = forms.IntegerField()
     core = forms.CharField(widget=forms.Textarea(attrs={'rows': 1, 'placeholder': "True/False"}))
-    subject_lead = forms.CharField()
-    cohort_size = forms.CharField()
-    cohorts = forms.CharField()
-    enrolment_size = forms.CharField()
-    cohorts_per_week = forms.CharField()
-    lectures_per_week = forms.CharField(required=False)
-    labs_per_week = forms.CharField(required=False)
+    subject_lead = forms.CharField(help_text="Please separate professors\' names with a comma")
+    cohort_size = forms.IntegerField()
+    cohorts = forms.IntegerField(label="Number of Cohort Classes")
+    enrolment_size = forms.IntegerField()
+    cohorts_per_week = forms.IntegerField()
+    lectures_per_week = forms.IntegerField(required=False)
+    labs_per_week = forms.IntegerField(required=False)
 
 
-class inputClassInformation(forms.Form):
+class InputClassInformation(forms.Form):
     module = forms.ModelChoiceField(queryset=Module.objects.all())
     title = forms.CharField(disabled=True, required=False)
     pillar = forms.CharField(disabled=True, required=False)
