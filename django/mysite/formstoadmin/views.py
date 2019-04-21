@@ -82,7 +82,32 @@ class InputClassInfo(FormView):
     def post(self, request):
         form = InputClassInformation(request.POST)
         if form.is_valid():
-            form.save()
+            data = form.cleaned_data
+            subject = data['module']
+            if Class.objects.filter(module__subject=subject).exists():
+                a = Class.objects.filter(module__subject=subject)[0].pk
+                form = InputClassInformation(request.POST, instance=a)
+                form.save()
+
+            else:
+                f = Class(
+                    module=data['module'],
+                    title=data['title'],
+                    pillar=data['pillar'],
+                    Type=data['Type'],
+                    class_related=data['class_related'],
+                    location=data['location'],
+                    duration=data['duration'],
+                    start=data['start'],
+                    end=data['end'],
+                    description=data['description'],
+                    makeup=data['makeup'],
+                    assigned_professors=data['assigned_professors'],
+                )
+                f.save()
+                form = InputClassInformation()
+
+            messages.success(request, 'Class information updated')
         return render(request, self.template_name, {'form': form})
 
 

@@ -93,3 +93,13 @@ class InputClassInformation(forms.Form):
     description = forms.CharField()
     makeup = forms.CharField()
     assigned_professors = forms.CharField(help_text="Please separate professors\' names with a comma")
+
+# useful queries
+'''
+Class.objects.filter(module__subject="Documentary")
+
+queryset = Class.objects.all()
+for query in queryset:
+    print (query.module)
+    print (query.title)
+'''
