@@ -62,7 +62,6 @@ PILLARS = (
     ('ISTD', 'ISTD'),
     ('HASS', 'HASS'),
 )
-# TODO: FOR RELEVANT FIELDS, SEARCH FROM DATABASE ONCE FIELDS ARE BEING FILLED
 
 
 class InputModuleInformation(forms.Form):
@@ -80,7 +79,11 @@ class InputModuleInformation(forms.Form):
     labs_per_week = forms.IntegerField(required=False)
 
 
-class InputClassInformation(forms.Form):
+class InputClassInformation(forms.ModelForm):
+    class Meta:
+        model = Class
+        fields = '__all__'
+
     module = forms.ModelChoiceField(queryset=Module.objects.all())
     title = forms.CharField(disabled=True, required=False)
     pillar = forms.CharField(disabled=True, required=False)
@@ -93,6 +96,7 @@ class InputClassInformation(forms.Form):
     description = forms.CharField()
     makeup = forms.CharField()
     assigned_professors = forms.CharField(help_text="Please separate professors\' names with a comma")
+
 
 # useful queries
 '''

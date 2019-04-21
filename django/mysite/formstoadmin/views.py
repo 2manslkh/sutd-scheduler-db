@@ -85,29 +85,16 @@ class InputClassInfo(FormView):
             data = form.cleaned_data
             subject = data['module']
             if Class.objects.filter(module__subject=subject).exists():
-                a = Class.objects.filter(module__subject=subject)[0].pk
+                a = Class.objects.filter(module__subject=subject)[0]
                 form = InputClassInformation(request.POST, instance=a)
                 form.save()
+                messages.success(request, 'Class information updated')
 
             else:
-                f = Class(
-                    module=data['module'],
-                    title=data['title'],
-                    pillar=data['pillar'],
-                    Type=data['Type'],
-                    class_related=data['class_related'],
-                    location=data['location'],
-                    duration=data['duration'],
-                    start=data['start'],
-                    end=data['end'],
-                    description=data['description'],
-                    makeup=data['makeup'],
-                    assigned_professors=data['assigned_professors'],
-                )
                 f.save()
                 form = InputClassInformation()
+                messages.success(request, 'Class information added')
 
-            messages.success(request, 'Class information updated')
         return render(request, self.template_name, {'form': form})
 
 
@@ -125,10 +112,18 @@ def addEvent(request):
 
 
 @login_required
-def viewRequests(request):
-    query_results = ScheduleRequest.objects.all()
-    fields = ScheduleRequest._meta.get_fields()
-    return render(request, 'formstoadmin/viewrequests.html', {"query_results": query_results})
+def viewRequests(request, approved=''):
+    if request.method == "GET":
+        query_results = ScheduleRequest.objects.all()
+        fields = ScheduleRequest._meta.get_fields()
+        return render(request, 'formstoadmin/viewrequests.html', {"query_results": query_results})
+
+
+def request_action(request, requestID, status):
+    if request.method == "GET":
+        query_results = ScheduleRequest.objects.all()
+        fields = ScheduleRequest._meta.get_fields()
+        return render(request, 'formstoadmin/viewrequests.html', {"query_results": query_results})
 
 
 def generate_courses(request):
