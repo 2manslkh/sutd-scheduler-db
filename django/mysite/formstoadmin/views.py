@@ -28,7 +28,7 @@ def scheduleRequest(request):
             # def save(self):
             data = form.cleaned_data
             s = ScheduleRequest(
-                name=data['name'],
+                name=request.user.get_full_name(),
                 course_code=data['course_code'],
                 class_related=data['class_related'],
                 preferred_timings=data['preferred_timings'],

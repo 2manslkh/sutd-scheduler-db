@@ -15,7 +15,7 @@ help_text=""
 
 
 class ScheduleRequestForm(forms.Form):
-    name = forms.CharField(disabled=True)
+    name = forms.CharField(disabled=True, required=False)
     course_code = forms.CharField(required=True, widget=forms.Textarea(attrs={'rows': 1, 'cols': 20, 'placeholder': "Enter the course code this request is relevant to"}))
 
     class_related = forms.CharField(required=True, widget=forms.Textarea(attrs={'rows': 2, 'cols': 20, 'placeholder': "Input relevant classes separated by a comma. Eg. CC1, CC2."}))
