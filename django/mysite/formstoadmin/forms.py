@@ -1,36 +1,45 @@
 from django import forms
 import datetime
-from django_select2.forms import ModelSelect2Widget
 from users.models import Module, Class
+
 PREFERRED_TIMINGS = (
     ('morning', 'Morning'),
-    ('earlyAfternoon', 'Early Afternoon'),
-    ('lateAfternoon', 'Late Afternoon')
+    ('afternoon', 'Afternoon'),
 )
 
-# useful form fields
-'''
-help_text=""
-'''
+LESSON_TYPE = (
+    ('Lecture', 'Lecture'),
+    ('Cohort Class', 'Cohort Class'),
+)
+
+LOCATION_TYPE = (
+    ('LT', "Lecture Theatre"),
+    ('Cohort', "Cohort classroom"),
+)
+
+CLASSES = (
+    ('Lab', "Lab"),
+    ('Cohort Class', "Cohort Class"),
+    ('Lecture', "Lecture"),
+)
+
+PILLARS = (
+    ('ASD', 'ASD'),
+    ('EPD', 'EPD'),
+    ('ESD', 'ESD'),
+    ('ISTD', 'ISTD'),
+    ('HASS', 'HASS'),
+)
 
 
 class ScheduleRequestForm(forms.Form):
-    name = forms.CharField(disabled=True, initial="Sudipta Chattopadhyay")
-    course_code = forms.CharField(required=True, widget=forms.Textarea(attrs={'rows': 1, 'cols': 20, 'placeholder': "Enter the course code this request is relevant to"}))
-
-    class_related = forms.CharField(required=True, widget=forms.Textarea(attrs={'rows': 3, 'cols': 20, 'placeholder': "Input relevant classes separated by a comma. Eg. CC1, CC2. \n**This will be replaced by a multiple choice question with options that fetch from database"}))
+    name = forms.CharField(disabled=True, required=False)
+    course_name = forms.ModelChoiceField(queryset=Module.objects.all().order_by('subject').distinct())
+    Type = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple, choices=LESSON_TYPE)
+    class_related = forms.CharField(required=True, widget=forms.Textarea(attrs={'rows': 2, 'cols': 20, 'placeholder': "Input relevant classes separated by a comma. Eg. CC1, CC2."}))
     preferred_timings = forms.MultipleChoiceField(required=False, widget=forms.CheckboxSelectMultiple, choices=PREFERRED_TIMINGS)
     reasons = forms.CharField(widget=forms.Textarea(attrs={'rows': 3, 'cols': 20}))
     remarks = forms.CharField(required=False, widget=forms.Textarea(attrs={'rows': 3, 'cols': 20}))
-
-
-PILLARS = (
-    ('asd', 'ASD'),
-    ('epd', 'EPD'),
-    ('esd', 'ESD'),
-    ('istd', 'ISTD'),
-    ('hass', 'HASS'),
-)
 
 
 class EventRequestForm(forms.Form):
@@ -44,37 +53,50 @@ class EventRequestForm(forms.Form):
     duration = forms.DurationField()
 
 
-LOCATION_TYPE = (
-    ('LT', "Lecture Theatre"),
-    ('Cohort', "Cohort classroom"),
-)
-
-CLASSES = (
-    ('lab', "Lab"),
-    ('cohort', "Cohort Class"),
-    ('lecture', "Lecture"),
-)
-
-PILLARS = (
-    ('asd', 'ASD'),
-    ('epd', 'EPD'),
-    ('esd', 'ESD'),
-    ('istd', 'ISTD'),
-    ('hass', 'HASS'),
-)
-# TODO: FOR RELEVANT FIELDS, SEARCH FROM DATABASE ONCE FIELDS ARE BEING FILLED
-
-
-class inputModuleInformation(forms.Form):
-    subject = forms.CharField(required=False, disabled=True)
+class InputModuleInformation(forms.Form):
+    class Meta:
+        model = Module
+        fields = "__all__"
+    subject = forms.CharField()  # $, disabled=True)
     pillar = forms.ChoiceField(choices=PILLARS)
     subject_code = forms.CharField()
-    term = forms.CharField()
+    term = forms.IntegerField(min_value=1, max_value=10)
     core = forms.CharField(widget=forms.Textarea(attrs={'rows': 1, 'placeholder': "True/False"}))
-    subject_lead = forms.CharField()
-    cohort_size = forms.CharField()
-    cohorts = forms.CharField()
-    enrolment_size = forms.CharField()
-    cohorts_per_week = forms.CharField()
-    lectures_per_week = forms.CharField(required=False)
-    labs_per_week = forms.CharField(required=False)
+    subject_lead = forms.CharField(help_text="Please separate professors\' names with a comma")
+    cohort_size = forms.IntegerField(min_value=1)
+    cohorts = forms.IntegerField(min_value=1, label="Number of Cohort Classes")
+    enrolment_size = forms.IntegerField(min_value=1)
+    cohorts_per_week = forms.IntegerField(min_value=0)
+    lectures_per_week = forms.IntegerField(required=False, min_value=0)
+    labs_per_week = forms.IntegerField(required=False, min_value=0)
+
+
+class InputClassInformation(forms.ModelForm):
+    class Meta:
+        model = Class
+        fields = '__all__'
+
+    module = forms.ModelChoiceField(queryset=Module.objects.all().order_by('subject').distinct())
+    title = forms.CharField(disabled=True, required=False)
+    pillar = forms.CharField(disabled=True, required=False)
+    Type = forms.CharField(disabled=True, required=False)
+    class_related = forms.CharField(disabled=True, required=False)
+    location = forms.CharField()
+    duration = forms.CharField(disabled=True, required=False)
+    start = forms.CharField(disabled=True, required=False)
+    end = forms.CharField(disabled=True, required=False)
+    description = forms.CharField()
+    makeup = forms.CharField()
+    assigned_professors = forms.CharField(help_text="Please separate professors\' names with a comma")
+    day = forms.CharField(disabled=True, required=False)
+
+
+# useful queries
+'''
+Class.objects.filter(module__subject="Documentary")
+
+queryset = Class.objects.all()
+for query in queryset:
+    print (query.module)
+    print (query.title)
+'''

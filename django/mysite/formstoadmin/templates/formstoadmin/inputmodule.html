@@ -6,13 +6,12 @@
 
 {% block morejs %}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
-<script src="..\..\static\formstoadmin\fileupload.js"></script>
 {% endblock %}
 
 {% load crispy_forms_tags %}
 
 {% block content %}
-
+<h2>Input Module Information</h2>
 <a href="{% url 'module-upload' %}">Bulk upload via CSV</a>
 
  <form method="post">
