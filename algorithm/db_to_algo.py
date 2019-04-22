@@ -18,6 +18,7 @@ class db_helper:
     
     def print_all_columns(self,table_name):
         c = self.cursor
+        #if "\" in 
         c.execute(f'SELECT * FROM {table_name}')
         print(list(map(lambda x: x[0], c.description)))
 
@@ -26,9 +27,9 @@ class db_helper:
         a = ""
         for i in list_of_columns:
             a += i + ","
+            print(i)
         a = a[0:len(a)-1]
-        newdata = (a,table_name,)
-        c.execute(f"SELECT {a} FROM {table_name}")  
+        c.execute(f"SELECT {a} FROM {table_name}") 
         return c.fetchall()
 
     # Takes input from algorithm and puts it back into the classtable

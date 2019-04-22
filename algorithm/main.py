@@ -1,30 +1,116 @@
-'''
-TODO:
-    1. HASS->fixed time slot
-    2. No cohort should have same course more than once everyday (except lecture) 
-    3. Input hard constraints from professors whether they would like to have lecture(s) before/after cohort(s) 
-    4. Final clarification: Classroom is an input from professors
-    5.
-
-'''
 import random, copy
 import time
 from Classes import Group, Professor, CourseClass, Room, Slot
 from math import ceil, log2
 import math
 import csv
-import db_to_algo as dbh
-
-"""
-Get inputs from sqlite DB:
-dbh = db_helper("db.sqlite3")
-dbh.print_all_columns("users_class")
-dbh.get_columns(["title","assigned_professors","class_related","location","pillar","duration","type"],"users_class"))
-"""
+import db_to_algo as dba
 
 
-initial_slots = [Slot([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16], 1), Slot([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16], 2), Slot([1,2,3,4,5,6,7,8,9,10], 3),
-              Slot([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16], 4), Slot([1,2,3,4,5,6,7,8,9,10], 5)]
+dbh = dba.db_helper(r"C:\Users\Desktop\esc\sutd-scheduler-db\django\mysite\db2.sqlite3")
+#dbh2 = dba.db_helper("db2.sqlite3")
+data = dbh.get_columns(["id","title","assigned_professors","class_related","location","pillar","duration","type"],"users_class")
+#soft = dbh2.get_columns(["id","name","course_code","class_related","preferred_timings", "reasons", "remarks"],"formstoadmin_schedulerequest")
+soft = [(1, 'Gemma Roig', 'Introduction to Algorithms', '4CISTD1', '1.5', 'cohort', 'morning', 'balala', 'lll', True)]
+
+def db_to_ls():
+    new_data = []
+    for d in data:
+        #print(d)
+        new_d = list(d)
+        new_data.append(new_d)
+    
+       
+    for i in range(len(new_data)):
+        #print(new_data[i])
+        new_data[i][2] = new_data[i][2].split(",")
+        new_data[i][3] = new_data[i][3].split(",")
+        new_data[i][6] = int(float(new_data[i][6]) * 2)
+        #print(new_data[i])
+    #print(new_data)
+     
+        count_C = 2
+    for i in range(len(new_data)-1):
+    
+        new_data[0][4] = "CC1"
+        if new_data[i][1] == new_data[i+1][1]:
+            new_data[i+1][4] = new_data[i][4]
+            
+        else:
+            new_data[i+1][4] = "CC" + str(count_C)
+            
+    for j in range(len(new_data)):
+        if new_data[j][-1] == "LEC" or new_data[j][-1] == "LAB":
+            new_data[j][4] = "lt" + str(j) 
+        #print(new_data[j])
+        
+    
+    inputls = []
+    for i in range(40,51):
+        inputls.append(new_data[i])
+    
+    #return new_data
+    return inputls    
+
+inputls = db_to_ls()
+
+for i in range(len(soft)):
+    if soft[i][-1] == True:
+        for j in range(len(inputls)):
+        
+        #approve
+        
+            
+            #prof
+            
+            if soft[i][1] in inputls[j][2]:
+                
+                #course
+                if inputls[j][1] == soft[i][2]:
+                    
+                    #class
+                    if inputls[j][3] == soft[i][3].split():
+                        
+                        #duration
+                        if inputls[j][6] == int(float(soft[i][4])*2):
+                            
+                            #type
+                            if soft[i][5] == "":
+                                if soft[i][6] == "morning":
+                                    inputls[j][-1] = "morning"
+                                    
+                                elif soft[i][6] == "afternoon":
+                                    inputls[i][6] = "afternoon"
+                            elif soft[i][5] == "lecture" and inputls[i][7] == "LEC":
+                                if soft[i][6] == "morning":
+                                    inputls[j][-1] = "morning"
+                                elif soft[i][6] == "afternoon":
+                                    inputls[i][6] = "afternoon"
+                            elif soft[i][5] == "cohort" and inputls[i][7] == "CBL":
+                                print("KKKKKKKK",soft[i][1], inputls[j])
+                                if soft[i][6] == "morning":
+                                    inputls[j][-1] = "morning"
+                                elif soft[i][6] == "afternoon":
+                                    inputls[i][6] = "afternoon"
+print(inputls)
+                            
+                                    
+                            
+                            
+        
+
+#print("data!!!!", new_data)
+
+initial_slots = [Slot([1,2,3,4,5,6,7,8,9,10,11,12,13], 1), Slot([4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19], 2), Slot([1,2,3,4,5,6,7,8,9], 3),
+              Slot([1,2,3,4,5,6,7,8,9,10,11,12,13], 4), Slot([1,2,3,4,5,6], 5)]
+initial_slots_HASS = [Slot([14,15,16,17,18,19], 1, True), Slot([1,2,3], 2, True),
+              Slot([14,15,16,17,18,19], 4, True), Slot([7,8,9,10], 5, True)]
+initial_slots_other = [Slot([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19], 1), Slot([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19], 2), Slot([1,2,3,4,5,6,7,8,9], 3),
+              Slot([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19], 4), Slot([1,2,3,4,5,6,7,8,9,10], 5)]
+temp = initial_slots + initial_slots_HASS + initial_slots_other
+
+Slot.slots = copy.deepcopy(temp)
+print(initial_slots_HASS)
 given_duration = 0
 for i in range(len(initial_slots)):
     given_duration = given_duration + len(initial_slots[i].block)
@@ -39,12 +125,12 @@ Professor.professors = []
 Group.groups = []
 Room.rooms = []
 bits_needed_backup_store = {}  # to improve performance
+'''
+inputls = [[500051, "CSE", ["Natalie"], ["Cl02"], "CC12","ISTD",3], [500052, "CSE", ["David"], ["Cl03"], "CC12","ISTD",3], [500053, "CSE", ["Natalie"], ["Cl01"], "CC12","ISTD", 3],\
+           [500054, "CSE", ["Natalie"], ["Cl02"], "CC12","ISTD",3], [500055, "CSE", ["David"], ["Cl03"], "CC12","ISTD",3], [500056, "CSE", ["Natalie"], ["Cl01"], "CC12","ISTD",3],\
+           [500057, "CSE lab", ["Natalie", "David"], ["Cl01", "Cl02", "Cl03"], "lt2", "ISTD", 4, "lab", "morning"], \
+           [500031, "ESC", ["Sun Jun"], ["Cl02"], "CC11","ISTD",3], [500032, "ESC", ["Sun Jun"], ["Cl03"], "CC11","ISTD",3], [500033, "ESC", ["Sun Jun"], ["Cl01"], "CC11","ISTD",3]]
 
-inputls = [["CSE", ["Natalie"], ["Cl02"], "CC12","ISTD",3],\
-           ["CSE", ["David"], ["Cl03"], "CC12","ISTD",3],\
-           ["CSE", ["Natalie"], ["Cl01"], "CC12","ISTD",3],\
-           ["CSE", ["Natalie"], ["Cl02"], "CC12","ISTD",3], ["CSE", ["David"], ["Cl03"], "CC12","ISTD",3], ["CSE", ["Natalie"], ["Cl01"], "CC12","ISTD",3],\
-           ["CSE lab", ["Natalie", "David"], ["Cl01", "Cl02", "Cl03"], "lt2", "ISTD", 4, "lab"], \
            ["ESC", ["Sun Jun"], ["Cl02"], "CC11","ISTD",3], ["ESC", ["Sun Jun"], ["Cl03"], "CC11","ISTD",3], ["ESC", ["Sun Jun"], ["Cl01"], "CC11","ISTD",3],\
            ["ESC", ["Sun Jun"], ["Cl02"], "CC11","ISTD",4], ["ESC", ["Sun Jun"], ["Cl03"], "CC11","ISTD",4], ["ESC", ["Sun Jun"], ["Cl01"], "CC11","ISTD",4],\
            ["P&S lec", ["Tony", "ABC"], ["Cl01", "Cl02", "Cl03"],"lt5", "ISTD", 3, "lecture", "morning"], ["P&S lec", ["Tony", "ABC"], ["Cl01", "Cl02", "Cl03"], "lt5", "ISTD", 3, "lecture", "morning"],\
@@ -66,24 +152,24 @@ print(total_duration)
 def input_info(): 
 
     for e in inputls:
-        if CourseClass.find(e[0], e[1], e[6]) == -1:
-            CourseClass.classes.append(CourseClass(e[0], e[1], e[6], e[5]))
+        if CourseClass.find(e[0], e[1], e[6], e[7]) == -1:
+            CourseClass.classes.append(CourseClass(e[0], e[1], e[6], e[5], e[7]))
         if Professor.find(e[2]) == -1:
             Professor.professors.append(Professor(e[2]))
         if Group.find(e[3]) == -1:
             Group.groups.append(Group(e[3]))  
         if Room.find(e[4]) == -1:
             Room.rooms.append(Room(e[4]))
-        if "lecture" in e:
-            CourseClass.classes[CourseClass.find(e[0], e[1], e[6])].isLecture = True
-        if "lab" in e:
-            CourseClass.classes[CourseClass.find(e[0], e[1], e[6])].isLab = True
+        if "LEC" in e:
+            CourseClass.classes[CourseClass.find(e[0], e[1], e[6], e[7])].isLecture = True
+        if "LAB" in e:
+            CourseClass.classes[CourseClass.find(e[0], e[1], e[6], e[7])].isLab = True
         if "HASS" in e:
-            CourseClass.classes[CourseClass.find(e[0], e[1], e[6])].isHASS = True
+            CourseClass.classes[CourseClass.find(e[0], e[1], e[6], e[7])].isHASS = True
         if "morning" in e:
-            CourseClass.classes[CourseClass.find(e[0], e[1], e[6])].isMorning = True
+            CourseClass.classes[CourseClass.find(e[0], e[1], e[6], e[7])].isMorning = True
         if "afternoon" in e:
-            CourseClass.classes[CourseClass.find(e[0], e[1], e[6])].isAfternoon = True
+            CourseClass.classes[CourseClass.find(e[0], e[1], e[6], e[7])].isAfternoon = True
 
    
 def get_cpg():
@@ -91,7 +177,7 @@ def get_cpg():
     len1 = len(inputls)
     for i in range(len1):
         
-       cpg.append(CourseClass.find(inputls[i][0], inputls[i][1], inputls[i][6]))
+       cpg.append(CourseClass.find(inputls[i][0], inputls[i][1], inputls[i][6], inputls[i][7]))
        cpg.append(Professor.find(inputls[i][2]))
        cpg.append(Group.find(inputls[i][3]))
        cpg.append(Room.find(inputls[i][4]))
@@ -561,7 +647,7 @@ def print_chromosome_csv(max_chromosomes):
           Professor.professors[int(professor_bits(chromosome), 2)], " | ",
           Group.groups[int(group_bits(chromosome), 2)], " | ",
           Room.rooms[int(lt_bits(chromosome), 2)], " | ",
-          Slot.slots[int(slot_bits(chromosome), 2)])
+          Slot.slots[int(slot_bits(chromosome), 2)], Slot.slots[int(slot_bits(chromosome), 2)].day)
     
     out.close()
     print("finish csv writing")
