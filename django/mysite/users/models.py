@@ -33,6 +33,7 @@ class Class(models.Model):
     duration =models.CharField(max_length=200, default = "")
     start = models.CharField(max_length=200, default = "")
     end = models.CharField(max_length=200, default = "")
+    assigned_professors =models.CharField(max_length=200, default = "")
     description= models.CharField(max_length=200, default = "")
     makeup = models.CharField(max_length=200, default = "")
-    assigned_professors =models.CharField(max_length=200, default = "")
+ 

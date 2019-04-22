@@ -46,4 +46,8 @@ class db_helper:
         return None
 
 
+dbh = db_helper("db.sqlite3")
+a = dbh.get_columns(["id","title","assigned_professors","class_related","location","pillar","duration","type"],"users_class")
+print(a)
+
 
