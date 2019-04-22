@@ -1,35 +1,120 @@
-'''
-TODO:
-    1. HASS->fixed time slot
-    2. No cohort should have same course more than once everyday (except lecture) 
-    3. Input hard constraints from professors whether they would like to have lecture(s) before/after cohort(s) 
-    4. Final clarification: Classroom is an input from professors
-    5.
-
-'''
 import random, copy
 import time
 from Classes import Group, Professor, CourseClass, Room, Slot
 from math import ceil, log2
 import math
 import csv
-import db_to_algo as dbh
-
-"""
-Get inputs from sqlite DB:
-dbh = db_helper("db.sqlite3")
-dbh.print_all_columns("users_class")
-dbh.get_columns(["title","assigned_professors","class_related","location","pillar","duration","type"],"users_class"))
-"""
+import db_to_algo as dba
 
 
-initial_slots = [Slot([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16], 1), Slot([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16], 2), Slot([1,2,3,4,5,6,7,8,9,10], 3),
-              Slot([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16], 4), Slot([1,2,3,4,5,6,7,8,9,10], 5)]
+dbh = dba.db_helper(r"C:\Users\Desktop\esc\sutd-scheduler-db\django\mysite\db2.sqlite3")
+#dbh2 = dba.db_helper("db2.sqlite3")
+data = dbh.get_columns(["id","title","assigned_professors","class_related","location","pillar","duration","type"],"users_class")
+#soft = dbh2.get_columns(["id","name","course_code","class_related","preferred_timings", "reasons", "remarks"],"formstoadmin_schedulerequest")
+soft = [(1, 'Gemma Roig', 'Introduction to Algorithms', '4CISTD1', '1.5', 'cohort', 'morning', 'balala', 'lll', True)]
+
+def db_to_ls():
+    new_data = []
+    for d in data:
+        #print(d)
+        new_d = list(d)
+        new_data.append(new_d)
+    
+       
+    for i in range(len(new_data)):
+        #print(new_data[i])
+        new_data[i][2] = new_data[i][2].split(",")
+        new_data[i][3] = new_data[i][3].split(",")
+        new_data[i][6] = int(float(new_data[i][6]) * 2)
+        #print(new_data[i])
+    #print(new_data)
+     
+        count_C = 2
+    for i in range(len(new_data)-1):
+    
+        new_data[0][4] = "CC1"
+        if new_data[i][1] == new_data[i+1][1]:
+            new_data[i+1][4] = new_data[i][4]
+            
+        else:
+            new_data[i+1][4] = "CC" + str(count_C)
+            
+    for j in range(len(new_data)):
+        if new_data[j][-1] == "LEC" or new_data[j][-1] == "LAB":
+            new_data[j][4] = "lt" + str(j) 
+        #print(new_data[j])
+        
+    
+    inputls = []
+    for i in range(40,51):
+        inputls.append(new_data[i])
+    
+    #return new_data
+    return inputls    
+
+inputls = db_to_ls()
+
+for i in range(len(soft)):
+    if soft[i][-1] == True:
+        for j in range(len(inputls)):
+        
+        #approve
+        
+            
+            #prof
+            
+            if soft[i][1] in inputls[j][2]:
+                
+                #course
+                if inputls[j][1] == soft[i][2]:
+                    
+                    #class
+                    if inputls[j][3] == soft[i][3].split():
+                        
+                        #duration
+                        if inputls[j][6] == int(float(soft[i][4])*2):
+                            
+                            #type
+                            if soft[i][5] == "":
+                                if soft[i][6] == "morning":
+                                    inputls[j][-1] = "morning"
+                                    
+                                elif soft[i][6] == "afternoon":
+                                    inputls[i][6] = "afternoon"
+                            elif soft[i][5] == "lecture" and inputls[i][7] == "LEC":
+                                if soft[i][6] == "morning":
+                                    inputls[j][-1] = "morning"
+                                elif soft[i][6] == "afternoon":
+                                    inputls[i][6] = "afternoon"
+                            elif soft[i][5] == "cohort" and inputls[i][7] == "CBL":
+                                print("KKKKKKKK",soft[i][1], inputls[j])
+                                if soft[i][6] == "morning":
+                                    inputls[j][-1] = "morning"
+                                elif soft[i][6] == "afternoon":
+                                    inputls[i][6] = "afternoon"
+print(inputls)
+                            
+                                    
+                            
+                            
+        
+
+#print("data!!!!", new_data)
+
+initial_slots = [Slot([1,2,3,4,5,6,7,8,9,10,11,12,13], 1), Slot([4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19], 2), Slot([1,2,3,4,5,6,7,8,9], 3),
+              Slot([1,2,3,4,5,6,7,8,9,10,11,12,13], 4), Slot([1,2,3,4,5,6], 5)]
+initial_slots_HASS = [Slot([14,15,16,17,18,19], 1, True), Slot([1,2,3], 2, True),
+              Slot([14,15,16,17,18,19], 4, True), Slot([7,8,9,10], 5, True)]
+initial_slots_other = [Slot([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19], 1), Slot([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19], 2), Slot([1,2,3,4,5,6,7,8,9], 3),
+              Slot([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19], 4), Slot([1,2,3,4,5,6,7,8,9,10], 5)]
+temp = initial_slots + initial_slots_HASS + initial_slots_other
+
+Slot.slots = copy.deepcopy(temp)
+print(initial_slots_HASS)
 given_duration = 0
 for i in range(len(initial_slots)):
     given_duration = given_duration + len(initial_slots[i].block)
 print(given_duration)
-Slot.slots = copy.deepcopy(initial_slots)
 
 max_score = None
 
@@ -40,21 +125,26 @@ Professor.professors = []
 Group.groups = []
 Room.rooms = []
 bits_needed_backup_store = {}  # to improve performance
+'''
+inputls = [[500051, "CSE", ["Natalie"], ["Cl02"], "CC12","ISTD",3], [500052, "CSE", ["David"], ["Cl03"], "CC12","ISTD",3], [500053, "CSE", ["Natalie"], ["Cl01"], "CC12","ISTD", 3],\
+           [500054, "CSE", ["Natalie"], ["Cl02"], "CC12","ISTD",3], [500055, "CSE", ["David"], ["Cl03"], "CC12","ISTD",3], [500056, "CSE", ["Natalie"], ["Cl01"], "CC12","ISTD",3],\
+           [500057, "CSE lab", ["Natalie", "David"], ["Cl01", "Cl02", "Cl03"], "lt2", "ISTD", 4, "lab", "morning"], \
+           [500031, "ESC", ["Sun Jun"], ["Cl02"], "CC11","ISTD",3], [500032, "ESC", ["Sun Jun"], ["Cl03"], "CC11","ISTD",3], [500033, "ESC", ["Sun Jun"], ["Cl01"], "CC11","ISTD",3]]
 
-inputls = [["CSE", ["Natalie"], ["Cl02"], "CC12","ISTD",3],\
-           ["CSE", ["David"], ["Cl03"], "CC12","ISTD",3],\
-           ["CSE", ["Natalie"], ["Cl01"], "CC12","ISTD",3],\
-           ["CSE", ["Natalie"], ["Cl02"], "CC12","ISTD",3], ["CSE", ["David"], ["Cl03"], "CC12","ISTD",3], ["CSE", ["Natalie"], ["Cl01"], "CC12","ISTD",3],\
-           ["CSE lab", ["Natalie", "David"], ["Cl01", "Cl02", "Cl03"], "lt2", "ISTD", 4, "lab"], \
-           ["ESC", ["Sun Jun"], ["Cl02"], "CC11","ISTD",3], ["ESC", ["Sun Jun"], ["Cl03"], "CC11","ISTD",3], ["ESC", ["Sun Jun"], ["Cl01"], "CC11","ISTD",3],\
            ["ESC", ["Sun Jun"], ["Cl02"], "CC11","ISTD",3], ["ESC", ["Sun Jun"], ["Cl03"], "CC11","ISTD",3], ["ESC", ["Sun Jun"], ["Cl01"], "CC11","ISTD",3],\
            ["ESC", ["Sun Jun"], ["Cl02"], "CC11","ISTD",4], ["ESC", ["Sun Jun"], ["Cl03"], "CC11","ISTD",4], ["ESC", ["Sun Jun"], ["Cl01"], "CC11","ISTD",4],\
-           ["P&S lec", ["Tony", "ABC"], ["Cl01", "Cl02", "Cl03"],"lt5", "ISTD", 3, "lecture"], ["P&S lec", ["Tony", "ABC"], ["Cl01", "Cl02", "Cl03"], "lt5", "ISTD", 3, "lecture"],\
-           ["P&S", ["Tony"], ["Cl01"], "CC12","ISTD",3], ["P&S", ["Tony"], ["Cl02"], "CC12","ISTD",3], ["P&S", ["Tony"], ["Cl03"], "CC12","ISTD",3]]
+           ["P&S lec", ["Tony", "ABC"], ["Cl01", "Cl02", "Cl03"],"lt5", "ISTD", 3, "lecture", "morning"], ["P&S lec", ["Tony", "ABC"], ["Cl01", "Cl02", "Cl03"], "lt5", "ISTD", 3, "lecture", "morning"],\
+           ["P&S", ["Tony"], ["Cl01"], "CC12","ISTD",3], ["P&S", ["Tony"], ["Cl02"], "CC12","ISTD",3], ["P&S", ["Tony"], ["Cl03"], "CC12","ISTD",3],\
+           ["MICROE", ["zsombor"], ["microe1"], "tt10", "HASS", 4], ["MICROE", ["zsombor"], ["microe2"], "tt10", "HASS", 4],\
+           ["MICROE lec", ["zsombor"], ["microe1", "microe2"], "lt4", "HASS", 2, "lecture", "morning"],
+           ["urban planning", ["Samsom Lim"], ["urban1"], "tt9", "HASS", 6], ["urban planning", ["Samsom Lim"], ["urban2"], "tt9", "HASS", 6],\
+           ["DW", ["Natalie"], ["FC01"], "CC01", "freshmore", 4], ["core design", ["Jackson"], ["ASD01"], "studio01", "ASD", 16]]
+'''
 
 total_duration = 0
 for inp in inputls:
-    total_duration = total_duration + inp[5]
+    #print(inp)
+    total_duration = total_duration + inp[6]
 print("total duration")
 print(total_duration)  
 
@@ -62,18 +152,24 @@ print(total_duration)
 def input_info(): 
 
     for e in inputls:
-        if CourseClass.find(e[0]) == -1:
-            CourseClass.classes.append(CourseClass(e[0],e[5],e[4]))
-        if Professor.find(e[1]) == -1:
-            Professor.professors.append(Professor(e[1]))
-        if Group.find(e[2]) == -1:
-            Group.groups.append(Group(e[2]))  
-        if Room.find(e[3]) == -1:
-            Room.rooms.append(Room(e[3]))
-        if "lecture" in e:
-            CourseClass.classes[CourseClass.find(e[0])].isLecture = True
-        if "lab" in e:
-            CourseClass.classes[CourseClass.find(e[0])].isLab = True
+        if CourseClass.find(e[0], e[1], e[6], e[7]) == -1:
+            CourseClass.classes.append(CourseClass(e[0], e[1], e[6], e[5], e[7]))
+        if Professor.find(e[2]) == -1:
+            Professor.professors.append(Professor(e[2]))
+        if Group.find(e[3]) == -1:
+            Group.groups.append(Group(e[3]))  
+        if Room.find(e[4]) == -1:
+            Room.rooms.append(Room(e[4]))
+        if "LEC" in e:
+            CourseClass.classes[CourseClass.find(e[0], e[1], e[6], e[7])].isLecture = True
+        if "LAB" in e:
+            CourseClass.classes[CourseClass.find(e[0], e[1], e[6], e[7])].isLab = True
+        if "HASS" in e:
+            CourseClass.classes[CourseClass.find(e[0], e[1], e[6], e[7])].isHASS = True
+        if "morning" in e:
+            CourseClass.classes[CourseClass.find(e[0], e[1], e[6], e[7])].isMorning = True
+        if "afternoon" in e:
+            CourseClass.classes[CourseClass.find(e[0], e[1], e[6], e[7])].isAfternoon = True
 
    
 def get_cpg():
@@ -81,10 +177,10 @@ def get_cpg():
     len1 = len(inputls)
     for i in range(len1):
         
-       cpg.append(CourseClass.find(inputls[i][0]))
-       cpg.append(Professor.find(inputls[i][1]))
-       cpg.append(Group.find(inputls[i][2]))
-       cpg.append(Room.find(inputls[i][3]))
+       cpg.append(CourseClass.find(inputls[i][0], inputls[i][1], inputls[i][6], inputls[i][7]))
+       cpg.append(Professor.find(inputls[i][2]))
+       cpg.append(Group.find(inputls[i][3]))
+       cpg.append(Room.find(inputls[i][4]))
 
 
 def bits_needed(x):
@@ -113,8 +209,7 @@ def convert_input_to_bin():
            CourseClass.find("CSE"),Professor.find("Natalie"),Group.find("Cl01")]
     '''
     get_cpg()
-    print(type(cpg))
-    print(cpg)
+
     for _c in range(len(cpg)):
         #print(type(_c))
         
@@ -126,23 +221,19 @@ def convert_input_to_bin():
             cpg[_c] = (bin(cpg[_c])[2:]).rjust(bits_needed(Group.groups), '0')
         else:
             cpg[_c] = (bin(cpg[_c])[2:]).rjust(bits_needed(Room.rooms), '0')
-    print("here")
-    print(cpg)
 
     cpg = join_cpg_pair(cpg)
-    print("there")
-    print(cpg)
-    print(Slot.slots)
+
     max_size = 0
-    for s in Slot.slots:
+    for s in initial_slots:
         if len(s.block) > max_size:
             max_size = len(s.block)
             
-    print(max_size)
+
     for t in range(len(Slot.slots)):
         slots.append((bin(t)[2:]).rjust(bits_needed(Slot.slots) * ceil(log2(max_size)), '0'))
-    print(slots)
-    max_score = (len(cpg) - 1) * 3 + len(cpg) * 3
+
+
 
 
 def course_bits(chromosome):
@@ -188,153 +279,295 @@ def slot_clash(a, b):
 
 def appropriate_cohort(chromosomes):
     scores = 0   
+    max_score = 0
     for i in range(len(chromosomes)-1):
         course_cohort = CourseClass.classes[int(course_bits(chromosomes[i]),2)].code
         cohort_class = Group.groups[int(group_bits(chromosomes[i]),2)].name
         for j in range(i + 1, len(chromosomes)):
             if CourseClass.classes[int(course_bits(chromosomes[j]),2)].code == course_cohort and Group.groups[int(group_bits(chromosomes[j]),2)].name == cohort_class: 
+                max_score = max_score + 1
                 if Slot.slots[int(slot_bits(chromosomes[i]), 2)].day != Slot.slots[int(slot_bits(chromosomes[j]), 2)].day:
                     scores = scores + 1
-    return scores
+    #print("scores: "+str(scores))
+    #print("max_score: "+str(max_score))
+    #print("return: " + str(scores/max_score))
+    if max_score == 0:
+        return 1
+    return scores/max_score
 
+def appropriate_slot(chromosomes):
+    scores = 0
+    max_score = 0
+    for _c in chromosomes:
+        
+        if CourseClass.classes[int(course_bits(_c), 2)].code != "ASD" and\
+        CourseClass.classes[int(course_bits(_c), 2)].code != "freshmore":
+            max_score = max_score + 1
+            if CourseClass.classes[int(course_bits(_c), 2)].isHASS:    
+                if Slot.slots[int(slot_bits(_c), 2)].isHASS:
+                    scores = scores + 1
+            else: 
+                if Slot.slots[int(slot_bits(_c), 2)].isHASS == False:
+                    scores = scores + 1
+            
+    #print("scores: ", scores)
+    #print("max_score: ", max_score)
+    #print("return: ", scores/max_score)
+    if max_score == 0:
+        return 1
+    return scores/max_score
+    
 def appropriate_lecture(chromosomes):
     scores = 0
+    max_score = 0
     for _c in chromosomes:
         if CourseClass.classes[int(course_bits(_c),2)].isLecture:
             #print("course class" + str(Professor.professors[int(professor_bits(_c),2)].name))
-            course_code = CourseClass.classes[int(course_bits(_c),2)].code
+            course_code_lec = CourseClass.classes[int(course_bits(_c),2)].code
             #print("course_code" + course_code)
             for _l in chromosomes:
-                if CourseClass.classes[int(course_bits(_l),2)].code in course_code and CourseClass.classes[int(course_bits(_l),2)].isLecture == False:
+                course_code_cohort = CourseClass.classes[int(course_bits(_l),2)].code
+                if CourseClass.classes[int(course_bits(_l),2)].isLecture == False and course_code_cohort in course_code_lec:
+                    max_score = max_score + 1
                     if Slot.slots[int(slot_bits(_l),2)].day > Slot.slots[int(slot_bits(_c),2)].day:
                         scores = scores + 1
-    return scores
+    #print("scores: "+str(scores))
+    #print("max_score: "+str(max_score))  
+    #print("return: " + str(scores/max_score))
+    if max_score == 0:
+        return 1
+    return scores/max_score
             
 def appropriate_lab(chromosomes):
     scores = 0
+    max_score = 0
     for _c in chromosomes:
-        if CourseClass.classes[int(course_bits(_c),2)].code:
+        if CourseClass.classes[int(course_bits(_c),2)].isLab:
+            #print(CourseClass.classes[int(course_bits(_c),2)].code)
             course_code = CourseClass.classes[int(course_bits(_c),2)].code
             #print("course_code" + course_code)
             for _l in chromosomes:
-                if CourseClass.classes[int(course_bits(_l),2)].code in course_code and CourseClass.classes[int(course_bits(_l),2)].isLecture == False:
+                if CourseClass.classes[int(course_bits(_l),2)].code in course_code and CourseClass.classes[int(course_bits(_l),2)].isLab == False:
+                    max_score = max_score + 1
                     if Slot.slots[int(slot_bits(_l),2)].day < Slot.slots[int(slot_bits(_c),2)].day:
                         scores = scores + 1
-    return scores
+    #print("scores: ", scores)
+    #print("max_score: ", max_score)
+    #print("return: ", scores/max_score)
+    if max_score == 0:
+        return 1
+    return scores/max_score
             
 # checks that a faculty member teaches only one course at a time.
 def faculty_member_one_class(chromosome):
     scores = 0
+    max_score = 0
     for i in range(len(chromosome) - 1):  # select one cpg pair
         clash = False
         profs = Professor.professors[int(professor_bits(chromosome[i]),2)].name
         for j in range(i + 1, len(chromosome)):  # check it with all other cpg pairs
             
             if slot_clash(chromosome[i], chromosome[j]):
+                max_score = max_score + 1
                 profs1 = Professor.professors[int(professor_bits(chromosome[j]),2)].name
-                if len(profs) >= len(profs1):
-                    for prof in profs:
-                        if prof in profs1:
-                            clash = True
-                            break
-                else:
-                    for p1 in profs1:
-                        if p1 in profs:
-                            clash = True
-                            break
-        if not clash:
-            scores = scores + 1
-    return scores
+                for prof in profs:
+                    
+                    if prof in profs1:
+                        clash = True
+                        break
+                if clash == False:
+                    scores = scores + 1
+
+    #print("scores: "+str(scores))
+    #print("max_score: "+str(max_score))
+    #print("return: " + str(scores/max_score))
+    
+    if max_score == 0:
+        return 1
+    return scores/max_score
 
 def room_member_one_class(chromosome):
     scores = 0
+    max_score = 0
     for i in range(len(chromosome) - 1):
-        clash = False
         for j in range(i + 1, len(chromosome)):
-            if slot_clash(chromosome[i], chromosome[j])\
-                and lt_bits(chromosome[i]) == lt_bits(chromosome[j]):
-                clash = True
-                #print("clash")
-                break
-        if not clash:
-            scores = scores + 1
-    return scores
+            
+            if slot_clash(chromosome[i], chromosome[j]):
+                max_score = max_score + 1
+                if lt_bits(chromosome[i]) != lt_bits(chromosome[j]):
+                    scores = scores + 1
+            
+    #print("scores: "+str(scores))
+    #print("max_score: "+str(max_score)) 
+    #print("return: " + str(scores/max_score))           
+    if max_score == 0:
+        return 1
+    return scores/max_score
 # check that a group member takes only one class at a time.
 def group_member_one_class(chromosomes):
     scores = 0
-
+    max_score = 0
     for i in range(len(chromosomes) - 1):
         clash = False
         grps1 = Group.groups[int(group_bits(chromosomes[i]),2)].name
         for j in range(i + 1, len(chromosomes)):
+            
             if slot_clash(chromosomes[i], chromosomes[j]):
+                max_score = max_score + 1
                 grps2 = Group.groups[int(group_bits(chromosomes[j]),2)].name
-                if len(grps1) >= len(grps2):
-                    for grp in grps1:
-                        if grp in grps2:
-                            clash = True
-                            break
-                else:
-                    for grp in grps2:
-                        if grp in grps1:
-                            clash = True
-                            break
-        if not clash:
-            # print("These classes have no slot/lts clash")
-            # print_chromosome(chromosomes[i])
-            # print_chromosome(chromosomes[j])
-            # print("____________")
-            scores = scores + 1
-    return scores
+                for grp in grps1:
+                    if grp in grps2:
+                        clash = True
+                        break
+                if clash == False:
+                    scores = scores + 1
+    #print("scores: "+str(scores))
+    #print("max_score: "+str(max_score))
+    #print("return: " + str(scores/max_score))
+    if max_score == 0:
+        return 1
+    return scores/max_score            
+
 
 def check_slots(chromosomes):
-    scores = 0   
+    scores = 0  
+    max_score = 0
     for _c in chromosomes:
-        if CourseClass.classes[int(course_bits(_c),2)].duration != len(Slot.slots[int(course_bits(_c),2)].block):
+        max_score = max_score + 1
+        if CourseClass.classes[int(course_bits(_c),2)].duration == len(Slot.slots[int(slot_bits(_c),2)].block):
             #print("wrong slot" + CourseClass.classes[int(course_bits(_c),2)].code)
-            break
-        else:
             scores = scores + 1
-    return scores
-        
-def random_slot(cpg_c):
-    temp_slot = random.choice(initial_slots)
-    #print(initial_slots)
-    #print(temp_slot)
-    temp_block = temp_slot.block
-    random_day = temp_slot.day
-    #print(CourseClass.classes[int(course_bits(cpg_c),2)])
-    temp_duration = CourseClass.classes[int(course_bits(cpg_c),2)].duration
-    #print(temp_duration)
-    temp_end = temp_slot.block[-1]
-    random_start = random.randint(temp_block[0], temp_block[-1])
-    while random_start + int(temp_duration) > temp_end:
-        random_start = random.randint(temp_block[0], temp_block[-1])  
-    temp_block = []
-    random_end = random_start + int(temp_duration)
-    for i in range(random_start, random_end):
-        temp_block.append(i)
+    #print("scores: "+str(scores))
+    #print("max_score: "+str(max_score)) 
+    #print("return: " + str(scores/max_score))
+    if max_score == 0:
+        return 1
+    return scores/max_score
+
+def check_slot_time(chromosomes):
+    scores = 0
+    max_score = 0
+    for _c in chromosomes:
+        if CourseClass.classes[int(course_bits(_c),2)].isMorning:
+            max_score = max_score + 1
+            if Slot.slots[int(slot_bits(_c),2)].block[0] <= 4:
+                scores = scores + 1
+        elif CourseClass.classes[int(course_bits(_c),2)].isAfternoon:
+            max_score = max_score + 1
+            if Slot.slots[int(slot_bits(_c),2)].block[0] >= 11:
+                scores = scores + 1
+    #print("score", scores)
+    #print("max score", max_score)
+    if max_score == 0:
+        return 1
     
-    random_slot = Slot(temp_block, random_day)
-    if Slot.find(random_slot.block, random_slot.day) == -1:
-        Slot.slots.append(random_slot)
-        slots.append((bin(Slot.find(random_slot.block, random_slot.day))[2:]).rjust(bits_needed(Slot.slots) * ceil(log2(max_size)), '0'))
+    return scores/max_score
         
-    #print(random_slot)   
-    #print(slots[Slot.find(random_slot.block, random_slot.day)])
-    return slots[Slot.find(random_slot.block, random_slot.day)]
+       
+def random_slot(cpg_c):
+    if CourseClass.classes[int(course_bits(cpg_c),2)].isHASS:
+        #print(CourseClass.classes[int(course_bits(cpg_c), 2)].code, Group.groups[int(group_bits(cpg_c), 2)].name)
+        temp_duration = CourseClass.classes[int(course_bits(cpg_c),2)].duration
+        #print(temp_duration)
+        temp_slot = random.choice(initial_slots_HASS)
+        #print(temp_slot)
+
+        while temp_duration > len(temp_slot.block):
+            #print(temp_duration)
+            #print(len(temp_slot.block))
+            #print(temp_duration > len(temp_slot.block))
+            temp_slot = random.choice(initial_slots_HASS)
+            #print("new", temp_slot)
+        #print("finish while loop")
+        #print(initial_slots)
+        #print(temp_slot)
+        temp_block = temp_slot.block
+        random_day = temp_slot.day
+        #print(CourseClass.classes[int(course_bits(cpg_c),2)])
+        
+        #print(temp_duration)
+        random_start = temp_block[0]
+        temp_block = []
+        random_end = random_start + int(temp_duration)
+        for i in range(random_start, random_end):
+            temp_block.append(i)
+        random_slot = Slot(temp_block, random_day, True)
+        if Slot.find(random_slot.block, random_slot.day) == -1:
+            Slot.slots.append(random_slot)
+            slots.append((bin(Slot.find(random_slot.block, random_slot.day))[2:]).rjust(bits_needed(Slot.slots) * ceil(log2(max_size)), '0'))
+        
+        return slots[Slot.find(random_slot.block, random_slot.day)]
+    
+    elif CourseClass.classes[int(course_bits(cpg_c),2)].pillar == "ASD" or CourseClass.classes[int(course_bits(cpg_c),2)].pillar == "freshmore":
+        temp_duration = CourseClass.classes[int(course_bits(cpg_c),2)].duration
+        #print(temp_duration)
+        temp_slot = random.choice(initial_slots_other)
+        #print(temp_slot)
+
+        while temp_duration > len(temp_slot.block):
+            #print(temp_duration)
+            #print(len(temp_slot.block))
+            #print(temp_duration > len(temp_slot.block))
+            temp_slot = random.choice(initial_slots_other)
+            #print("new", temp_slot)
+        #print("finish while loop")
+        #print(initial_slots)
+        #print(temp_slot)
+        temp_block = temp_slot.block
+        random_day = temp_slot.day
+        #print(CourseClass.classes[int(course_bits(cpg_c),2)])
+        
+        #print(temp_duration)
+        random_start = random.randint(temp_block[0], temp_block[-1] - temp_duration)
+        #print(random_start)
+        temp_block = []
+        random_end = random_start + int(temp_duration)
+        for i in range(random_start, random_end):
+            temp_block.append(i)
+        random_slot = Slot(temp_block, random_day)
+        if Slot.find(random_slot.block, random_slot.day) == -1:
+            Slot.slots.append(random_slot)
+            slots.append((bin(Slot.find(random_slot.block, random_slot.day))[2:]).rjust(bits_needed(Slot.slots) * ceil(log2(max_size)), '0'))
+        return slots[Slot.find(random_slot.block, random_slot.day)]
+    
+    else:
+        temp_slot = random.choice(initial_slots)
+        #print(temp_slot)
+        temp_block = temp_slot.block
+        random_day = temp_slot.day
+        #print(CourseClass.classes[int(course_bits(cpg_c),2)])
+        temp_duration = CourseClass.classes[int(course_bits(cpg_c),2)].duration
+        random_start = random.randint(temp_block[0], temp_block[-1] - temp_duration)
+        #print(random_start)
+        temp_block = []
+        random_end = random_start + int(temp_duration)
+        for i in range(random_start, random_end):
+            temp_block.append(i)
+        random_slot = Slot(temp_block, random_day)
+        if Slot.find(random_slot.block, random_slot.day) == -1:
+            Slot.slots.append(random_slot)
+            slots.append((bin(Slot.find(random_slot.block, random_slot.day))[2:]).rjust(bits_needed(Slot.slots) * ceil(log2(max_size)), '0'))
+        return slots[Slot.find(random_slot.block, random_slot.day)]
 
 def evaluate(chromosomes):
-    global max_score
+
     score = 0
     score = score + faculty_member_one_class(chromosomes)
     score = score + room_member_one_class(chromosomes)
     score = score + group_member_one_class(chromosomes)
     score = score + appropriate_cohort(chromosomes)
     score = score + appropriate_lecture(chromosomes)
+    score = score + appropriate_lab(chromosomes)
     score = score + check_slots(chromosomes)
-    return score / max_score
+    score = score + appropriate_slot(chromosomes)
+    return score
 
+def evaluate_softconstraints(chromosomes):
+    score = 0
+    score = score + check_slot_time(chromosomes)
+    
+    return score / 1
+    
 def cost(solution):
     # solution would be an array inside an array
     # it is because we use it as it is in genetic algorithms
@@ -342,13 +575,19 @@ def cost(solution):
     # to work.
     return 1 / float(evaluate(solution))
 
+def cost_soft(solution):
+    
+    return 1/ float(evaluate_softconstraints(solution))
+
 def init_population(n):
-    global cpg, slots
+    global cpg
     chromosomes = []
     for _n in range(n):
         chromosome = []
         for _c in cpg:
+            #print(CourseClass.classes[int(course_bits(_c), 2)].code, Group.groups[int(group_bits(_c), 2)].name)
             chromosome.append(_c + random_slot(_c))
+
         chromosomes.append(chromosome)
     return chromosomes
 
@@ -391,24 +630,24 @@ def print_chromosome(chromosome):
           Slot.slots[int(slot_bits(chromosome), 2)])
     
 def print_chromosome_csv(max_chromosomes):
-    label = ["Course", "Professors", "Class", "Room", " Day", "Start", "End"]
+    label = ["id", "Course", "Professors", "Class", "Room", " Day", "Start", "End"]
     out = open('schedule.csv','a', newline='')
     csv_write = csv.writer(out, dialect = 'excel')
     csv_write.writerow(label)
     for chromosome in max_chromosomes:
-        csv_row = [CourseClass.classes[int(course_bits(chromosome), 2)],\
+        time = str(Slot.slots[int(slot_bits(chromosome),2)]).split("-")
+        csv_row = [CourseClass.classes[int(course_bits(chromosome), 2)].dbid,\
+                   CourseClass.classes[int(course_bits(chromosome), 2)].code,\
                    Professor.professors[int(professor_bits(chromosome), 2)],\
                    Group.groups[int(group_bits(chromosome), 2)],\
                    Room.rooms[int(lt_bits(chromosome), 2)],\
-                   Slot.slots[int(slot_bits(chromosome), 2)].day,\
-                   Slot.slots[int(slot_bits(chromosome),2)].block[0],\
-                   Slot.slots[int(slot_bits(chromosome),2)].block[-1]]
+                   Slot.slots[int(slot_bits(chromosome), 2)].day] + time
         csv_write.writerow(csv_row)
         print(CourseClass.classes[int(course_bits(chromosome), 2)], " | ",
           Professor.professors[int(professor_bits(chromosome), 2)], " | ",
           Group.groups[int(group_bits(chromosome), 2)], " | ",
           Room.rooms[int(lt_bits(chromosome), 2)], " | ",
-          Slot.slots[int(slot_bits(chromosome), 2)])
+          Slot.slots[int(slot_bits(chromosome), 2)], Slot.slots[int(slot_bits(chromosome), 2)].day)
     
     out.close()
     print("finish csv writing")
@@ -419,24 +658,29 @@ def print_chromosome_csv(max_chromosomes):
 # It randomly changes timeslot of a class/lab
 
 def ssn(solution):
-    
 
-    
     a = random.randint(0, len(solution) - 1)
     
     rand_slot = random_slot(solution[a])
-    
     new_solution = copy.deepcopy(solution)
     new_solution[a] = course_bits(solution[a]) + professor_bits(solution[a]) +\
         group_bits(solution[a]) + lt_bits(solution[a]) + rand_slot 
+        
+    if(CourseClass.classes[int(course_bits(solution[a]), 2)].duration != len(Slot.slots[int(slot_bits(solution[a]), 2)].block)):
+        print("ssn")
+    
     return [new_solution]
 
 # Swapping Neighborhoods
 # It randomy selects two classes and swap their time slots
-
+   
 def swn(solution):
     a = random.randint(0, len(solution) - 1)
     b = random.randint(0, len(solution) - 1)
+    while CourseClass.classes[int(course_bits(solution[b]), 2)].duration != CourseClass.classes[int(course_bits(solution[a]), 2)].duration:
+        b = random.randint(0, len(solution) - 1)
+    if CourseClass.classes[int(course_bits(solution[b]), 2)].duration != CourseClass.classes[int(course_bits(solution[a]), 2)].duration:
+        print("swn")
     new_solution = copy.deepcopy(solution)
     temp = slot_bits(solution[a])
     new_solution[a] = course_bits(solution[a]) + professor_bits(solution[a]) +\
@@ -455,10 +699,10 @@ def acceptance_probability(old_cost, new_cost, temperature):
         return math.exp((old_cost - new_cost) / temperature)
 
 def simulated_annealing():
+    print("\n------------- Simulated Annealing Start--------------\n")
     alpha = 0.9
-    T = 1.0
+    T = 0.5
     T_min = 0.00001
-    print ("here")
     convert_input_to_bin()
     population = init_population(1) # as simulated annealing is a single-state method
     old_cost = cost(population[0])
@@ -466,7 +710,7 @@ def simulated_annealing():
     # print("Original population:")
     # print(population)
 
-    for __n in range(500):
+    while evaluate(population[0]) != 8.0 or evaluate_softconstraints(population[0]) < 0.3:
         new_solution = swn(population[0])
         new_solution = ssn(population[0])
         new_cost = cost(new_solution[0])
@@ -475,58 +719,64 @@ def simulated_annealing():
             population = new_solution
             old_cost = new_cost
         T = T * alpha
-    print(population)
+
     # print("Cost of altered solution: ", cost(population[0]))
-    print("\n------------- Simulated Annealing --------------\n")
+    print("\n------------- Simulated Annealing Result--------------\n")
     print_chromosome_csv(population[0])
     print("Score: ", evaluate(population[0]))
+    print("Soft score: ", evaluate_softconstraints(population[0]))
 
 def genetic_algorithm():
     generation = 0
     convert_input_to_bin()
+
     population = init_population(3)
 
     # print("Original population:")
     # print(population)
     print("\n------------- Genetic Algorithm --------------\n")
+
+    
     while True:
         
         # if termination criteria are satisfied, stop.
-        if evaluate(max(population, key=evaluate)) == 1 or generation == 500:
+        if evaluate(max(population, key=evaluate)) == 8.0 or generation == 500:
             print("Generations:", generation)
             print("Best Chromosome fitness value", evaluate(max(population, key=evaluate)))
             print("Best Chromosome: ", max(population, key=evaluate))
-            label = ["Course", "Professors", "Class", "Room", "Start", "End"]
-            out = open('schedule.csv','a', newline='')
-            csv_write = csv.writer(out, dialect = 'excel')
-            csv_write.writerow(label)
             for lec in max(population, key=evaluate):
                 print_chromosome(lec)
+            print("Score: ",evaluate(max(population, key=evaluate)))
             break
         
         # Otherwise continue
         else:
             for _c in range(len(population)):
-                crossover(population)
-                selection(population, 5)
-                
-                # selection(population[_c], len(cpg))
+                #crossover(population)
+                #selection(population, 5)
                 mutate(population[_c])
 
+                #print("mutate time :" + str(dtime3))
         generation = generation + 1
         # print("Gen: ", generation)
 
     # print("Population", len(population))
 
-
+        
+        
+        
 def main():
     starttime = time.time()
+    print(starttime)
     random.seed()
-    genetic_algorithm()
+    #genetic_algorithm()
+    startsimu = time.time()
     simulated_annealing()
+    endsimu = time.time()
+    print("simulation time: ", endsimu - startsimu)
     #print(Slot.slots)
     endtime = time.time()
     dtime = endtime - starttime
     
-    print("time take" + str(dtime))
+    print("time take: ",dtime)
 main()

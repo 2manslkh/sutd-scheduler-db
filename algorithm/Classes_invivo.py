@@ -45,44 +45,33 @@ class Professor:
 class CourseClass:
     classes = None
 
-    def __init__(self, dbid, code, duration, pillar, course_type, isLecture = False, isLab = False, isHASS = False, isMorning = False, isAfternoon = False):
+    def __init__(self, dbid, code, pillar, population, duration):
         self.dbid = dbid
         self.code = code
-        self.duration = duration
         self.pillar = pillar
-        self.course_type = course_type
-        self.isLecture = isLecture
-        self.isLab = isLab
-        self.isHASS = isHASS
-        self.isMorning = isMorning
-        self.isAfternoon = isAfternoon
+        self.population = population
+        self.duration = duration
         
     @staticmethod
-    def find(dbid, code, duration, course_type):
+    def find(dbid, code, pillar):
         for i in range(len(CourseClass.classes)):
-            if CourseClass.classes[i].dbid == dbid and CourseClass.classes[i].code == code and CourseClass.classes[i].duration == duration and CourseClass.classes[i].course_type == course_type:
+            if CourseClass.classes[i].code == code and CourseClass.classes[i].pillar == pillar and CourseClass.classes[i].dbid == dbid:
                 return i
         return -1
 
 
 
     def __repr__(self):
-        if self.isLecture == True:
-            #return "Course: " + str(self.code) + " lecture"
-            return str(self.dbid) + str(self.code) + " lecture" + " duration " + str(self.duration)
-        elif self.isLab == True:
-            #return "Course: " + str(self.code) + " lab"
-            return str(self.dbid) + str(self.code) + " lab" + " duration " + str(self.duration)
-        else:
-            #return "Course: " + str(self.code) + " cohort"
-            return str(self.dbid) + str(self.code) + " cohort" + " duration " + str(self.duration)
+        
+        return self.code
         
 class Room:
     rooms = None
 
-    def __init__(self, name):
+    def __init__(self, name, size):
         self.name = name
-
+        self.size = size
+        
     @staticmethod
     def find(name):
         for i in range(len(Room.rooms)):
@@ -93,7 +82,6 @@ class Room:
 
 
     def __repr__(self):
-        #return "Room: " + self.name
         return self.name
 
 #Every block is half an hour
@@ -102,10 +90,9 @@ class Room:
 class Slot:
     slots = None
 
-    def __init__(self, block, day, isHASS = False):
+    def __init__(self, block, day):
         self.block = block
         self.day = day
-        self.isHASS = isHASS
         
     def find(block, day):
         for i in range(len(Slot.slots)):
@@ -148,5 +135,3 @@ class Slot:
 #test = str(Slot([1,6], "Mon"))
 #a = test.split("-")
 #print(a)
-        
-
