@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import JsonResponse, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from .forms import ScheduleRequestForm, InputModuleInformation, EventRequestForm, InputClassInformation
@@ -21,7 +21,7 @@ from users.models import Module, Class
 @login_required
 def scheduleRequest(request):
     if request.method == "POST":
-        form = ScheduleRequestForm(request.POST)
+        form = ScheduleRequestForm(request.POST, initial={'name': request.user.get_full_name()})
         if form.is_valid():
             messages.success(request, 'Request submitted')
 
@@ -36,7 +36,7 @@ def scheduleRequest(request):
                 remarks=data['remarks']
             )
             s.save()
-            form = ScheduleRequestForm()
+            form = ScheduleRequestForm(initial={'name': request.user.get_full_name()})
     else:
         form = ScheduleRequestForm(initial={'name': request.user.get_full_name()})  # or use user.get_username() for username
     return render(request, 'formstoadmin/schedulerequest.html', {'form': form})
@@ -122,17 +122,18 @@ def viewRequests(request):
 
 def request_action(request, requestID, status):
     query_results = ScheduleRequest.objects.filter(approved__isnull=True)
+    all_requests = ScheduleRequest.objects.all()
     fields = ScheduleRequest._meta.get_fields()
     if status == 0:
         stat = True
     elif status == 1:
         stat = False
 
-    a = query_results[requestID - 1]
+    a = all_requests[requestID - 1]
     a.approved = stat
     a.save()
 
-    return render(request, 'formstoadmin/viewrequests.html', {"query_results": query_results})
+    return redirect('/view-requests')
 
 
 def generate_courses(request):
