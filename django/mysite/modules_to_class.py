@@ -7,16 +7,13 @@ CLASS_TABLE = "users_class"
 def modules_to_csv(db_file):
 
     def make_class_data(data,i=-1,lesson_type=""):
-        num_cohorts = data["cohorts"][0]
-        if lesson_type == "CBL":
-            print(i)
-            print( data["cohorts_per_week"][0].split(","))
+        num_cohorts = data["cohorts"][0] 
+        if lesson_type == "CBL":       
             out = [data["subject"][0],
             data["pillar"][0],
             lesson_type,
-            f"{data['term'][0]}C{data['pillar'][0]}{i}",
+            f"{data['term'][0]}C{data['pillar'][0]}{i+1}",
             "",
-            data["cohorts_per_week"][0].split(",")[i-1],
             data["subject_lead"][0],
             "","","","",""]
         elif lesson_type == "LEC":
@@ -29,7 +26,6 @@ def modules_to_csv(db_file):
             lesson_type,
             f"{a}",
             "",
-            data["lectures_per_week"][0].split(",")[i-1],
             data["subject_lead"][0],
             "","","","",""]
         elif lesson_type == "LAB":
@@ -42,7 +38,6 @@ def modules_to_csv(db_file):
             lesson_type,
             f"{a}",
             "",
-            data["labs_per_week"][0].split(",")[i-1],
             data["subject_lead"][0],
             "","","","",""]
 
@@ -67,23 +62,39 @@ def modules_to_csv(db_file):
             data[header] = c.execute(f"SELECT {header} from {MODULE_TABLE} WHERE id={row_id}").fetchone()
         class_data = []
 
-        count = 1
-        for x in data["cohorts_per_week"][0].split(","):
-            for i in range(int(data["cohorts"][0])):
-                class_data = make_class_data(data,count,"CBL")
-                c.execute(f"INSERT INTO {CLASS_TABLE} VALUES (NULL, ?,?,?,?,?,?,?,?,?,?,?,?,{row_id})",class_data)
-            count += 1
+        
+        for i in range(int(data["cohorts"][0])):
+            count = 1
+            cohort_list = data["cohorts_per_week"][0].split(",")
+            if cohort_list[0] == '':
+                cohort_list = [data["cohorts_per_week"][0]]
+            else:
+                cohort_list = data["cohorts_per_week"][0].split(",")
+            for x in cohort_list: 
+                class_data = make_class_data(data,i,"CBL")
+                c.execute(f"INSERT INTO {CLASS_TABLE} VALUES (NULL, ?,?,?,?,?,{x},?,?,?,?,?,?,{row_id})",class_data)
+                count += 1
         # Assume lectures and labs are combined
         count = 1
-        for y in data["lectures_per_week"][0].split(","):
+        lecture_list = data["lectures_per_week"][0].split(",")
+        if lecture_list[0] == '':
+            lecture_list = data["lectures_per_week"][0]
+        else:
+            lecture_list = data["lectures_per_week"][0].split(",")
+        for y in lecture_list:
             class_data = make_class_data(data,count,"LEC")
-            c.execute(f"INSERT INTO {CLASS_TABLE} VALUES (NULL, ?,?,?,?,?,?,?,?,?,?,?,?,{row_id})",class_data)
+            c.execute(f"INSERT INTO {CLASS_TABLE} VALUES (NULL, ?,?,?,?,?,{y},?,?,?,?,?,?,{row_id})",class_data)
             count += 1
         
         count = 1
-        for z in data["labs_per_week"][0].split(","):
+        lab_list = data["labs_per_week"][0].split(",")
+        if lab_list[0] == '':
+            lab_list = data["labs_per_week"][0]
+        else:
+            lab_list = data["labs_per_week"][0].split(",")
+        for z in lab_list:
             class_data = make_class_data(data,count,"LAB")
-            c.execute(f"INSERT INTO {CLASS_TABLE} VALUES (NULL, ?,?,?,?,?,?,?,?,?,?,?,?,{row_id})",class_data)
+            c.execute(f"INSERT INTO {CLASS_TABLE} VALUES (NULL, ?,?,?,?,?,{z},?,?,?,?,?,?,{row_id})",class_data)
             count += 1
 
     conn.commit()
