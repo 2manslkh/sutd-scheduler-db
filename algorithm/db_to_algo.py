@@ -31,8 +31,20 @@ class db_helper:
         c.execute(f"SELECT {a} FROM {table_name}")  
         return c.fetchall()
 
-    def make_input():
-        pass
+    # Takes input from algorithm and puts it back into the classtable
+    def update_db(self, data):
+        for i in data:
+            _id = i[0]
+            day = i[5]
+            start = i[6]
+            end = i[7]
+            self.cursor.execute(f"UPDATE users_class SET day='{day}', start='{start}', end='{end}' WHERE id = {_id}")
+        self.conn.commit()
+
+
+    def make_input(id, data):
+        c = self.cursor
+        c.execute()
 
     def get_input():
         pass
@@ -44,10 +56,5 @@ class db_helper:
         except Error as e:
             print(e)
         return None
-
-
-dbh = db_helper("db.sqlite3")
-a = dbh.get_columns(["id","title","assigned_professors","class_related","location","pillar","duration","type"],"users_class")
-print(a)
 
 

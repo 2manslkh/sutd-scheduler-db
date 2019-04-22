@@ -40,16 +40,18 @@ def parse_modules_to_class(module_csv, class_csv):
     conn = create_connection("db.sqlite3")
     c = conn.cursor()
     headers = get_col_headers_db(c,"users_class")
+    rowcount = 0
 
     def is_new_file(class_csv):
-        with open(class_csv,"r",newline='') as f:
-            csv_reader = csv.reader(f, delimiter=',')
-            row_count = sum(1 for row in csv_reader)
-            if (row_count == 0):
-                return True
-            else:
-                return False
-
+        f = open(class_csv,"r",newline='')
+        csv_reader = csv.reader(f, delimiter=',')
+        row_count = sum(1 for row in csv_reader)
+        f.close()
+        if (row_count == 0):
+            return True
+        else:
+            return False
+        
     def insert_row(class_csv, data):
         with open(class_csv,"a",newline='') as f:
             csv_writer = csv.writer(f, delimiter=',')
@@ -57,8 +59,8 @@ def parse_modules_to_class(module_csv, class_csv):
             if (is_new_file(class_csv)):
                 csv_writer.writerow(headers[1:len(headers)-1])
                 # csv_writer.writerow(['title','pillar','class_type','class_related','location','duration','assigned_professors','description','makeup','start','end'])
-            else:
-                csv_writer.writerow(data)
+            
+            csv_writer.writerow(data)
     
     with open(module_csv,"r",encoding='utf-8') as csv_file:
         csv_reader = csv.reader(csv_file, delimiter=',')
@@ -88,8 +90,7 @@ def parse_modules_to_class(module_csv, class_csv):
                     i = 1
                     for c in cohorts:
                         for j in range(int(num_cohorts)):
-                            insert_row(class_csv,[row[name_index],row[pillar_index],f"CBL{i}",f"{j+1}","",c,row[professors_index],"","","","",""])
-                            print("a")
+                            insert_row(class_csv,[row[name_index],row[pillar_index],f"CBL",f"CI{j+1}","",c,row[professors_index],"","","","",""])
                             i += 1
                 if (len(lectures) != 0): 
                     lectures = lectures.split(",")
@@ -99,13 +100,13 @@ def parse_modules_to_class(module_csv, class_csv):
                         a += f"CI{c},"
                     a = a[0:len(a)-1]
                     for l in lectures: # for each entry e.g. ['1.5'] in the lecture field
-                        insert_row(class_csv,[row[name_index],row[pillar_index],f"LEC{i}",f"{a}","",l,row[professors_index],"","","","",""])
+                        insert_row(class_csv,[row[name_index],row[pillar_index],f"LEC",f"{a}","",l,row[professors_index],"","","","",""])
                         i += 1
                 if (len(labs) != 0): 
                     labs = labs.split(",")
                     i = 1
                     for l in labs:
-                        insert_row(class_csv,[row[name_index],row[pillar_index],f"LAB{i}",f"{a}","",l,row[professors_index],"","","","",""])
+                        insert_row(class_csv,[row[name_index],row[pillar_index],f"LAB",f"{a}","",l,row[professors_index],"","","","",""])
                         i += 1
 
 def get_col_headers_db(cursor, table_name):

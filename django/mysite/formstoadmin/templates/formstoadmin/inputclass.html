@@ -3,7 +3,19 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
+<h2>Input class information</h2>
 
+
+{% if get %}
+<form method="post">
+{% csrf_token %}
+{{ form.module|as_crispy_field }}
+<a href="/requestform/{{obj.id}}/0" type="button" class="btn btn-outline-primary confirmation" role="button">Accept</a>
+<a type="submit" role="button" class="btn btn-primary">Submit</button>
+</form>
+
+
+{% else %}
 <form method="post">
     {% csrf_token %}
     <div class="form-row">
