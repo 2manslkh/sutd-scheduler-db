@@ -31,8 +31,14 @@ class db_helper:
         c.execute(f"SELECT {a} FROM {table_name}")  
         return c.fetchall()
 
-    def make_input():
-        pass
+    def update_db(self, data):
+        for i in data:
+            id = i[0]
+
+
+    def make_input(id, data):
+        c = self.cursor
+        c.execute()
 
     def get_input():
         pass
@@ -47,7 +53,7 @@ class db_helper:
 
 
 dbh = db_helper("db.sqlite3")
-a = dbh.get_columns(["id","title","assigned_professors","class_related","location","pillar","duration","type"],"users_class")
+a = dbh.get_columns(["id","title","assigned_professors","class_related","location","pillar","duration","type","day","start","end"],"users_class")
 print(a)
 
 

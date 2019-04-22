@@ -40,16 +40,18 @@ def parse_modules_to_class(module_csv, class_csv):
     conn = create_connection("db.sqlite3")
     c = conn.cursor()
     headers = get_col_headers_db(c,"users_class")
+    rowcount = 0
 
     def is_new_file(class_csv):
-        with open(class_csv,"r",newline='') as f:
-            csv_reader = csv.reader(f, delimiter=',')
-            row_count = sum(1 for row in csv_reader)
-            if (row_count == 0):
-                return True
-            else:
-                return False
-
+        f = open(class_csv,"r",newline='')
+        csv_reader = csv.reader(f, delimiter=',')
+        row_count = sum(1 for row in csv_reader)
+        f.close()
+        if (row_count == 0):
+            return True
+        else:
+            return False
+        
     def insert_row(class_csv, data):
         with open(class_csv,"a",newline='') as f:
             csv_writer = csv.writer(f, delimiter=',')
@@ -57,8 +59,8 @@ def parse_modules_to_class(module_csv, class_csv):
             if (is_new_file(class_csv)):
                 csv_writer.writerow(headers[1:len(headers)-1])
                 # csv_writer.writerow(['title','pillar','class_type','class_related','location','duration','assigned_professors','description','makeup','start','end'])
-            else:
-                csv_writer.writerow(data)
+            
+            csv_writer.writerow(data)
     
     with open(module_csv,"r",encoding='utf-8') as csv_file:
         csv_reader = csv.reader(csv_file, delimiter=',')
