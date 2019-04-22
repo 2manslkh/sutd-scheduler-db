@@ -3,19 +3,29 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-<h2>Input Class Information</h2>
-{{formset.errors}}
- <form method="post">
+
+<form method="post">
     {% csrf_token %}
 
+{% if get %}
+  {{ form.module|as_crispy_field }}
+<div class="form-row">
+  <div class="form-group col-md-6 mb-0">
+    {{ form.location|as_crispy_field }}
+  </div>
+  <div class="form-group col-md-6 mb-0">
+    {{ form.makeup|as_crispy_field }}
+  </div>
+</div>
+
+  {{ form.description|as_crispy_field }}
+  {{ form.assigned_professors|as_crispy_field }}
+
+{% else %}
     <div class="form-row">
       <div class="form-group col-md-6 mb-0">
         {{ form.module|as_crispy_field }}
       </div>
-<!--
-      <span class="input-group-btn">
-        <button class="btn btn-info">R</button>
-      </span>-->
       <div class="form-group col-md-6 mb-0">
         {{ form.title|as_crispy_field }}
       </div>
@@ -42,14 +52,19 @@
     </div>
 
     <div class="form-row">
-      <div class="form-group col-md-4 mb-0">
+      <div class="form-group col-md-6 mb-0">
         {{ form.start|as_crispy_field }}
       </div>
-      <div class="form-group col-md-4 mb-0">
+      <div class="form-group col-md-6 mb-0">
         {{ form.end|as_crispy_field }}
       </div>
-    <div class="form-group col-md-4 mb-0">
-        {{ form.makeup|as_crispy_field }}
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-6 mb-0">
+        {{ form.day|as_crispy_field }}
+      </div>
+      <div class="form-group col-md-6 mb-0">
+        {{ form.end|as_crispy_field }}
       </div>
     </div>
 
@@ -57,7 +72,8 @@
     {{ form.assigned_professors|as_crispy_field }}
 
 
-
+{% endif %}
     <button type="submit" class="btn btn-primary">Submit</button>
   </form>
+
 {% endblock content %}

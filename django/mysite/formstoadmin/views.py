@@ -79,13 +79,12 @@ class InputClassInfo(FormView):
     def get(self, request):
         form = InputClassInformation()
         classes = Class.objects.all()
-        context = {'form': form, 'classes': classes}
+        context = {'form': form, 'classes': classes, 'get': True}
         return render(request, self.template_name, context)
 
     def post(self, request):
         form = InputClassInformation(request.POST)
         if form.is_valid():
-            print("IS VALID!")
             data = form.cleaned_data
             subject = data['module']
             if Class.objects.filter(module__subject=subject).exists():
@@ -95,13 +94,11 @@ class InputClassInfo(FormView):
                 messages.success(request, 'Class information updated')
 
             else:
-                title = data['module']
-                print(title)
                 form.save()
                 form = InputClassInformation()
                 messages.success(request, 'Class information added')
 
-        return render(request, self.template_name, {'form': form})
+        return render(request, self.template_name, {'form': form, 'get': False})
 
 
 @login_required
