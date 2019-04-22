@@ -7,7 +7,7 @@ import csv
 import db_to_algo as dba
 
 
-dbh = dba.db_helper(r"C:\Users\Desktop\esc\sutd-scheduler-db\django\mysite\db2.sqlite3")
+dbh = dba.db_helper("db.sqlite3")
 #dbh2 = dba.db_helper("db2.sqlite3")
 data = dbh.get_columns(["id","title","assigned_professors","class_related","location","pillar","duration","type"],"users_class")
 #soft = dbh2.get_columns(["id","name","course_code","class_related","preferred_timings", "reasons", "remarks"],"formstoadmin_schedulerequest")
@@ -651,7 +651,20 @@ def print_chromosome_csv(max_chromosomes):
     
     out.close()
     print("finish csv writing")
-               
+
+def write_to_db(max_chromosomes):
+    db = dba.db_helper("db.sqlite3")
+    out = []
+    for chromosome in max_chromosomes:
+        time = str(Slot.slots[int(slot_bits(chromosome),2)]).split("-")
+        data = [CourseClass.classes[int(course_bits(chromosome), 2)].dbid,\
+                   Group.groups[int(group_bits(chromosome), 2)],\
+                   Room.rooms[int(lt_bits(chromosome), 2)],\
+                   Slot.slots[int(slot_bits(chromosome), 2)].day] + time
+        out.append(data)
+    print(out)
+    db.update_db(out)
+    print("UPDATED DB")   
 
 
 # Simple Searching Neighborhood
@@ -722,7 +735,9 @@ def simulated_annealing():
 
     # print("Cost of altered solution: ", cost(population[0]))
     print("\n------------- Simulated Annealing Result--------------\n")
+    print(population[0])
     print_chromosome_csv(population[0])
+    write_to_db(population[0])
     print("Score: ", evaluate(population[0]))
     print("Soft score: ", evaluate_softconstraints(population[0]))
 

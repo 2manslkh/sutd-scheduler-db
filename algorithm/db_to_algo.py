@@ -36,10 +36,11 @@ class db_helper:
     def update_db(self, data):
         for i in data:
             _id = i[0]
-            day = i[5]
-            start = i[6]
-            end = i[7]
+            day = i[3]
+            start = i[4]
+            end = i[5]
             self.cursor.execute(f"UPDATE users_class SET day='{day}', start='{start}', end='{end}' WHERE id = {_id}")
+            print("wrote")
         self.conn.commit()
 
 
