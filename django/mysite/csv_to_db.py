@@ -16,16 +16,14 @@ def csv_to_db(csv_file_name, db_file):
                 print(f'Column names are: {", ".join(row)}')
                 line_count += 1
                 if "class" in csv_file_name:
-                    c.execute('SELECT * FROM users_class')   
-                    print(list(map(lambda x: x[0], c.description)))
+                    print(get_col_headers_db(c,"users_class"))
                 if "modules" in csv_file_name:
-                    c.execute('SELECT * FROM users_module')
-                    print(list(map(lambda x: x[0], c.description)))
+                    print(get_col_headers_db(c,"users_module"))
             else:
                 if "class" in csv_file_name:
                     print(row[0])
                     row.append(get_module_id(row[0], c))
-                    c.execute('INSERT INTO "users_class" VALUES (NULL, ?,?,?,?,?,?,?,?,?,?,?,?)', row)
+                    c.execute('INSERT INTO "users_class" VALUES (NULL, ?,?,?,?,?,?,?,?,?,?,?,?,?)', row)
                     print(row)
                 elif "modules" in csv_file_name:
                     c.execute('INSERT INTO "users_module" VALUES (NULL, ?,?,?,?,?,?,?,?,?,?,?,?)', row)
@@ -35,10 +33,13 @@ def csv_to_db(csv_file_name, db_file):
 
 def get_module_id(name, cursor):
     cursor.execute('SELECT id FROM users_module WHERE subject=?', [name])
-    # print(cursor.fetchone()[0])
     return cursor.fetchone()[0]
 
 def parse_modules_to_class(module_csv, class_csv):
+    
+    conn = create_connection("db.sqlite3")
+    c = conn.cursor()
+    headers = get_col_headers_db(c,"users_class")
 
     def is_new_file(class_csv):
         with open(class_csv,"r",newline='') as f:
@@ -54,7 +55,8 @@ def parse_modules_to_class(module_csv, class_csv):
             csv_writer = csv.writer(f, delimiter=',')
             
             if (is_new_file(class_csv)):
-                csv_writer.writerow(['title','pillar','class_type','class_related','location','duration','start','end','assigned_professors','description','makeup'])
+                csv_writer.writerow(headers[1:len(headers)-1])
+                # csv_writer.writerow(['title','pillar','class_type','class_related','location','duration','assigned_professors','description','makeup','start','end'])
             else:
                 csv_writer.writerow(data)
     
@@ -86,7 +88,7 @@ def parse_modules_to_class(module_csv, class_csv):
                     i = 1
                     for c in cohorts:
                         for j in range(int(num_cohorts)):
-                            insert_row(class_csv,[row[name_index],row[pillar_index],f"CBL{i}",f"CI{j+1}","",c,"","",row[professors_index],"",""])
+                            insert_row(class_csv,[row[name_index],row[pillar_index],f"CBL{i}",f"{j+1}","",c,row[professors_index],"","","","",""])
                             print("a")
                             i += 1
                 if (len(lectures) != 0): 
@@ -96,16 +98,19 @@ def parse_modules_to_class(module_csv, class_csv):
                     for c in range(1,int(num_cohorts)+1):
                         a += f"CI{c},"
                     a = a[0:len(a)-1]
-                    for l in lectures:
-                        insert_row(class_csv,[row[name_index],row[pillar_index],f"LEC{i}",f"{a}","",l,"","",row[professors_index],"",""])
+                    for l in lectures: # for each entry e.g. ['1.5'] in the lecture field
+                        insert_row(class_csv,[row[name_index],row[pillar_index],f"LEC{i}",f"{a}","",l,row[professors_index],"","","","",""])
                         i += 1
                 if (len(labs) != 0): 
                     labs = labs.split(",")
                     i = 1
                     for l in labs:
-                        insert_row(class_csv,[row[name_index],row[pillar_index],f"LAB{i}",f"{a}","",l,"","",row[professors_index],"",""])
+                        insert_row(class_csv,[row[name_index],row[pillar_index],f"LAB{i}",f"{a}","",l,row[professors_index],"","","","",""])
                         i += 1
 
+def get_col_headers_db(cursor, table_name):
+    cursor.execute(f'SELECT * FROM {table_name}')   
+    return list(map(lambda x: x[0], cursor.description))
                 
 def get_col_headers(csv_file):
     with open(csv_file) as f:
