@@ -90,7 +90,7 @@ def parse_modules_to_class(module_csv, class_csv):
                     i = 1
                     for c in cohorts:
                         for j in range(int(num_cohorts)):
-                            insert_row(class_csv,[row[name_index],row[pillar_index],f"CBL",f"{j+1}","",c,row[professors_index],"","","","",""])
+                            insert_row(class_csv,[row[name_index],row[pillar_index],f"CBL",f"CI{j+1}","",c,row[professors_index],"","","","",""])
                             i += 1
                 if (len(lectures) != 0): 
                     lectures = lectures.split(",")
