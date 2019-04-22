@@ -79,7 +79,7 @@ class InputClassInformation(forms.ModelForm):
         model = Class
         fields = '__all__'
 
-    module = forms.ModelChoiceField(queryset=Module.objects.all())
+    module = forms.ModelChoiceField(queryset=Module.objects.all().order_by('subject').distinct())
     title = forms.CharField(disabled=True, required=False)
     pillar = forms.CharField(disabled=True, required=False)
     Type = forms.CharField(disabled=True, required=False)
