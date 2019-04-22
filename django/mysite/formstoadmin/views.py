@@ -166,7 +166,7 @@ def moduleUpload(request):
         io_string = io.StringIO(data_set)
 
         header = True
-        for row in csv.reader(io_string, delimiter=',', quotechar="|"):
+        for row in csv.reader(io_string, delimiter=','):
             if header:
                 if len(row) != 12:
                     raise IndexError
