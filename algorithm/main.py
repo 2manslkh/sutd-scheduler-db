@@ -648,6 +648,7 @@ def print_chromosome_csv(max_chromosomes):
           Group.groups[int(group_bits(chromosome), 2)], " | ",
           Room.rooms[int(lt_bits(chromosome), 2)], " | ",
           Slot.slots[int(slot_bits(chromosome), 2)], Slot.slots[int(slot_bits(chromosome), 2)].day)
+        
     
     out.close()
     print("finish csv writing")
@@ -735,7 +736,12 @@ def simulated_annealing():
 
     # print("Cost of altered solution: ", cost(population[0]))
     print("\n------------- Simulated Annealing Result--------------\n")
-    print(population[0])
+    out = open('schedule.csv','a', newline='')
+    csv_write = csv.writer(out, dialect = 'excel')
+    csv_write.writerow(["soft constraints score"])
+
+    csv_write.writerow([str(evaluate_softconstraints(population[0]))])
+    out.close()
     print_chromosome_csv(population[0])
     write_to_db(population[0])
     print("Score: ", evaluate(population[0]))
