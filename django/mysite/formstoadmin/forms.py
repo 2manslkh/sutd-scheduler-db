@@ -8,11 +8,6 @@ PREFERRED_TIMINGS = (
     ('lateAfternoon', 'Late Afternoon')
 )
 
-# useful form fields
-'''
-help_text=""
-'''
-
 
 class ScheduleRequestForm(forms.Form):
     name = forms.CharField(disabled=True, required=False)
