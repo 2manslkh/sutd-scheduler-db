@@ -47,7 +47,6 @@ def inputModule(request):
     if request.method == "POST":
         module_form = InputModuleInformation(request.POST)
         if module_form.is_valid():
-            messages.success(request, 'Input module form submitted')
             data = module_form.cleaned_data
             _, created = Module.objects.filter(subject__iexact=data['subject']).update_or_create(
                 subject__iexact=data['subject'],
@@ -64,22 +63,12 @@ def inputModule(request):
                     'lectures_per_week': data['lectures_per_week'],
                     'labs_per_week': data['labs_per_week']
                 })
-            # s = Module(
-            #     subject=data['subject'],
-            #     code=data['subject_code'],
-            #     pillar=data['pillar'],
-            #     term=data['term'],
-            #     core=data['core'],
-            #     subject_lead=data['subject_lead'],
-            #     cohort_size=data['cohort_size'],
-            #     enrolment_size=data['enrolment_size'],
-            #     cohorts=data['cohorts'],
-            #     cohorts_per_week=data['cohorts_per_week'],
-            #     lectures_per_week=data['lectures_per_week'],
-            #     labs_per_week=data['labs_per_week'],
-            # )
-            # s.save()
             module_form = InputModuleInformation()
+            print(created)
+            if created == False:
+                messages.success(request, 'Updated module')
+            else:
+                messages. success(request, 'Added module')
     else:
         module_form = InputModuleInformation()
     return render(request, 'formstoadmin/inputmodule.html', {'form': module_form})

@@ -72,9 +72,9 @@ class InputModuleInformation(forms.Form):
     cohort_size = forms.IntegerField(min_value=1)
     cohorts = forms.IntegerField(min_value=1, label="Number of Cohort Classes")
     enrolment_size = forms.IntegerField(min_value=1)
-    cohorts_per_week = forms.IntegerField(min_value=1)
-    lectures_per_week = forms.IntegerField(required=False, min_value=1)
-    labs_per_week = forms.IntegerField(required=False, min_value=1)
+    cohorts_per_week = forms.IntegerField(min_value=0)
+    lectures_per_week = forms.IntegerField(required=False, min_value=0)
+    labs_per_week = forms.IntegerField(required=False, min_value=0)
 
 
 class InputClassInformation(forms.ModelForm):
