@@ -91,7 +91,7 @@ class InputClassInfo(FormView):
                 messages.success(request, 'Class information updated')
 
             else:
-                f.save()
+                form.save()
                 form = InputClassInformation()
                 messages.success(request, 'Class information added')
 
@@ -112,18 +112,25 @@ def addEvent(request):
 
 
 @login_required
-def viewRequests(request, approved=''):
+def viewRequests(request, query_results=ScheduleRequest.objects.all()):
     if request.method == "GET":
-        query_results = ScheduleRequest.objects.all()
         fields = ScheduleRequest._meta.get_fields()
         return render(request, 'formstoadmin/viewrequests.html', {"query_results": query_results})
 
 
 def request_action(request, requestID, status):
-    if request.method == "GET":
-        query_results = ScheduleRequest.objects.all()
-        fields = ScheduleRequest._meta.get_fields()
-        return render(request, 'formstoadmin/viewrequests.html', {"query_results": query_results})
+    query_results = ScheduleRequest.objects.all()
+    fields = ScheduleRequest._meta.get_fields()
+    if status == 0:
+        stat = False
+    elif status == 1:
+        stat = True
+
+    a = query_results[requestID]
+    a.approved = stat
+    a.save()
+
+    return render(request, 'formstoadmin/viewrequests.html', {"query_results": query_results})
 
 
 def generate_courses(request):

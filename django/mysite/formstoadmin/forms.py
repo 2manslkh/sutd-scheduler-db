@@ -65,18 +65,21 @@ PILLARS = (
 
 
 class InputModuleInformation(forms.Form):
+    class Meta:
+        model = Module
+        fields = "__all__"
     subject = forms.CharField()  # $, disabled=True)
     pillar = forms.ChoiceField(choices=PILLARS)
     subject_code = forms.CharField()
-    term = forms.IntegerField()
+    term = forms.IntegerField(min_value=1, max_value=10)
     core = forms.CharField(widget=forms.Textarea(attrs={'rows': 1, 'placeholder': "True/False"}))
     subject_lead = forms.CharField(help_text="Please separate professors\' names with a comma")
-    cohort_size = forms.IntegerField()
-    cohorts = forms.IntegerField(label="Number of Cohort Classes")
-    enrolment_size = forms.IntegerField()
-    cohorts_per_week = forms.IntegerField()
-    lectures_per_week = forms.IntegerField(required=False)
-    labs_per_week = forms.IntegerField(required=False)
+    cohort_size = forms.IntegerField(min_value=1)
+    cohorts = forms.IntegerField(min_value=1, label="Number of Cohort Classes")
+    enrolment_size = forms.IntegerField(min_value=1)
+    cohorts_per_week = forms.IntegerField(min_value=1)
+    lectures_per_week = forms.IntegerField(required=False, min_value=1)
+    labs_per_week = forms.IntegerField(required=False, min_value=1)
 
 
 class InputClassInformation(forms.ModelForm):
