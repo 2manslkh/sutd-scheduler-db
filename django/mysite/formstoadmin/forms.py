@@ -90,7 +90,7 @@ class InputClassInformation(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(InputClassInformation, self).__init__(*args, **kwargs)
-        self.fields['module'].widget.attrs['class'] = 'choose-mod'
+        # self.fields['module'].widget.attrs['class'] = 'choose-mod'
 
 
 # useful queries

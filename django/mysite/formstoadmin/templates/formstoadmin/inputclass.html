@@ -2,16 +2,28 @@
 
 {% load crispy_forms_tags %}
 
+{% block morejs %}
+<script>
+  $(document).ready(function(){
+    $(".choose-mod").change(function(){
+      var mod = $(this);
+      alert(mod.val());
+    });
+  });
+</script>
+{% endblock %}
+
+
+
 {% block content %}
 <h2>Input class information</h2>
 
-
-{% if get %}
+{% if start %}
 <form method="post">
 {% csrf_token %}
 {{ form.module|as_crispy_field }}
-<a href="/requestform/{{obj.id}}/0" type="button" class="btn btn-outline-primary confirmation" role="button">Accept</a>
-<a type="submit" role="button" class="btn btn-primary">Submit</button>
+<!--<a href="/input-class-info/" type="button" class="btn btn-primary" role="button" style="float:right;">Next</a>-->
+<button type="submit" class="btn btn-primary">Submit</button>
 </form>
 
 
@@ -69,5 +81,6 @@
 
     <button type="submit" class="btn btn-primary">Submit</button>
   </form>
+{% endif %}
 
 {% endblock content %}

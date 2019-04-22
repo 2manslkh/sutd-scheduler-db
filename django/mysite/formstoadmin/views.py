@@ -79,7 +79,7 @@ class InputClassInfo(FormView):
     def get(self, request):
         form = InputClassInformation()
         classes = Class.objects.all()
-        context = {'form': form, 'classes': classes, 'get': True}
+        context = {'form': form, 'classes': classes}
         return render(request, self.template_name, context)
 
     def post(self, request):
@@ -98,7 +98,15 @@ class InputClassInfo(FormView):
                 form = InputClassInformation()
                 messages.success(request, 'Class information added')
 
-        return render(request, self.template_name, {'form': form, 'get': False})
+        return render(request, self.template_name, {'form': form})
+
+
+def inputClassInfo_start(request):
+    form = InputClassInformation()
+    if request.method == "POST":
+        print("hi")
+        print(request.POST.get("module", ""))
+    return render(request, 'formstoadmin/inputclass.html', {'form': form, 'start': True})
 
 
 @login_required
