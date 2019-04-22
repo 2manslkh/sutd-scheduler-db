@@ -6,6 +6,7 @@ import math
 import csv
 import db_to_algo as dba
 import datetime
+from datetime import timedelta 
 
 initial_slots = [Slot([10,11,12,13,14,15,16,17,18,19], 3),Slot([11,12,13,14,15,16,17,18,19], 5)]
 
@@ -25,7 +26,7 @@ Group.groups = []
 lts = []
 bits_needed_backup_store = {}  # to improve performance
 
-inputls = [[500051, "invivo", ["guest"], ["ISTD"], 200, 3, "2019-4-23"]]
+inputls = [[500051, "invivo", ["guest"], ["ISTD"], 200, 3, "2019-6-9"]]
 
 date = inputls[0][6].split("-")
 for i in range(len(date)):
@@ -203,29 +204,36 @@ def mutate(chromosome):
 
     
 def print_chromosome_csv(max_chromosomes):
-    label = ["id", "invivo", "speaker", "pillar", "population","room", "day", "start", "end"]
+
+        
+    label = ["id", "invivo", "speaker", "pillar", "population","room", "date" "day", "start", "end"]
     out = open('schedule_invivo.csv','a', newline='')
     csv_write = csv.writer(out, dialect = 'excel')
     csv_write.writerow(label)
     for chromosome in max_chromosomes:
+        daydelta = Slot.slots[int(slot_bits(chromosome), 2)].day - dayofweek
+        vivo_date = datetime.date(date[0], date[1], date[2]) + timedelta(days = daydelta)
+        
+            
         time = str(Slot.slots[int(slot_bits(chromosome),2)]).split("-")
         csv_row = [CourseClass.classes[int(course_bits(chromosome), 2)].dbid,\
                    CourseClass.classes[int(course_bits(chromosome), 2)].code,\
                    Professor.professors[int(professor_bits(chromosome), 2)],\
                    Group.groups[int(group_bits(chromosome), 2)],\
                    Room.rooms[int(lt_bits(chromosome), 2)],\
+                   vivo_date,\
                    Slot.slots[int(slot_bits(chromosome), 2)].day] + time
         csv_write.writerow(csv_row)
         print(CourseClass.classes[int(course_bits(chromosome), 2)], " | ",
           Professor.professors[int(professor_bits(chromosome), 2)], " | ",
           Group.groups[int(group_bits(chromosome), 2)], " | ",
           Room.rooms[int(lt_bits(chromosome), 2)], " | ",
+          vivo_date," | ",
           Slot.slots[int(slot_bits(chromosome), 2)], Slot.slots[int(slot_bits(chromosome), 2)].day)
     
     out.close()
     print("finish csv writing")
                
-
 
 
 def genetic_algorithm():
@@ -251,7 +259,7 @@ def genetic_algorithm():
                 #selection(population, 5)
                 mutate(population[_p])  
         else:
-            print("AAAAAAAAAAAAAA")
+
             generation = generation + 1
             chromo.append(population[0][0])
             for _p in range(len(population)):
