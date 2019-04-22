@@ -7,7 +7,7 @@ import csv
 import db_to_algo as dba
 
 
-dbh = dba.db_helper("db.sqlite3")
+dbh = dba.db_helper(r"C:\Users\Desktop\esc\sutd-scheduler-db\django\mysite\db2.sqlite3")
 #dbh2 = dba.db_helper("db2.sqlite3")
 data = dbh.get_columns(["id","title","assigned_professors","class_related","location","pillar","duration","type"],"users_class")
 #soft = dbh2.get_columns(["id","name","course_code","class_related","preferred_timings", "reasons", "remarks"],"formstoadmin_schedulerequest")
