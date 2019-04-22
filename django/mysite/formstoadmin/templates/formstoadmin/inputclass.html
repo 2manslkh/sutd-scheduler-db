@@ -3,7 +3,8 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-
+<h2>Input Class Information</h2>
+{{formset.errors}}
  <form method="post">
     {% csrf_token %}
 
@@ -11,6 +12,10 @@
       <div class="form-group col-md-6 mb-0">
         {{ form.module|as_crispy_field }}
       </div>
+<!--
+      <span class="input-group-btn">
+        <button class="btn btn-info">R</button>
+      </span>-->
       <div class="form-group col-md-6 mb-0">
         {{ form.title|as_crispy_field }}
       </div>

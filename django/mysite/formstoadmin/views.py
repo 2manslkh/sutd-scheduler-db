@@ -21,14 +21,14 @@ from users.models import Module, Class
 @login_required
 def scheduleRequest(request):
     if request.method == "POST":
-        form = ScheduleRequestForm(request.POST, initial={'name': request.user.get_full_name()})
+        form = ScheduleRequestForm(request.POST, initial={'name': request.user.get_username()})
         if form.is_valid():
             messages.success(request, 'Request submitted')
 
             # def save(self):
             data = form.cleaned_data
             s = ScheduleRequest(
-                name=request.user.get_full_name(),
+                name=request.user.get_username(),
                 course_code=data['course_code'],
                 class_related=data['class_related'],
                 preferred_timings=data['preferred_timings'],
@@ -36,9 +36,9 @@ def scheduleRequest(request):
                 remarks=data['remarks']
             )
             s.save()
-            form = ScheduleRequestForm(initial={'name': request.user.get_full_name()})
+            form = ScheduleRequestForm(initial={'name': request.user.get_username()})
     else:
-        form = ScheduleRequestForm(initial={'name': request.user.get_full_name()})  # or use user.get_username() for username
+        form = ScheduleRequestForm(initial={'name': request.user.get_username()})  # or use user.get_username() for username
     return render(request, 'formstoadmin/schedulerequest.html', {'form': form})
 
 
@@ -64,7 +64,6 @@ def inputModule(request):
                     'labs_per_week': data['labs_per_week']
                 })
             module_form = InputModuleInformation()
-            print(created)
             if created == False:
                 messages.success(request, 'Updated module')
             else:
@@ -86,6 +85,7 @@ class InputClassInfo(FormView):
     def post(self, request):
         form = InputClassInformation(request.POST)
         if form.is_valid():
+            print("IS VALID!")
             data = form.cleaned_data
             subject = data['module']
             if Class.objects.filter(module__subject=subject).exists():
@@ -95,6 +95,8 @@ class InputClassInfo(FormView):
                 messages.success(request, 'Class information updated')
 
             else:
+                title = data['module']
+                print(title)
                 form.save()
                 form = InputClassInformation()
                 messages.success(request, 'Class information added')

@@ -9,6 +9,8 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
+<h2>Schedule request</h2>
+<em>Note that requests will be subjected to approval by the course coordinator</em>
   <form method="post">
     {% csrf_token %}
     {{ form|crispy }}
