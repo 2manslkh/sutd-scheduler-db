@@ -12,37 +12,6 @@ LESSON_TYPE = (
     ('Cohort Class', 'Cohort Class'),
 )
 
-
-class ScheduleRequestForm(forms.Form):
-    name = forms.CharField(disabled=True, required=False)
-    course_name = forms.ModelChoiceField(queryset=Module.objects.all().order_by('subject').distinct())
-    Type = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple, choices=LESSON_TYPE)
-    class_related = forms.CharField(required=True, widget=forms.Textarea(attrs={'rows': 2, 'cols': 20, 'placeholder': "Input relevant classes separated by a comma. Eg. CC1, CC2."}))
-    preferred_timings = forms.MultipleChoiceField(required=False, widget=forms.CheckboxSelectMultiple, choices=PREFERRED_TIMINGS)
-    reasons = forms.CharField(widget=forms.Textarea(attrs={'rows': 3, 'cols': 20}))
-    remarks = forms.CharField(required=False, widget=forms.Textarea(attrs={'rows': 3, 'cols': 20}))
-
-
-PILLARS = (
-    ('asd', 'ASD'),
-    ('epd', 'EPD'),
-    ('esd', 'ESD'),
-    ('istd', 'ISTD'),
-    ('hass', 'HASS'),
-)
-
-
-class EventRequestForm(forms.Form):
-    persons_in_charge = forms.CharField(required=True, widget=forms.Textarea(attrs={'rows': 1, 'cols': 20, 'placeholder': "Separate names by commas"}))
-    event_name = forms.CharField()
-    relevant_pillars = forms.MultipleChoiceField(required=False, widget=forms.CheckboxSelectMultiple, choices=PILLARS)
-    start_date = forms.DateTimeField(input_formats=['%d/%m/%y'], help_text="DD/MM/YYYY")
-    start_time = forms.DateTimeField(input_formats=['%H:%M'], help_text="HH:MM eg. 14:30")
-    end_date = forms.DateTimeField(input_formats=['%d/%m/%y'], help_text="DD/MM/YYYY")
-    end_time = forms.DateTimeField(input_formats=['%H:%M'], help_text="HH:MM eg. 16:30")
-    duration = forms.DurationField()
-
-
 LOCATION_TYPE = (
     ('LT', "Lecture Theatre"),
     ('Cohort', "Cohort classroom"),
@@ -61,6 +30,27 @@ PILLARS = (
     ('ISTD', 'ISTD'),
     ('HASS', 'HASS'),
 )
+
+
+class ScheduleRequestForm(forms.Form):
+    name = forms.CharField(disabled=True, required=False)
+    course_name = forms.ModelChoiceField(queryset=Module.objects.all().order_by('subject').distinct())
+    Type = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple, choices=LESSON_TYPE)
+    class_related = forms.CharField(required=True, widget=forms.Textarea(attrs={'rows': 2, 'cols': 20, 'placeholder': "Input relevant classes separated by a comma. Eg. CC1, CC2."}))
+    preferred_timings = forms.MultipleChoiceField(required=False, widget=forms.CheckboxSelectMultiple, choices=PREFERRED_TIMINGS)
+    reasons = forms.CharField(widget=forms.Textarea(attrs={'rows': 3, 'cols': 20}))
+    remarks = forms.CharField(required=False, widget=forms.Textarea(attrs={'rows': 3, 'cols': 20}))
+
+
+class EventRequestForm(forms.Form):
+    persons_in_charge = forms.CharField(required=True, widget=forms.Textarea(attrs={'rows': 1, 'cols': 20, 'placeholder': "Separate names by commas"}))
+    event_name = forms.CharField()
+    relevant_pillars = forms.MultipleChoiceField(required=False, widget=forms.CheckboxSelectMultiple, choices=PILLARS)
+    start_date = forms.DateTimeField(input_formats=['%d/%m/%y'], help_text="DD/MM/YYYY")
+    start_time = forms.DateTimeField(input_formats=['%H:%M'], help_text="HH:MM eg. 14:30")
+    end_date = forms.DateTimeField(input_formats=['%d/%m/%y'], help_text="DD/MM/YYYY")
+    end_time = forms.DateTimeField(input_formats=['%H:%M'], help_text="HH:MM eg. 16:30")
+    duration = forms.DurationField()
 
 
 class InputModuleInformation(forms.Form):
@@ -98,6 +88,7 @@ class InputClassInformation(forms.ModelForm):
     description = forms.CharField()
     makeup = forms.CharField()
     assigned_professors = forms.CharField(help_text="Please separate professors\' names with a comma")
+    day = forms.CharField(disabled=True, required=False)
 
 
 # useful queries
