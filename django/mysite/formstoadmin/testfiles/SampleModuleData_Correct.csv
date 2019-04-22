@@ -1,0 +1,5 @@
+﻿Subject,Pillar,Code,Term,Core,Subject_Lead,Cohort_Size,Cohorts,Enrolment_Size,Cohorts Per Week,Lectures Per Week,Labs Per Week
+Documentary,ISTD,02.131,5,No,Sandeep,25,"CC1, CC2,CC3",150,1,0,0
+Elements of software construction,ISTD,50.003,5,Yes,Sudipta Chattopadhyay,40,"CC1, CC2,CC4",150,3,0,0
+Computer System Engineering,ISTD,50.005,5,Yes,David Yau,40,"CC1, CC2,CC5",150,2,0,1
+Intro to Probability and Statistics,ISTD,50.314,5,Yes,Tony Cheung,40,"CC1, CC2,CC6",150,1,2,0

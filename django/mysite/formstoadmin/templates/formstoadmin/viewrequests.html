@@ -1,7 +1,18 @@
 {% extends "schedule/base.html" %}
 
+{% block morejs %}
+<link rel='stylesheet' href="..\..\static\formstoadmin\forms.css">
+<!--<script src="..\..\static\formstoadmin\forms.js"></script>-->
+<script type="text/javascript">
+    $('.confirmation').on('click', function () {
+        return confirm('Are you sure?');
+    });
+</script>
+
+{% endblock %}
+
 {% block content %}
-<h2>View Requests</h2>
+<h2>Requests pending action</h2>
 <table class="table">
     <tr>
         <th>Name</th>
@@ -9,15 +20,50 @@
         <th>Related class(es)</th>
         <th>Preferred Timings</th>
         <th>Reasons</th>
+        <th>Remarks</th>
+        <th>Action</th>
     </tr>
+
     {% for obj in query_results %}
     <tr>
-        <td> {{obj.name}} </td>
+        <td> {% if obj.name %}{{obj.name}} {% else %} - {% endif %} </td>
         <td> {{obj.course_code}} </td>
         <td> {{obj.class_related}} </td>
         <td> {{obj.preferred_timings}} </td>
         <td> {{obj.reasons}} </td>
+        <td> {% if obj.remarks %}{{obj.remarks}} {% else %} - {% endif %} </td>
+        <td>
+            <a href="/requestform/{{obj.id}}/0" type="button" class="btn btn-outline-primary confirmation" role="button">Accept</a>
+            <a href="/requestform/{{obj.id}}/1" type="button" class="btn btn-outline-primary confirmation" role="button">Reject</a>
+
+        </td>
     </tr>
     {% endfor %}
 </table>
+<!-- If we want to show all requests
+<h2>All Requests</h2>
+<table class="table">
+    <tr>
+        <th>Name</th>
+        <th>Course Code</th>
+        <th>Related class(es)</th>
+        <th>Preferred Timings</th>
+        <th>Reasons</th>
+        <th>Remarks</th>
+        <th>Approved</th>
+    </tr>
+
+    {% for obj in all_requests %}
+    <tr>
+        <td> {% if obj.name %}{{obj.name}} {% else %} - {% endif %} </td>
+        <td> {{obj.course_code}} </td>
+        <td> {{obj.class_related}} </td>
+        <td> {{obj.preferred_timings}} </td>
+        <td> {{obj.reasons}} </td>
+        <td> {% if obj.remarks %}{{obj.remarks}} {% else %} - {% endif %} </td>
+        <td> {{obj.approved}}</td>
+    </tr>
+    {% endfor %}
+</table> -->
 {% endblock %}
+

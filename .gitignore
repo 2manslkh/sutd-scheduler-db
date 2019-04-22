@@ -155,3 +155,5 @@ dmypy.json
 
 # VSCODE
 .vscode
+
+django/mysite/formstoadmin/migrations/

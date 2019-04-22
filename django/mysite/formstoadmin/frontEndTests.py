@@ -14,11 +14,13 @@ from selenium.webdriver.common.action_chains import ActionChains
 from selenium.common.exceptions import NoSuchElementException
 
 import random
+import threading
+import time
 
 
 class EventScheduler_FrontEndTest:
 
-    def setup(self, test_registration=False):
+    def __init__(self, test_registration=False):
         self.eyes = Eyes()
         self.eyes.api_key = 'IlUcgRAO105BlmoORdtUxbK8CUKg3KRSa8q4f3iACoY1I110'
         self.driver = webdriver.Chrome(r"C:\Users\Tea\Desktop\chromedriver_win32 (1)\chromedriver.exe")
@@ -169,16 +171,6 @@ class EventScheduler_FrontEndTest:
 
         self.eyes.check_window("Login-ed")
 
-        # right = self.driver.find_element_by_xpath('//button[@class="fc-next-button fc-button fc-state-default fc-corner-right"]')
-        # right.click()
-        # self.eyes.check_window("today button lit up")
-
-        # left=self.driver.find_element_by_xpath('        //button[@class="fc-prev-button fc-button fc-state-default fc-corner-left"]')
-        # left.click()
-        # self.eyes.check_window("today not lit")
-
-        # self.driver.find_element_by_xpath('        //button[@class="fc-prev-button fc-button fc-state-default fc-corner-left"]').click()
-
     def test_collapse(self):
         self.driver.set_window_size(300, 800)
         self.driver.set_window_position(0, 0)
@@ -195,25 +187,26 @@ class EventScheduler_FrontEndTest:
     def test_links(self):
         self.driver.find_element_by_xpath("//a[contains(text(),'Schedule R')]").click()
 
-        assert(self.driver.current_url == "http://localhost:8000/requestform/")
+        assert(self.driver.current_url == "http://localhost:8000/request-form/")
 
         self.driver.find_element_by_xpath("//a[contains(text(),'Forms')]").click()
         self.eyes.check_window('Dropdown menu')
 
         self.driver.find_element_by_xpath("//a[contains(text(),'Input M')]").click()
 
-        assert(self.driver.current_url == "http://localhost:8000/requestform/input-module-info")
+        assert(self.driver.current_url == "http://localhost:8000/input-module-info")
 
         self.driver.find_element_by_xpath("//a[contains(text(),'Forms')]").click()
         self.eyes.check_window('Dropdown menu')
 
         self.driver.find_element_by_xpath("//a[contains(text(),'In-vivo')]").click()
 
-        assert(self.driver.current_url == "http://localhost:8000/requestform/add-event")
+        assert(self.driver.current_url == "http://localhost:8000/add-event")
 
+        self.driver.find_element_by_xpath("//a[contains(text(),'Forms')]").click()
         self.driver.find_element_by_xpath("//a[contains(text(),'View R')]").click()
 
-        assert(self.driver.current_url == "http://localhost:8000/requestform/view-requests")
+        assert(self.driver.current_url == "http://localhost:8000/view-requests")
 
     def logout(self):
         self.driver.find_element_by_xpath('//a[text()="Logout"]').click()
@@ -226,9 +219,8 @@ class EventScheduler_FrontEndTest:
         self.eyes.abort_if_not_closed()
 
 
-test = EventScheduler_FrontEndTest()
+test = EventScheduler_FrontEndTest(test_registration=True)
 
-test.setup(test_registration=True)
 test.test_registration_pass()
 test.test_login_pass()
 test.test_collapse()
