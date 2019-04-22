@@ -49,21 +49,36 @@ def inputModule(request):
         if module_form.is_valid():
             messages.success(request, 'Input module form submitted')
             data = module_form.cleaned_data
-            s = Module(
-                subject=data['subject'],
+            _, created = Module.objects.filter(subject__iexact=data['subject']).update_or_create(
+                subject__iexact=data['subject'],
                 code=data['subject_code'],
-                pillar=data['pillar'],
-                term=data['term'],
-                core=data['core'],
-                subject_lead=data['subject_lead'],
-                cohort_size=data['cohort_size'],
-                enrolment_size=data['enrolment_size'],
-                cohorts=data['cohorts'],
-                cohorts_per_week=data['cohorts_per_week'],
-                lectures_per_week=data['lectures_per_week'],
-                labs_per_week=data['labs_per_week'],
-            )
-            s.save()
+                defaults={
+                    'pillar': data['pillar'],
+                    'term': data['term'],
+                    'core': data['core'],
+                    'subject_lead': data['subject_lead'],
+                    'cohort_size': data['cohort_size'],
+                    'cohorts': data['cohorts'],
+                    'enrolment_size': data['enrolment_size'],
+                    'cohorts_per_week': data['cohorts_per_week'],
+                    'lectures_per_week': data['lectures_per_week'],
+                    'labs_per_week': data['labs_per_week']
+                })
+            # s = Module(
+            #     subject=data['subject'],
+            #     code=data['subject_code'],
+            #     pillar=data['pillar'],
+            #     term=data['term'],
+            #     core=data['core'],
+            #     subject_lead=data['subject_lead'],
+            #     cohort_size=data['cohort_size'],
+            #     enrolment_size=data['enrolment_size'],
+            #     cohorts=data['cohorts'],
+            #     cohorts_per_week=data['cohorts_per_week'],
+            #     lectures_per_week=data['lectures_per_week'],
+            #     labs_per_week=data['labs_per_week'],
+            # )
+            # s.save()
             module_form = InputModuleInformation()
     else:
         module_form = InputModuleInformation()
@@ -161,28 +176,29 @@ def moduleUpload(request):
         data_set = csv_file.read().decode('utf-8')
         io_string = io.StringIO(data_set)
 
-        first_row = True
+        header = True
         for row in csv.reader(io_string, delimiter=',', quotechar="|"):
-            if first_row:
+            if header:
                 if len(row) != 12:
                     raise IndexError
-                first_row = False
+                header = False
 
             else:
                 _, created = Module.objects.update_or_create(
                     subject=row[0],
                     pillar=row[1],
-                    code=row[2],
-                    term=row[3],
-                    core=row[4],
-                    subject_lead=row[5],
-                    cohort_size=row[6],
-                    cohorts=row[7],
-                    enrolment_size=row[8],
-                    cohorts_per_week=row[9],
-                    lectures_per_week=row[10],
-                    labs_per_week=row[11]
-                )
+                    defaults={
+                        'code': row[2],
+                        'term': row[3],
+                        'core': row[4],
+                        'subject_lead': row[5],
+                        'cohort_size': row[6],
+                        'cohorts': row[7],
+                        'enrolment_size': row[8],
+                        'cohorts_per_week': row[9],
+                        'lectures_per_week': row[10],
+                        'labs_per_week': row[11]
+                    })
     except IndexError:
         messages.error(request, "Incorrect number of columns. Please ensure data is in the right format")
         return render(request, template, context)
