@@ -112,21 +112,23 @@ def addEvent(request):
 
 
 @login_required
-def viewRequests(request, query_results=ScheduleRequest.objects.all()):
+def viewRequests(request):
+    all_requests = ScheduleRequest.objects.all()
     if request.method == "GET":
+        query_results = ScheduleRequest.objects.filter(approved__isnull=True)
         fields = ScheduleRequest._meta.get_fields()
-        return render(request, 'formstoadmin/viewrequests.html', {"query_results": query_results})
+        return render(request, 'formstoadmin/viewrequests.html', {"query_results": query_results, "all_requests": all_requests})
 
 
 def request_action(request, requestID, status):
-    query_results = ScheduleRequest.objects.all()
+    query_results = ScheduleRequest.objects.filter(approved__isnull=True)
     fields = ScheduleRequest._meta.get_fields()
     if status == 0:
-        stat = False
-    elif status == 1:
         stat = True
+    elif status == 1:
+        stat = False
 
-    a = query_results[requestID]
+    a = query_results[requestID - 1]
     a.approved = stat
     a.save()
 

@@ -20,6 +20,7 @@
         <th>Remarks</th>
         <th>Action</th>
     </tr>
+
     {% for obj in query_results %}
     <tr>
         <td> {% if obj.name %}{{obj.name}} {% else %} - {% endif %} </td>
@@ -29,8 +30,8 @@
         <td> {{obj.reasons}} </td>
         <td> {% if obj.remarks %}{{obj.remarks}} {% else %} - {% endif %} </td>
         <td>
-            <button type="button" class="btn view-request-accept" id="btna-{{obj.id}}">Accept</button>
-            <button type="button" class="btn view-request-reject" id="btnr-{{obj.id}}">Reject</button>
+            <a href="/requestform/{{obj.id}}/0" type="button" class="btn view-request-accept confirmation" id="btna-{{obj.id}}">Accept</a>
+            <a href="/requestform/{{obj.id}}/1" type="button" class="btn view-request-reject" id="btnr-{{obj.id}}">Reject</a>
 
         </td>
     </tr>
