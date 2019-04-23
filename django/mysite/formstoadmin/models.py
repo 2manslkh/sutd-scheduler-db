@@ -37,3 +37,4 @@ class EventRequest(models.Model):
     num_people = models.CharField(max_length=200)
     start_time = models.CharField(max_length=200)
     end_time = models.CharField(max_length=200)
+    location = models.CharField(max_length=200)
