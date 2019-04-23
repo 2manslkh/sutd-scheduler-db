@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
-from django.urls import include, path
+from django.urls import include, path, re_path
 from users import views as user_views
 from formstoadmin import views as formstoadminViews
 from schedule import views as scheduleViews
@@ -27,11 +27,16 @@ urlpatterns = [
     path('profile/', user_views.profile, name='profile'),
     path('login/', auth_views.LoginView.as_view(template_name="users/login.html"), name='login'),
     path('logout/', auth_views.LogoutView.as_view(template_name="users/logout.html"), name='logout'),
-    # path('requestform/', include('formstoadmin.urls')),
+    path('requestform/', include('formstoadmin.urls')),
     # '' contains string after /requestform
-    path('request-form', formstoadminViews.index, name='request-form'),
+    path('request-form', formstoadminViews.ScheduleRequest, name='request-form'),
     path('input-module-info', formstoadminViews.inputModule, name='input-module-info'),
-    path('view-requests', formstoadminViews.viewRequests, name='view-requests'),
-    path('add-event', formstoadminViews.addEvent, name='add-event'),
-    path('generate-schedule', scheduleViews.generateSchedule, name="generate-schedule"),
+    path('view-requests/', formstoadminViews.viewRequests, name='view-requests'),
+    path('add-event/', formstoadminViews.addEvent, name='add-event'),
+    path('generate-schedule/', scheduleViews.generateSchedule, name="generate-schedule"),
+    path('module-upload/', formstoadminViews.moduleUpload, name="module-upload"),
+    path('input-class-info/', formstoadminViews.InputClassInfo.as_view(), name="input-class-info"),
+    re_path(r'^return_data/(?P<Classs>[^/]+)/(?P<modyews>[^/]+)/$',scheduleViews.return_data),
+    re_path(r'^return_data/(?P<Classs>[^/]+)/$',scheduleViews.return_data),
+    re_path(r'^return_data/$',scheduleViews.return_data),
 ]
