@@ -119,6 +119,7 @@ def addEvent(request):
         form = EventRequestForm(request.POST)
         if form.is_valid():
             messages.success(request, 'Event Scheduling form submitted')
+            form = EventRequestForm()
             # form.save()
 
     else:
