@@ -8,10 +8,12 @@ import db_to_algo as dba
 
 
 dbh = dba.db_helper(r"C:\Users\Desktop\esc\sutd-scheduler-db\django\mysite\db2.sqlite3")
-#dbh2 = dba.db_helper("db2.sqlite3")
+dbh2 = dba.db_helper(r"C:\Users\Desktop\esc fake master\sutd-scheduler-db\django\mysite\db.sqlite3")
+dbh2.print_all_columns("formstoadmin_schedulerequest")
 data = dbh.get_columns(["id","title","assigned_professors","class_related","location","pillar","duration","type"],"users_class")
-#soft = dbh2.get_columns(["id","name","course_code","class_related","preferred_timings", "reasons", "remarks"],"formstoadmin_schedulerequest")
-soft = [(1, 'Gemma Roig', 'Introduction to Algorithms', '4CISTD1', '1.5', 'cohort', 'morning', 'balala', 'lll', True)]
+soft = dbh2.get_columns(['id', 'name', 'course_name', 'class_related','duration', 'lesson_type','preferred_timings', 'approved'  ],"formstoadmin_schedulerequest")
+print(soft)
+#soft = [(1, 'Gemma Roig', 'Introduction to Algorithms', '4CISTD1', '120', 'cohort', 'morning', 1)]
 
 def db_to_ls():
     new_data = []
@@ -55,7 +57,7 @@ def db_to_ls():
 inputls = db_to_ls()
 
 for i in range(len(soft)):
-    if soft[i][-1] == True:
+    if soft[i][7] == 1:
         for j in range(len(inputls)):
         
         #approve
@@ -72,26 +74,25 @@ for i in range(len(soft)):
                     if inputls[j][3] == soft[i][3].split():
                         
                         #duration
-                        if inputls[j][6] == int(float(soft[i][4])*2):
-                            
+                        if inputls[j][6] == int(soft[i][4])/30:
                             #type
-                            if soft[i][5] == "":
+                            if soft[i][5] == "lecture" and inputls[j][7] == "LEC":
                                 if soft[i][6] == "morning":
-                                    inputls[j][-1] = "morning"
+                                    inputls[j].append("morning")
+                                elif soft[i][6] == "afternoon":
+                                    inputls[j].append("afternoon")
+                           
+                            elif soft[i][5] == "cohort" and inputls[i][7] == "CBL":
+                                if soft[i][6] == "morning":
+                                    inputls[j].append("morning")
+                                elif soft[i][6] == "afternoon":
+                                    inputls[j].append("afternoon")
+                            else:
+                                if soft[i][6] == "morning":
+                                    inputls[j].append("morning")
                                     
                                 elif soft[i][6] == "afternoon":
-                                    inputls[i][6] = "afternoon"
-                            elif soft[i][5] == "lecture" and inputls[i][7] == "LEC":
-                                if soft[i][6] == "morning":
-                                    inputls[j][-1] = "morning"
-                                elif soft[i][6] == "afternoon":
-                                    inputls[i][6] = "afternoon"
-                            elif soft[i][5] == "cohort" and inputls[i][7] == "CBL":
-                                print("KKKKKKKK",soft[i][1], inputls[j])
-                                if soft[i][6] == "morning":
-                                    inputls[j][-1] = "morning"
-                                elif soft[i][6] == "afternoon":
-                                    inputls[i][6] = "afternoon"
+                                    inputls[j].append("afternoon")
 print(inputls)
                             
                                     
@@ -652,20 +653,7 @@ def print_chromosome_csv(max_chromosomes):
     
     out.close()
     print("finish csv writing")
-
-def write_to_db(max_chromosomes):
-    db = dba.db_helper("db.sqlite3")
-    out = []
-    for chromosome in max_chromosomes:
-        time = str(Slot.slots[int(slot_bits(chromosome),2)]).split("-")
-        data = [CourseClass.classes[int(course_bits(chromosome), 2)].dbid,\
-                   Group.groups[int(group_bits(chromosome), 2)],\
-                   Room.rooms[int(lt_bits(chromosome), 2)],\
-                   Slot.slots[int(slot_bits(chromosome), 2)].day] + time
-        out.append(data)
-    print(out)
-    db.update_db(out)
-    print("UPDATED DB")   
+               
 
 
 # Simple Searching Neighborhood
@@ -743,7 +731,6 @@ def simulated_annealing():
     csv_write.writerow([str(evaluate_softconstraints(population[0]))])
     out.close()
     print_chromosome_csv(population[0])
-    write_to_db(population[0])
     print("Score: ", evaluate(population[0]))
     print("Soft score: ", evaluate_softconstraints(population[0]))
 
