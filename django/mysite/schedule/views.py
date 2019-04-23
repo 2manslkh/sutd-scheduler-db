@@ -8,6 +8,7 @@ from django.http import JsonResponse
 from django.core import serializers
 from users.models import Module
 from users.models import Class
+from users.models import FilteredResults
 
 @login_required
 def home(request):
@@ -20,6 +21,12 @@ def generateSchedule(request):
         messages.success(request, "Generating Schedule...")
 
     return render(request, 'schedule/generateSchedule.html')
+
+def make_temp_model(data):
+    FilteredResults.objects.delete()
+    for i in data:
+        FilteredResults(title=i["title"],start=i["start"],end=i["end"],description=i["description"],location=i["location"])
+        FilteredResults.save()
 
 
 def return_data(request,Classs = "",modyews = ""):
@@ -60,6 +67,9 @@ def return_data(request,Classs = "",modyews = ""):
     # data = {
     #     'events': Module.timetable_objects.values('title', 'start','end','description','location')
     # }
+
     print(data)
     print (Classs)
-    return JsonResponse(data, safe = False)
+    json_response = JsonResponse(data, safe=False)
+    make_temp_model(json_response.content)
+    return json_response

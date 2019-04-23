@@ -28,7 +28,6 @@ def main():
     c.execute(f"SELECT * from {FILTERED_CLASS_TABLE}")
     data = c.fetchall()
 
-    
 
     #TODO: Get from DB
 

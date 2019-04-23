@@ -42,3 +42,10 @@ class Class(models.Model):
     day = models.CharField(max_length=200, default="")
     start = models.CharField(max_length=200, default="")
     end = models.CharField(max_length=200, default="")
+
+class FilteredResults(models.Model):
+    title = models.CharField(max_length=200, default="")
+    start = models.CharField(max_length=200, default="")
+    end = models.CharField(max_length=200, default="")
+    description = models.CharField(max_length=200, default="")
+    location = models.CharField(max_length=200, default="")
