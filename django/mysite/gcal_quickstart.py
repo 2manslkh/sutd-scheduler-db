@@ -41,13 +41,12 @@ class EventBuilder:
     def build(self):
         return self.output
     
-
-
 class Gcal:
 
-    def __init__(self,creds_file=None):
-        self.creds_file = creds_file #Credentials .json
+    def __init__(self, calendar_id='primary'):
+        self.creds_file = 'credentials.json'
         self.creds = None
+        self.calendar_id = calendar_id
         self._set_creds()
         self.service = build('calendar', 'v3', credentials=self.creds)
     
@@ -55,21 +54,23 @@ class Gcal:
         creds = None
         if os.path.exists('token.pickle'):
             with open('token.pickle', 'rb') as token:
-                creds = pickle.load(token)
+                self.creds = pickle.load(token)
         # If there are no (valid) credentials available, let the user log in.
-        if not creds or not creds.valid:
-            if creds and creds.expired and creds.refresh_token:
-                creds.refresh(Request())
+        if not self.creds or not self.creds.valid:
+            if self.creds and self.creds.expired and self.creds.refresh_token:
+                self.creds.refresh(Request())
             else:
                 flow = InstalledAppFlow.from_client_secrets_file(
                     self.creds_file, SCOPES)
                 self.creds = flow.run_local_server()
             # Save the credentials for the next run
             with open('token.pickle', 'wb') as token:
-                pickle.dump(creds, token)
+                pickle.dump(self.creds, token)
 
-    def _create_event(self, event):
-        event = self.service.events().insert(calendarId='primary', body=event).execute()
+    def _create_event(self, event, calendar_id=""):
+        if calendar_id == "":
+            calendar_id = self.calendar_id
+        event = self.service.events().insert(calendarId=calendar_id, body=event).execute()
         print ('Event created: %s' % (event.get('htmlLink')))
 
     def create_events(self,event_list):
@@ -77,10 +78,12 @@ class Gcal:
             self._create_event(event)
         print("All Events Created")
 
-    def view_events(self,calendarId='primary'):
+    def view_events(self,calendar_id=""):
+        if calendar_id == "":
+            calendar_id = self.calendar_id
         now = datetime.datetime.utcnow().isoformat() + 'Z' # 'Z' indicates UTC time
         print('Getting the upcoming 10 events')
-        events_result = self.service.events().list(calendarId='primary', timeMin=now,
+        events_result = self.service.events().list(calendarId=calendar_id, timeMin=now,
                                             maxResults=10, singleEvents=True,
                                             orderBy='startTime').execute()
         events = events_result.get('items', [])
@@ -90,9 +93,9 @@ class Gcal:
         for event in events:
             start = event['start'].get('dateTime', event['start'].get('date'))
             print(start, event['summary'])
-
+    
 def main():
-    gcal = Gcal('credentials.json')
+    gcal = Gcal()
     gcal.view_events('primary')
     event = (EventBuilder()
     .add_event("50.001","Introduction to Information Systems")
