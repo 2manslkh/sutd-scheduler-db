@@ -28,13 +28,13 @@ class EventBuilder:
         self.output['description'] = f"{description}"
         return self
 
-    def add_startTime(self, yyyy, mm, dd, start_time, timezone="Asia/Singapore"):
-        self.output['start'] = {'dateTime':f"{yyyy}-{mm}-{dd}T{start_time}",
+    def add_startTime(self, date, start_time, timezone="Asia/Singapore"):
+        self.output['start'] = {'dateTime':f"{date}T{start_time}",
                                 'timeZone':timezone}
         return self
 
-    def add_endTime(self, yyyy, mm, dd, end_time, timezone="Asia/Singapore"):
-        self.output['end'] = {'dateTime':f"{yyyy}-{mm}-{dd}T{end_time}",
+    def add_endTime(self, date, end_time, timezone="Asia/Singapore"):
+        self.output['end'] = {'dateTime':f"{date}T{end_time}",
                                 'timeZone':timezone}
         return self
 
@@ -100,8 +100,8 @@ def main():
     event = (EventBuilder()
     .add_event("50.001","Introduction to Information Systems")
     .add_location("CC13")
-    .add_startTime(2019,4,23,"12:00:00")
-    .add_endTime(2019,4,23,"15:00:00")
+    .add_startTime("2019-04-23","12:00:00")
+    .add_endTime("2019-04-23","15:00:00")
     .build())
     events = []
     events.append(event)
