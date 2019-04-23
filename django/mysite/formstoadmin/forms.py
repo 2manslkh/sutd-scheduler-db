@@ -88,9 +88,9 @@ class InputClassInformation(forms.ModelForm):
     assigned_professors = forms.CharField(help_text="Please separate professors\' names with a comma")
     day = forms.CharField(disabled=True, required=False)
 
-    def __init__(self, *args, **kwargs):
-        super(InputClassInformation, self).__init__(*args, **kwargs)
-        # self.fields['module'].widget.attrs['class'] = 'choose-mod'
+    # def __init__(self, *args, **kwargs):
+    #     super(InputClassInformation, self).__init__(*args, **kwargs)
+    #     # self.fields['module'].widget.attrs['class'] = 'choose-mod'
 
 
 # useful queries
