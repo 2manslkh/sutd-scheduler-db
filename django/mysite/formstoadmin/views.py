@@ -74,7 +74,7 @@ def inputModule(request):
     return render(request, 'formstoadmin/inputmodule.html', {'form': module_form})
 
 
-def inputClassInfo(request, mod_id=0, class_id=0):
+def inputClassInfo(request, mod_id=0, class_id=0, step=0):
     template_name = "formstoadmin/inputclass.html"
 
     if request.method == "POST":
@@ -97,7 +97,7 @@ def inputClassInfo(request, mod_id=0, class_id=0):
         for c in classes:
             print(c.id, c.module)
 
-        form = InputClassInformation(request.GET, instance=first_class)
+        form = InputClassInformation(instance=first_class)
 
     context = {'form': form}
     return render(request, template_name, context)
