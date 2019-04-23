@@ -3,7 +3,17 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
+<h2>Input class information</h2>
 
+{% if start %}
+<form method="post">
+{% csrf_token %}
+{{ form.module|as_crispy_field }}
+<button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+
+{% else %}
 <form method="post">
     {% csrf_token %}
     <div class="form-row">
@@ -57,5 +67,6 @@
 
     <button type="submit" class="btn btn-primary">Submit</button>
   </form>
+{% endif %}
 
 {% endblock content %}

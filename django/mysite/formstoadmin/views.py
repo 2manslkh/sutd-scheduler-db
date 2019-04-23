@@ -10,7 +10,6 @@ import pandas as pd
 import copy
 from django.views.generic import FormView
 # Create your views here.
-
 import csv
 import io
 from django.contrib import messages
@@ -73,16 +72,18 @@ def inputModule(request):
     return render(request, 'formstoadmin/inputmodule.html', {'form': module_form})
 
 
-class InputClassInfo(FormView):
+def inputClassInfo(request, mod_id=0):
     template_name = "formstoadmin/inputclass.html"
+    if request.method == "GET":
+        for m in Module.objects.filter(id=mod_id):
+            module = m.subject
+        print(module)
+        classes = Class.objects.filter(module__subject=module)
+        form = InputClassInformation(request.GET, instance=a)
+        context = {'form': form, 'classes': classes, 'mod_id': mod_id}
+        return render(request, template_name, context)
 
-    def get(self, request):
-        form = InputClassInformation()
-        classes = Class.objects.all()
-        context = {'form': form, 'classes': classes, 'get': True}
-        return render(request, self.template_name, context)
-
-    def post(self, request):
+    if request.method == "POST":
         form = InputClassInformation(request.POST)
         if form.is_valid():
             data = form.cleaned_data
@@ -98,7 +99,18 @@ class InputClassInfo(FormView):
                 form = InputClassInformation()
                 messages.success(request, 'Class information added')
 
-        return render(request, self.template_name, {'form': form, 'get': False})
+        context = {'form': form, 'mod_id': mod_id}
+        return render(request, template_name, context)
+
+
+def inputClassInfo_start(request):
+    form = InputClassInformation()
+    if request.method == "POST":
+        mod_id = request.POST.get("module", "")
+        urlstr = "/input-class-info/" + mod_id
+        return redirect(urlstr)
+
+    return render(request, 'formstoadmin/inputclass.html', {'form': form, 'start': True})
 
 
 @login_required

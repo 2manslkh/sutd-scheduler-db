@@ -15,28 +15,11 @@
  <form method="post">
     {% csrf_token %}
 
-      {{ form.persons_in_charge|as_crispy_field }}
-      {{ form.event_name|as_crispy_field }}
+    {{ form.persons_in_charge|as_crispy_field }}
+    {{ form.event_name|as_crispy_field }}
 
-      {{ form.relevant_pillars|as_crispy_field }}
-    <div class="form-row">
-      <div class="form-group col-md-6 mb-0">
-        {{ form.start_date|as_crispy_field }}
-      </div>
-      <div class="form-group col-md-6 mb-0">
-        {{ form.start_time|as_crispy_field }}
-      </div>
-    </div>
-
-
-    <div class="form-row">
-      <div class="form-group col-md-6 mb-0">
-        {{ form.end_date|as_crispy_field }}
-      </div>
-      <div class="form-group col-md-6 mb-0">
-        {{ form.end_time|as_crispy_field }}
-      </div>
-    </div>
+    {{ form.relevant_pillars|as_crispy_field }}
+    {{form.date | as_crispy_field}}
 
     {{ form.duration|as_crispy_field }}
 
