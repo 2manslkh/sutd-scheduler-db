@@ -89,15 +89,18 @@ def inputClassInfo(request, mod_id=0, class_id=0, step=0):
         form = InputClassInformation(request.POST)
         form.module = module
         if form.is_valid():
+            print("is valid")
             data = form.cleaned_data
             subject = data['module']
+            print(module)
             if Class.objects.filter(module__subject=subject).exists():
+                print("exists")
                 a = Class.objects.filter(module__subject=subject)[class_id]
                 form = InputClassInformation(request.POST, instance=a)
                 form.save()
                 messages.success(request, 'Class information updated')
+                form = InputClassInformation(instance=a)
 
-        form = InputClassInformation(instance=a)
         context = {'form': form}
 
     else:
@@ -137,7 +140,7 @@ def addEvent(request):
                 duration=data['duration'],
             )
             e.save()
-            messages.success(request, 'Event Scheduling form submitted')
+            # messages.success(request, 'Event Schedule form submitted')
             form = EventRequestForm()
 
     else:
