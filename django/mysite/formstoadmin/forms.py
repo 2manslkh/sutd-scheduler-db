@@ -49,6 +49,7 @@ class EventRequestForm(forms.Form):
     relevant_pillars = forms.MultipleChoiceField(required=False, widget=forms.CheckboxSelectMultiple, choices=PILLARS)
     date = forms.DateTimeField(input_formats=['%d/%m/%Y'], help_text="DD/MM/YYYY. Suggested timeslots will be given around the date provided")
     duration = forms.IntegerField(label="Duration (in minutes)", min_value=1)
+    num_people = forms.IntegerField(label="Number of people attending", min_value=1)
 
 
 class InputModuleInformation(forms.Form):
@@ -65,8 +66,8 @@ class InputModuleInformation(forms.Form):
     cohorts = forms.IntegerField(min_value=1, label="Number of Cohort Classes")
     enrolment_size = forms.IntegerField(min_value=1)
     cohorts_per_week = forms.IntegerField(min_value=0)
-    lectures_per_week = forms.IntegerField(required=False, min_value=0)
-    labs_per_week = forms.IntegerField(required=False, min_value=0)
+    lectures_per_week = forms.IntegerField(min_value=0)
+    labs_per_week = forms.IntegerField(min_value=0)
 
 
 class InputClassInformation(forms.ModelForm):
@@ -74,7 +75,7 @@ class InputClassInformation(forms.ModelForm):
         model = Class
         fields = '__all__'
 
-    module = forms.ModelChoiceField(queryset=Module.objects.all().order_by('subject').distinct())
+    module = forms.ModelChoiceField(queryset=Module.objects.all().order_by('subject').distinct(), required=False)
     title = forms.CharField(disabled=True, required=False)
     pillar = forms.CharField(disabled=True, required=False)
     Type = forms.CharField(disabled=True, required=False)

@@ -34,5 +34,6 @@ class EventRequest(models.Model):
     relevant_pillars = MultiSelectField(choices=PILLARS)
     date = models.CharField(max_length=200)
     duration = models.CharField(max_length=200)
+    num_people = models.CharField(max_length=200)
     start_time = models.CharField(max_length=200)
     end_time = models.CharField(max_length=200)
