@@ -5,6 +5,8 @@ from math import ceil, log2
 import math
 import csv
 import db_to_algo as dba
+import datetime
+from datetime import timedelta 
 
 
 dbh = dba.db_helper(r"C:\Users\Desktop\esc\sutd-scheduler-db\django\mysite\db2.sqlite3")
@@ -15,6 +17,7 @@ soft = dbh2.get_columns(['id', 'name', 'course_name', 'class_related','duration'
 print(soft)
 #soft = [(1, 'Gemma Roig', 'Introduction to Algorithms', '4CISTD1', '120', 'cohort', 'morning', 1)]
 
+firstday = datetime.date(2019,4,22)
 def db_to_ls():
     new_data = []
     for d in data:
@@ -635,21 +638,25 @@ def print_chromosome_csv(max_chromosomes):
     out = open('schedule.csv','a', newline='')
     csv_write = csv.writer(out, dialect = 'excel')
     csv_write.writerow(label)
-    for chromosome in max_chromosomes:
-        time = str(Slot.slots[int(slot_bits(chromosome),2)]).split("-")
-        csv_row = [CourseClass.classes[int(course_bits(chromosome), 2)].dbid,\
-                   CourseClass.classes[int(course_bits(chromosome), 2)].code,\
-                   Professor.professors[int(professor_bits(chromosome), 2)],\
-                   Group.groups[int(group_bits(chromosome), 2)],\
-                   Room.rooms[int(lt_bits(chromosome), 2)],\
-                   Slot.slots[int(slot_bits(chromosome), 2)].day] + time
-        csv_write.writerow(csv_row)
-        print(CourseClass.classes[int(course_bits(chromosome), 2)], " | ",
-          Professor.professors[int(professor_bits(chromosome), 2)], " | ",
-          Group.groups[int(group_bits(chromosome), 2)], " | ",
-          Room.rooms[int(lt_bits(chromosome), 2)], " | ",
-          Slot.slots[int(slot_bits(chromosome), 2)], Slot.slots[int(slot_bits(chromosome), 2)].day)
-        
+    for i in range(0,14):
+        if i != 6:
+            print (i)
+            for chromosome in max_chromosomes:
+                date = firstday + timedelta(days = (i * 7 + Slot.slots[int(slot_bits(chromosome), 2)].day-1))
+                time = str(Slot.slots[int(slot_bits(chromosome),2)]).split("-")
+                csv_row = [CourseClass.classes[int(course_bits(chromosome), 2)].dbid,\
+                           CourseClass.classes[int(course_bits(chromosome), 2)].code,\
+                           Professor.professors[int(professor_bits(chromosome), 2)],\
+                           Group.groups[int(group_bits(chromosome), 2)],\
+                           Room.rooms[int(lt_bits(chromosome), 2)]] +time
+                csv_row.append(date)
+                csv_write.writerow(csv_row)
+                print(CourseClass.classes[int(course_bits(chromosome), 2)], " | ",
+                  Professor.professors[int(professor_bits(chromosome), 2)], " | ",
+                  Group.groups[int(group_bits(chromosome), 2)], " | ",
+                  Room.rooms[int(lt_bits(chromosome), 2)], " | ",
+                  Slot.slots[int(slot_bits(chromosome), 2)], " | ", date)
+                
     
     out.close()
     print("finish csv writing")
