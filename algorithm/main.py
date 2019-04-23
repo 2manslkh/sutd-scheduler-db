@@ -661,7 +661,19 @@ def print_chromosome_csv(max_chromosomes):
     out.close()
     print("finish csv writing")
                
-
+def write_to_db(max_chromosomes):
+    db = dba.db_helper("db.sqlite3")
+    out = []
+    for chromosome in max_chromosomes:
+        time = str(Slot.slots[int(slot_bits(chromosome),2)]).split("-")
+        data = [CourseClass.classes[int(course_bits(chromosome), 2)].dbid,\
+                   Group.groups[int(group_bits(chromosome), 2)],\
+                   Room.rooms[int(lt_bits(chromosome), 2)],\
+                   Slot.slots[int(slot_bits(chromosome), 2)].day] + time
+        out.append(data)
+    print(out)
+    db.update_db(out)
+    print("UPDATED DB")  
 
 # Simple Searching Neighborhood
 # It randomly changes timeslot of a class/lab
@@ -738,6 +750,7 @@ def simulated_annealing():
     csv_write.writerow([str(evaluate_softconstraints(population[0]))])
     out.close()
     print_chromosome_csv(population[0])
+    write_to_db(population[0])
     print("Score: ", evaluate(population[0]))
     print("Soft score: ", evaluate_softconstraints(population[0]))
 

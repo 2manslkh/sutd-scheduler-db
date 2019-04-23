@@ -15,10 +15,8 @@ class Group:
 
         
     def __repr__(self):
-        group = ""
-        for g in self.name:
-            group = group + g + ", "
-        return group.strip(", ")
+
+        return self.name
 
 class Professor:
     professors = None
@@ -36,11 +34,8 @@ class Professor:
 
 
     def __repr__(self):
-        #return str(self.name)
-        prof = ""
-        for p in self.name:
-            prof = prof + p + ", "
-        return prof.strip(", ")
+
+        return self.name
 
 class CourseClass:
     classes = None

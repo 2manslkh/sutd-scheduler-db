@@ -4,18 +4,26 @@ from Classes_invivo import Group, Professor, CourseClass, Room, Slot
 from math import ceil, log2
 import math
 import csv
-import db_to_algo as dba
+import invivo_db as vivodb
 import datetime
 from datetime import timedelta 
 
+
+#dbh = dba.db_helper(r"C:\Users\好好学习\Desktop\esc fake master\sutd-scheduler-db\django\mysite\db.sqlite3")
+#invivo = dbh.get_columns(["id","title","assigned_professors","class_related","location","pillar","duration","type"],"formstoadmin_eventrequest")
+#print(invivo)
 initial_slots = [Slot([10,11,12,13,14,15,16,17,18,19], 3),Slot([11,12,13,14,15,16,17,18,19], 5)]
 
 Room.rooms = [Room("lt1",100), Room("lt2", 200), Room("lt3", 300)]
 
 Slot.slots = copy.deepcopy(initial_slots)
 
-
-
+dbh = vivodb.db_helper(r"C:\Users\Desktop\esc fake master\sutd-scheduler-db\django\mysite\db.sqlite3")
+dbh.print_all_columns("formstoadmin_eventrequest")
+dbh.print_all_columns("formstoadmin_eventrequestresponse")
+invivo = dbh.get_columns(['id', 'event_name', 'persons_in_charge', 'relevant_pillars', 'num_people', 'duration', 'date'],"formstoadmin_eventrequest")
+#print(invivo)
+#print(dbh.get_columns(['id', 'persons_in_charge', 'event_name', 'relevant_pillars', 'date', 'duration', 'num_people', 'start_time', 'end_time', 'location', 'event_id_id'], "formstoadmin_eventrequestresponse"))
 max_score = None
 
 cpg = []
@@ -26,7 +34,7 @@ Group.groups = []
 lts = []
 bits_needed_backup_store = {}  # to improve performance
 
-inputls = [[500051, "invivo", ["guest"], ["ISTD"], 200, 3, "2019-6-9"]]
+inputls = [[invivo[-1][0], invivo[-1][1], invivo[-1][2], invivo[-1][3], int(invivo[-1][4]), int(invivo[-1][5])/30, invivo[-1][6].split(" ")[0]]]
 
 date = inputls[0][6].split("-")
 for i in range(len(date)):
@@ -206,23 +214,25 @@ def mutate(chromosome):
 def print_chromosome_csv(max_chromosomes):
 
         
-    label = ["id", "invivo", "speaker", "pillar", "population","room", "date" "day", "start", "end"]
+    label = ["persons in charge", "event name", "pillar", "duration", "date", "end time", "stat time", "num_people", "location", "foreign id"]
     out = open('schedule_invivo.csv','a', newline='')
     csv_write = csv.writer(out, dialect = 'excel')
     csv_write.writerow(label)
     for chromosome in max_chromosomes:
         daydelta = Slot.slots[int(slot_bits(chromosome), 2)].day - dayofweek
         vivo_date = datetime.date(date[0], date[1], date[2]) + timedelta(days = daydelta)
-        
+        print(vivo_date)
             
         time = str(Slot.slots[int(slot_bits(chromosome),2)]).split("-")
-        csv_row = [CourseClass.classes[int(course_bits(chromosome), 2)].dbid,\
+        csv_row = [Professor.professors[int(professor_bits(chromosome), 2)],\
                    CourseClass.classes[int(course_bits(chromosome), 2)].code,\
-                   Professor.professors[int(professor_bits(chromosome), 2)],\
-                   Group.groups[int(group_bits(chromosome), 2)],\
-                   Room.rooms[int(lt_bits(chromosome), 2)],\
-                   vivo_date,\
-                   Slot.slots[int(slot_bits(chromosome), 2)].day] + time
+                   CourseClass.classes[int(course_bits(chromosome), 2)].pillar,\
+                   CourseClass.classes[int(course_bits(chromosome), 2)].duration * 30]
+        csv_row.append(vivo_date)
+        csv_row.append(time[1])
+        csv_row.append(time[0])
+        csvls = [CourseClass.classes[int(course_bits(chromosome), 2)].population, Room.rooms[int(lt_bits(chromosome), 2)], CourseClass.classes[int(course_bits(chromosome), 2)].dbid]
+        csv_row = csv_row + csvls
         csv_write.writerow(csv_row)
         print(CourseClass.classes[int(course_bits(chromosome), 2)], " | ",
           Professor.professors[int(professor_bits(chromosome), 2)], " | ",
@@ -234,8 +244,30 @@ def print_chromosome_csv(max_chromosomes):
     out.close()
     print("finish csv writing")
                
-
-
+def write_to_db(max_chromosomes):
+    out = []
+    for chromosome in max_chromosomes:
+        daydelta = Slot.slots[int(slot_bits(chromosome), 2)].day - dayofweek
+        vivo_date = datetime.date(date[0], date[1], date[2]) + timedelta(days = daydelta)
+        print(vivo_date)
+            
+        time = str(Slot.slots[int(slot_bits(chromosome),2)]).split("-")
+        csv_row = [str(Professor.professors[int(professor_bits(chromosome), 2)]),\
+                   str(CourseClass.classes[int(course_bits(chromosome), 2)].code),\
+                   str(CourseClass.classes[int(course_bits(chromosome), 2)].pillar)]
+        csv_row.append(str(vivo_date))
+        csvls = [str(CourseClass.classes[int(course_bits(chromosome), 2)].duration * 30), str(CourseClass.classes[int(course_bits(chromosome), 2)].population)]
+        csv_row = csv_row + csvls
+        csv_row.append(time[0])
+        csv_row.append(time[1])
+        csv_row.append(str(Room.rooms[int(lt_bits(chromosome), 2)]))
+        csv_row.append(CourseClass.classes[int(course_bits(chromosome), 2)].dbid)
+        print("csv row",csv_row)
+        out.append(csv_row)
+        
+    dbh.update_db(out)
+    print("DB updated")
+        
 def genetic_algorithm():
 
     convert_input_to_bin()
@@ -271,6 +303,7 @@ def genetic_algorithm():
 
     print(chromo)
     print_chromosome_csv(chromo)
+    write_to_db(chromo)
 
         
         
