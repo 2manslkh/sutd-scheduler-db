@@ -12,11 +12,8 @@
 
     <link rel="stylesheet" type="text/css" href="{% static 'schedule/main.css' %}">
 
-    {% if title %}
-        <title>Event Scheduler - {{ title }}</title>
-    {% else %}
-        <title>Event Scheduler</title>
-    {% endif %}
+    <title>Event Scheduler</title>
+
 
     <!-- For fullcalendar -->
     <link rel='stylesheet' href="..\..\static\schedule\fullcalendar.css">
@@ -55,6 +52,7 @@
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                   <a class="dropdown-item" href="{% url 'request-form' %}">Schedule Request</a>
                   <a class="dropdown-item" href="{% url 'input-module-info' %}">Input Module Information</a>
+                  <a class="dropdown-item" href="{% url 'input-class-info' %}">Input Class Information</a>
                   <div class="dropdown-divider"></div>
                   <a class="dropdown-item" href="{% url 'add-event' %}">In-vivo Event</a>
                   <div class="dropdown-divider"></div>
@@ -66,7 +64,6 @@
             <!-- Navbar Right Side -->
             <div class="navbar-nav">
               {% if user.is_authenticated %}
-                <a class="nav-item nav-link" href = "{% url 'profile' %}">Profile</a>
                 <a class="nav-item nav-link" href = "{% url 'logout' %}">Logout</a>
               {% else %}
                 <a class="nav-item nav-link" href="{% url 'login' %}">Login</a>
@@ -98,11 +95,68 @@
             </select>
           </div>
         -->
-            <div id="calendar"></div>
+
+
+      <div id="calendar-additions">
+        <select class="selectpicker" multiple data-actions-box="true" id = "course-selector" onclick = "ahem()">
+        </select>
+
+        <button class='btn button-submit'>
+          <svg class="enter-img" width="124.73px" height="153.14px" viewBox="0 0 124.73 153.14">
+            <g>
+              <path d="M124.73,115.17H42.05c10.59,11.91,18.19,24.56,22.78,37.97H54.7C41.58,134.02,23.34,120.19,0,111.66v-6.89
+                    c23.34-8.53,41.58-22.36,54.7-41.48h10.12c-4.59,13.5-12.19,26.2-22.78,38.11h68.77V0h13.92V115.17z"/></path>
+            </g>
+          </svg>
+        </button>
+
+        <button class="btn" id='export-button'>
+          <i class="far fa-share-square"></i>
+          <p id='export_text'>Export</p>
+        </button>
+      </div>
+
+
+      <div id="calendar"></div>
 
         </div>
       </div>
     </main>
-
-
-
+  </body>
+<script>function ahem(){
+            var select = document.getElementById("course-selector");
+            alert( "Handler for .click() called." );
+            var myobject = {
+                ValueA : 'Text A',
+                ValueB : 'Text B',
+                ValueC : 'Text C'
+            };
+            for(index in myobject) {
+                alert(index)
+                select.options[select.options.length] = new Option(myobject[index], index);
+                alert(select.options[select.options.length-1])
+            }
+}</script>
+<!-- <script>
+function loadDoc(){
+  var onFilter = function () {
+    var objecc = '';
+        $.ajax({
+            method: 'GET',
+            dataType: "JSON",
+            contentType: "application/json; charset=utf-8",
+            url: '/return_data/courses/',
+            data: obj,
+            success: function (d) {
+            objecc=d.data
+            }
+        });
+    }
+}
+</script>
+<script>
+    function changeText() {
+      x = document.getElementById("mySelect");
+      x.options[x.selectedIndex].text = "Melon";
+    }
+</script> -->
