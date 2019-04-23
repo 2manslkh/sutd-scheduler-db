@@ -135,6 +135,7 @@ def addEvent(request):
                 relevant_pillars=data['relevant_pillars'],
                 date=data['date'],
                 duration=data['duration'],
+                num_people=data['num_people'],
             )
             e.save()
             messages.success(request, 'Event Scheduling form submitted')
