@@ -3,8 +3,8 @@ import datetime
 from users.models import Module, Class
 
 PREFERRED_TIMINGS = (
-    ('morning', 'Morning'),
-    ('afternoon', 'Afternoon'),
+    ('Morning', 'Morning'),
+    ('Afternoon', 'Afternoon'),
 )
 
 LESSON_TYPE = (
