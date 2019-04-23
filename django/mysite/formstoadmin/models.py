@@ -33,6 +33,6 @@ class EventRequest(models.Model):
     event_name = models.CharField(max_length=200)
     relevant_pillars = MultiSelectField(choices=PILLARS)
     date = models.CharField(max_length=200)
-    duration = models.DurationField()
+    duration = models.CharField(max_length=200)
     start_time = models.CharField(max_length=200)
     end_time = models.CharField(max_length=200)

@@ -3,7 +3,7 @@ from django.http import JsonResponse, HttpResponseRedirect, Http404
 from django.contrib.auth.decorators import login_required
 from .forms import ScheduleRequestForm, InputModuleInformation, EventRequestForm, InputClassInformation
 from django.contrib import messages
-from .models import ScheduleRequest
+from .models import ScheduleRequest, EventRequest
 from django.core import serializers
 from django.contrib.auth.models import User
 import pandas as pd
@@ -107,7 +107,7 @@ def inputClassInfo_start(request):
     form = InputClassInformation()
     if request.method == "POST":
         mod_id = request.POST.get("module", "")
-        urlstr = f"/input-class-info/{mod_id}/0"
+        urlstr = f"/input-class-info/{mod_id}/0/0"
         return redirect(urlstr)
 
     return render(request, 'formstoadmin/inputclass.html', {'form': form, 'start': True})
@@ -118,9 +118,17 @@ def addEvent(request):
     if request.method == "POST":
         form = EventRequestForm(request.POST)
         if form.is_valid():
+            data = form.cleaned_data
+            e = EventRequest(
+                persons_in_charge=data['persons_in_charge'],
+                event_name=data['event_name'],
+                relevant_pillars=data['relevant_pillars'],
+                date=data['date'],
+                duration=data['duration'],
+            )
+            e.save()
             messages.success(request, 'Event Scheduling form submitted')
             form = EventRequestForm()
-            # form.save()
 
     else:
         form = EventRequestForm()
