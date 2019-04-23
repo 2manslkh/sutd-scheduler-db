@@ -52,7 +52,7 @@
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                   <a class="dropdown-item" href="{% url 'request-form' %}">Schedule Request</a>
                   <a class="dropdown-item" href="{% url 'input-module-info' %}">Input Module Information</a>
-                  <a class="dropdown-item" href="{% url 'input-class-info-start' %}">Input Class Information</a>
+                  <a class="dropdown-item" href="{% url 'input-class-info' %}">Input Class Information</a>
                   <div class="dropdown-divider"></div>
                   <a class="dropdown-item" href="{% url 'add-event' %}">In-vivo Event</a>
                   <div class="dropdown-divider"></div>
@@ -98,10 +98,7 @@
 
 
       <div id="calendar-additions">
-        <select class="selectpicker" multiple data-actions-box="true">
-          <option>Course 1</option>
-          <option>Course 2</option>
-          <option>Course 3</option>
+        <select class="selectpicker" multiple data-actions-box="true" id = "course-selector" onclick = "ahem()">
         </select>
 
         <button class='btn button-submit'>
@@ -126,3 +123,40 @@
       </div>
     </main>
   </body>
+<script>function ahem(){
+            var select = document.getElementById("course-selector");
+            alert( "Handler for .click() called." );
+            var myobject = {
+                ValueA : 'Text A',
+                ValueB : 'Text B',
+                ValueC : 'Text C'
+            };
+            for(index in myobject) {
+                alert(index)
+                select.options[select.options.length] = new Option(myobject[index], index);
+                alert(select.options[select.options.length-1])
+            }
+}</script>
+<!-- <script>
+function loadDoc(){
+  var onFilter = function () {
+    var objecc = '';
+        $.ajax({
+            method: 'GET',
+            dataType: "JSON",
+            contentType: "application/json; charset=utf-8",
+            url: '/return_data/courses/',
+            data: obj,
+            success: function (d) {
+            objecc=d.data
+            }
+        });
+    }
+}
+</script>
+<script>
+    function changeText() {
+      x = document.getElementById("mySelect");
+      x.options[x.selectedIndex].text = "Melon";
+    }
+</script> -->
