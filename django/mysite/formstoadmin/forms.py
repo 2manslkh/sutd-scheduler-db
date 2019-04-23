@@ -47,7 +47,7 @@ class EventRequestForm(forms.Form):
     persons_in_charge = forms.CharField(required=True, widget=forms.Textarea(attrs={'rows': 1, 'cols': 20, 'placeholder': "Separate names by commas"}))
     event_name = forms.CharField()
     relevant_pillars = forms.MultipleChoiceField(required=False, widget=forms.CheckboxSelectMultiple, choices=PILLARS)
-    date = forms.DateTimeField(input_formats=['%d/%m/%y'], help_text="DD/MM/YYYY. Suggested timeslots will be given around the date provided")
+    date = forms.DateTimeField(input_formats=['%d/%m/%Y'], help_text="DD/MM/YYYY. Suggested timeslots will be given around the date provided")
     duration = forms.IntegerField(label="Duration (in minutes)", min_value=1)
 
 
