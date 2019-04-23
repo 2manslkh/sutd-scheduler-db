@@ -35,7 +35,7 @@ PILLARS = (
 class ScheduleRequestForm(forms.Form):
     name = forms.CharField(disabled=True, required=False)
     course_name = forms.ModelChoiceField(queryset=Module.objects.all().order_by('subject').distinct())
-    duration = forms.IntegerField(label="Duration (in hours)", min_value=1)
+    duration = forms.IntegerField(label="Duration (in minutes)", min_value=1)
     lesson_type = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple, choices=LESSON_TYPE)
     class_related = forms.CharField(required=True, widget=forms.Textarea(attrs={'rows': 2, 'cols': 20, 'placeholder': "Input relevant classes separated by a comma. Eg. 5CISTD01, 5CISTD02."}))
     preferred_timings = forms.MultipleChoiceField(required=False, widget=forms.CheckboxSelectMultiple, choices=PREFERRED_TIMINGS)
@@ -48,7 +48,7 @@ class EventRequestForm(forms.Form):
     event_name = forms.CharField()
     relevant_pillars = forms.MultipleChoiceField(required=False, widget=forms.CheckboxSelectMultiple, choices=PILLARS)
     date = forms.DateTimeField(input_formats=['%d/%m/%y'], help_text="DD/MM/YYYY. Suggested timeslots will be given around the date provided")
-    duration = forms.IntegerField(label="Duration (in hours)", min_value=1)
+    duration = forms.IntegerField(label="Duration (in minutes)", min_value=1)
 
 
 class InputModuleInformation(forms.Form):
