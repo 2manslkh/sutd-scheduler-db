@@ -53,6 +53,8 @@ def inputModule(request):
                 subject__iexact=data['subject'],
                 code=data['subject_code'],
                 defaults={
+                    'subject': data['subject'],
+                    'code': data['subject_code'],
                     'pillar': data['pillar'],
                     'term': data['term'],
                     'core': data['core'],
@@ -65,6 +67,7 @@ def inputModule(request):
                     'labs_per_week': data['labs_per_week']
                 })
             module_form = InputModuleInformation()
+            print(created)
             if created == False:
                 messages.success(request, 'Updated module')
             else:
@@ -77,29 +80,36 @@ def inputModule(request):
 def inputClassInfo(request, mod_id=0, class_id=0, step=0):
     template_name = "formstoadmin/inputclass.html"
 
+    for m in Module.objects.filter(id=mod_id):
+        module = m.subject
+
+    current_cid = class_id + step
+
     if request.method == "POST":
         form = InputClassInformation(request.POST)
+        form.module = module
         if form.is_valid():
             data = form.cleaned_data
             subject = data['module']
             if Class.objects.filter(module__subject=subject).exists():
-                a = Class.objects.filter(module__subject=subject)[0]
+                a = Class.objects.filter(module__subject=subject)[class_id]
                 form = InputClassInformation(request.POST, instance=a)
                 form.save()
                 messages.success(request, 'Class information updated')
 
-    else:
-        for m in Module.objects.filter(id=mod_id):
-            module = m.subject
+        form = InputClassInformation(instance=a)
+        context = {'form': form}
 
+    else:
         classes = Class.objects.filter(module__subject=module)
         first_class = classes[0]
+        num_classes = len(classes)
         for c in classes:
             print(c.id, c.module)
 
         form = InputClassInformation(instance=first_class)
+        context = {'form': form, 'num_classes': num_classes}
 
-    context = {'form': form}
     return render(request, template_name, context)
 
 
