@@ -29,10 +29,12 @@ def scheduleRequest(request):
             s = ScheduleRequest(
                 name=request.user.get_username(),
                 course_name=data['course_name'],
+                duration=data['duration'],
                 class_related=data['class_related'],
+                lesson_type=data['lesson_type'],
                 preferred_timings=data['preferred_timings'],
                 reasons=data['reasons'],
-                remarks=data['remarks']
+                remarks=data['remarks'],
             )
             s.save()
             form = ScheduleRequestForm(initial={'name': request.user.get_username()})
