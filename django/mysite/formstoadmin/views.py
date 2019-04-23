@@ -28,7 +28,7 @@ def scheduleRequest(request):
             data = form.cleaned_data
             s = ScheduleRequest(
                 name=request.user.get_username(),
-                course_code=data['course_code'],
+                course_name=data['course_name'],
                 class_related=data['class_related'],
                 preferred_timings=data['preferred_timings'],
                 reasons=data['reasons'],
@@ -74,53 +74,38 @@ def inputModule(request):
 
 def inputClassInfo(request, mod_id=0, class_id=0):
     template_name = "formstoadmin/inputclass.html"
-    pp_start = 'pp_input-class-info-start'
-    if pp_start in request.session:
-        if request.method == "GET":
-            for m in Module.objects.filter(id=mod_id):
-                module = m.subject
-            print(module)
 
-            classes = Class.objects.filter(module__subject=module)
-            # JUST FOR NOW
-            class_id = classes[0]
-            print(class_id.id)
-            form = InputClassInformation(request.GET, instance=class_id)
-            context = {'form': form, 'classes': classes, 'mod_id': mod_id}
-            del request.session[pp_start]
-            return render(request, template_name, context)
-
-        if request.method == "POST":
-            form = InputClassInformation(request.POST)
-            if form.is_valid():
-                data = form.cleaned_data
-                subject = data['module']
-                if Class.objects.filter(module__subject=subject).exists():
-                    a = Class.objects.filter(module__subject=subject)[0]
-                    form = InputClassInformation(request.POST, instance=a)
-                    form.save()
-                    messages.success(request, 'Class information updated')
-
-                else:
-                    form.save()
-                    form = InputClassInformation()
-                    messages.success(request, 'Class information added')
-
-            context = {'form': form, 'mod_id': mod_id}
-            del request.session[pp_start]
-            return render(request, template_name, context)
+    if request.method == "POST":
+        form = InputClassInformation(request.POST)
+        if form.is_valid():
+            data = form.cleaned_data
+            subject = data['module']
+            if Class.objects.filter(module__subject=subject).exists():
+                a = Class.objects.filter(module__subject=subject)[0]
+                form = InputClassInformation(request.POST, instance=a)
+                form.save()
+                messages.success(request, 'Class information updated')
 
     else:
-        messages.error(request, 'Please enter the module this class is first')
-        redirect('/input-class-info-start')
-        raise Http404
+        for m in Module.objects.filter(id=mod_id):
+            module = m.subject
+
+        classes = Class.objects.filter(module__subject=module)
+        first_class = classes[0]
+        for c in classes:
+            print(c.id, c.module)
+
+        form = InputClassInformation(request.GET, instance=first_class)
+
+    context = {'form': form}
+    return render(request, template_name, context)
 
 
 def inputClassInfo_start(request):
     form = InputClassInformation()
     if request.method == "POST":
         mod_id = request.POST.get("module", "")
-        urlstr = "/input-class-info/" + mod_id + "/"
+        urlstr = f"/input-class-info/{mod_id}/0"
         return redirect(urlstr)
 
     return render(request, 'formstoadmin/inputclass.html', {'form': form, 'start': True})
