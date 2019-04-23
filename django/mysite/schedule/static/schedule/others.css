@@ -59,7 +59,7 @@ button.button-submit{
 #export_text{
     display:inline-block;
     color: #999999;
-
+    margin-bottom:1px;
 }
 
 #blank_row{
