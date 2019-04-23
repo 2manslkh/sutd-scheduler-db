@@ -29,6 +29,20 @@ class ScheduleRequest(models.Model):
 
 
 class EventRequest(models.Model):
+    event_id = models.CharField(max_length=200)
+    persons_in_charge = models.CharField(max_length=200)
+    event_name = models.CharField(max_length=200)
+    relevant_pillars = MultiSelectField(choices=PILLARS)
+    date = models.CharField(max_length=200)
+    duration = models.CharField(max_length=200)
+    num_people = models.CharField(max_length=200)
+    start_time = models.CharField(max_length=200)
+    end_time = models.CharField(max_length=200)
+    location = models.CharField(max_length=200)
+
+
+class EventRequestResponse(models.Model):
+    event_id = models.ForeignKey(EventRequest, on_delete=models.CASCADE, default="")
     persons_in_charge = models.CharField(max_length=200)
     event_name = models.CharField(max_length=200)
     relevant_pillars = MultiSelectField(choices=PILLARS)
