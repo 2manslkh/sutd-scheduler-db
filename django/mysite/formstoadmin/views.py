@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.http import JsonResponse, HttpResponseRedirect
+from django.http import JsonResponse, HttpResponseRedirect, Http404
 from django.contrib.auth.decorators import login_required
 from .forms import ScheduleRequestForm, InputModuleInformation, EventRequestForm, InputClassInformation
 from django.contrib import messages
@@ -72,42 +72,55 @@ def inputModule(request):
     return render(request, 'formstoadmin/inputmodule.html', {'form': module_form})
 
 
-def inputClassInfo(request, mod_id=0):
+def inputClassInfo(request, mod_id=0, class_id=0):
     template_name = "formstoadmin/inputclass.html"
-    if request.method == "GET":
-        for m in Module.objects.filter(id=mod_id):
-            module = m.subject
-        print(module)
-        classes = Class.objects.filter(module__subject=module)
-        form = InputClassInformation(request.GET, instance=a)
-        context = {'form': form, 'classes': classes, 'mod_id': mod_id}
-        return render(request, template_name, context)
+    pp_start = 'pp_input-class-info-start'
+    if pp_start in request.session:
+        if request.method == "GET":
+            for m in Module.objects.filter(id=mod_id):
+                module = m.subject
+            print(module)
 
-    if request.method == "POST":
-        form = InputClassInformation(request.POST)
-        if form.is_valid():
-            data = form.cleaned_data
-            subject = data['module']
-            if Class.objects.filter(module__subject=subject).exists():
-                a = Class.objects.filter(module__subject=subject)[0]
-                form = InputClassInformation(request.POST, instance=a)
-                form.save()
-                messages.success(request, 'Class information updated')
+            classes = Class.objects.filter(module__subject=module)
+            # JUST FOR NOW
+            class_id = classes[0]
+            print(class_id.id)
+            form = InputClassInformation(request.GET, instance=class_id)
+            context = {'form': form, 'classes': classes, 'mod_id': mod_id}
+            del request.session[pp_start]
+            return render(request, template_name, context)
 
-            else:
-                form.save()
-                form = InputClassInformation()
-                messages.success(request, 'Class information added')
+        if request.method == "POST":
+            form = InputClassInformation(request.POST)
+            if form.is_valid():
+                data = form.cleaned_data
+                subject = data['module']
+                if Class.objects.filter(module__subject=subject).exists():
+                    a = Class.objects.filter(module__subject=subject)[0]
+                    form = InputClassInformation(request.POST, instance=a)
+                    form.save()
+                    messages.success(request, 'Class information updated')
 
-        context = {'form': form, 'mod_id': mod_id}
-        return render(request, template_name, context)
+                else:
+                    form.save()
+                    form = InputClassInformation()
+                    messages.success(request, 'Class information added')
+
+            context = {'form': form, 'mod_id': mod_id}
+            del request.session[pp_start]
+            return render(request, template_name, context)
+
+    else:
+        messages.error(request, 'Please enter the module this class is first')
+        redirect('/input-class-info-start')
+        raise Http404
 
 
 def inputClassInfo_start(request):
     form = InputClassInformation()
     if request.method == "POST":
         mod_id = request.POST.get("module", "")
-        urlstr = "/input-class-info/" + mod_id
+        urlstr = "/input-class-info/" + mod_id + "/"
         return redirect(urlstr)
 
     return render(request, 'formstoadmin/inputclass.html', {'form': form, 'start': True})
