@@ -16,7 +16,7 @@
 <table class="table">
     <tr>
         <th>Name</th>
-        <th>Course Code</th>
+        <th>Course Name</th>
         <th>Related class(es)</th>
         <th>Preferred Timings</th>
         <th>Reasons</th>
@@ -27,7 +27,7 @@
     {% for obj in query_results %}
     <tr>
         <td> {% if obj.name %}{{obj.name}} {% else %} - {% endif %} </td>
-        <td> {{obj.course_code}} </td>
+        <td> {{obj.course_name}} </td>
         <td> {{obj.class_related}} </td>
         <td> {{obj.preferred_timings}} </td>
         <td> {{obj.reasons}} </td>
@@ -45,7 +45,7 @@
 <table class="table">
     <tr>
         <th>Name</th>
-        <th>Course Code</th>
+        <th>Course Name</th>
         <th>Related class(es)</th>
         <th>Preferred Timings</th>
         <th>Reasons</th>
@@ -56,7 +56,7 @@
     {% for obj in all_requests %}
     <tr>
         <td> {% if obj.name %}{{obj.name}} {% else %} - {% endif %} </td>
-        <td> {{obj.course_code}} </td>
+        <td> {{obj.course_name}} </td>
         <td> {{obj.class_related}} </td>
         <td> {{obj.preferred_timings}} </td>
         <td> {{obj.reasons}} </td>
