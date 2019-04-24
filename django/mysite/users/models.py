@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
-
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 # # Create your models here.
 
 
@@ -8,7 +9,7 @@ class myUser(models.Model):
     REQUIRED_FIELDS = ('user',)
     user = models.OneToOneField(User, related_name='profile', unique=True, on_delete=models.CASCADE)
     access_level = models.IntegerField()
-
+    assigned_classes = models.CharField(max_length=200, default="")
 
 class Module(models.Model):
     subject = models.CharField(max_length=200, default="")
@@ -49,3 +50,12 @@ class FilteredResults(models.Model):
     end = models.CharField(max_length=200, default="")
     description = models.CharField(max_length=200, default="")
     location = models.CharField(max_length=200, default="")
+
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        Profile.objects.create(user=instance,access_level=1,assigned_classes="1,2,3,")
+
+@receiver(post_save, sender=User)
+def save_user_profile(sender, instance, **kwargs):
+    instance.profile.save()
