@@ -1,6 +1,7 @@
 from django import forms
 import datetime
 from users.models import Module, Class
+from .models import EventRequest
 
 PREFERRED_TIMINGS = (
     ('Morning', 'Morning'),
@@ -43,7 +44,12 @@ class ScheduleRequestForm(forms.Form):
     remarks = forms.CharField(required=False, widget=forms.Textarea(attrs={'rows': 3, 'cols': 20}))
 
 
-class EventRequestForm(forms.Form):
+class EventRequestForm(forms.ModelForm):
+    class Meta:
+        model = EventRequest
+        # fields = '__all__'
+        fields = ['persons_in_charge', 'event_name', 'relevant_pillars', 'date', 'duration', 'num_people']
+
     persons_in_charge = forms.CharField(required=True, widget=forms.Textarea(attrs={'rows': 1, 'cols': 20, 'placeholder': "Separate names by commas"}))
     event_name = forms.CharField()
     relevant_pillars = forms.MultipleChoiceField(required=False, widget=forms.CheckboxSelectMultiple, choices=PILLARS)

@@ -1,4 +1,13 @@
 {% extends "schedule/base.html" %}
+{% block morejs %}
+<style>
+div.alert-error {
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+}
+</style>
+{% endblock %}
 
 
 {% block headcontent %}
@@ -22,7 +31,11 @@
 </script>
 {% endblock %}
 {% block content %}
+<<<<<<< HEAD
 
+=======
+{% if not request.user.profile.is_student %}
+>>>>>>> frontend
 <h2>Generate Schedule</h2>
 <br>
 
@@ -31,8 +44,12 @@
     <button type="submit" class="btn btn-primary btn-md">Generate Schedule</button>
 </form>
 
+<<<<<<< HEAD
 <button type="button" class="btn btn-primary btn-md" id = "runalgo" onclick = "runAlgo()" >Generate Schedule</button>
 
 
+=======
+{% endif %}
+>>>>>>> frontend
 {% endblock content %}
 

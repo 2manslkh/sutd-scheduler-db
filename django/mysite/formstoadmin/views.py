@@ -39,12 +39,15 @@ def scheduleRequest(request):
             s.save()
             form = ScheduleRequestForm(initial={'name': request.user.get_username()})
     else:
-        form = ScheduleRequestForm(initial={'name': request.user.get_username()})  # or use user.get_username() for username
+        form = ScheduleRequestForm(initial={'name': request.user.get_username()})
     return render(request, 'formstoadmin/schedulerequest.html', {'form': form})
 
 
 @login_required
 def inputModule(request):
+    if request.user.profile.is_student():
+        messages.error(request, "Not authorized")
+        redirect(request.path_info)
     if request.method == "POST":
         module_form = InputModuleInformation(request.POST)
         if module_form.is_valid():
@@ -78,6 +81,9 @@ def inputModule(request):
 
 
 def inputClassInfo(request, mod_id=0, idx=0, step=0):
+    if request.user.profile.is_student():
+        messages.error(request, "Not authorized")
+        redirect(request.path_info)
     module = Module.objects.filter(id=mod_id)[0].subject
     try:
         classes = Class.objects.filter(module__subject=module)
@@ -118,6 +124,9 @@ def inputClassInfo(request, mod_id=0, idx=0, step=0):
 
 
 def inputClassInfo_start(request):
+    if request.user.profile.is_student():
+        messages.error(request, "Not authorized")
+        redirect(request.path_info)
     form = InputClassInformation()
     if request.method == "POST":
         mod_id = request.POST.get("module", "")
@@ -129,6 +138,7 @@ def inputClassInfo_start(request):
 
 @login_required
 def addEvent(request):
+    time_to_choose = False
     if request.method == "POST":
         form = EventRequestForm(request.POST)
         if form.is_valid():
@@ -139,27 +149,46 @@ def addEvent(request):
                 relevant_pillars=data['relevant_pillars'],
                 date=data['date'],
                 duration=data['duration'],
-                num_people=data['num_people'],
+                submitted_by=request.user.username,
             )
             e.save()
-            # messages.success(request, 'Event Schedule form submitted')
-            form = EventRequestForm()
+            print("IT COMES IN HERE")
+            messages.success(request, 'Event Schedule form submitted')
+            latest = EventRequest.objects.filter(submitted_by=request.user.username).order_by('id')[0]
+            form = EventRequestForm(instance=latest)
+            time_to_choose = True
 
     else:
         form = EventRequestForm()
-    return render(request, 'formstoadmin/addevent.html', {'form': form})
+    context = {"form": form, "time_to_choose": time_to_choose}
+    return render(request, 'formstoadmin/addevent.html', context)
+
+
+def choose_suggestion(request, instance, suggestion):
+    # LOGIC TO HANDLE CHOOSING OF SUGGESTION
+    return redirect('/add-event')
 
 
 @login_required
 def viewRequests(request):
+    if not request.user.profile.is_cc():
+        messages.error(request, "Not authorized")
+        redirect(request.path_info)
+    query_empty = False
     all_requests = ScheduleRequest.objects.all()
     if request.method == "GET":
         query_results = ScheduleRequest.objects.filter(approved__isnull=True)
+        if len(query_results) == 0:
+            query_empty = True
         fields = ScheduleRequest._meta.get_fields()
-        return render(request, 'formstoadmin/viewrequests.html', {"query_results": query_results, "all_requests": all_requests})
+        return render(request, 'formstoadmin/viewrequests.html', {"query_results": query_results, "all_requests": all_requests, "query_empty": query_empty})
 
 
+@login_required
 def request_action(request, requestID, status):
+    if not request.user.profile.is_cc():
+        messages.error(request, "Not authorized")
+        redirect(request.path_info)
     query_results = ScheduleRequest.objects.filter(approved__isnull=True)
     all_requests = ScheduleRequest.objects.all()
     fields = ScheduleRequest._meta.get_fields()
@@ -181,8 +210,11 @@ def generate_courses(request):
     return JsonResponse(data, safe=False)
 
 
-@permission_required('admin.can_add_log_entry')
+@login_required
 def moduleUpload(request):
+    if request.user.profile.is_student():
+        messages.error(request, "Not authorized")
+        redirect(request.path_info)
     template = "formstoadmin/moduleupload.html"
     context = {'loaded_data': None}
 

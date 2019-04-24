@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -21,6 +21,10 @@ def home(request):
 
 @login_required
 def generateSchedule(request):
+    if not request.user.profile.is_cc():
+        messages.error(request, "Not authorized")
+        redirect(request.path_info)
+
     if request.method == "POST":
         algo.run()
         messages.success(request, "Generating Schedule...")

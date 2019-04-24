@@ -5,6 +5,7 @@
 {% endblock %}
 
 {% block content %}
+{% if not request.user.profile.is_student %}
 <h2>Upload module information via CSV</h2>
 <br>
 <form method="post" enctype="multipart/form-data">
@@ -36,5 +37,5 @@
     <h5>Uploaded file:</h5>
     {{loaded_data | safe }}
 {% endif %}
-
+{% endif %}
 {% endblock %}

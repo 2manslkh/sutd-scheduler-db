@@ -14,8 +14,11 @@
 {% endblock %}
 
 {% block content %}
+{% if not request.user.profile.is_student %}
 <h2>Input class information</h2>
-
+{% if not start %}
+<a href="/input-class-info-start/">Back to module selection page</a>
+{% endif %}
 {% if start %}
 <form method="post">
 {% csrf_token %}
@@ -95,8 +98,8 @@
     {{ form.description|as_crispy_field }}
     {{ form.assigned_professors|as_crispy_field }}
 
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <button type="submit" class="btn btn-primary">Update</button>
   </form>
 {% endif %}
-
+{% endif %}
 {% endblock content %}
