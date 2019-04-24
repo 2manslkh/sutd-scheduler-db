@@ -8,10 +8,11 @@ import db_to_algo as dba
 import datetime
 from datetime import timedelta 
 
-mydb = r"..\django\mysite\db.sqlite3"
-dbh = dba.db_helper(mydb)
-dbh2 = dba.db_helper(mydb)
+
+dbh = dba.db_helper(r"C:\Users\好好学习\Downloads\db (3).sqlite3")
+dbh2 = dba.db_helper(r"C:\Users\好好学习\Desktop\esc fake master\sutd-scheduler-db\django\mysite\db.sqlite3")
 dbh2.print_all_columns("formstoadmin_schedulerequest")
+dbh.print_all_columns("users_class")
 data = dbh.get_columns(["id","title","assigned_professors","class_related","location","pillar","duration","type"],"users_class")
 soft = dbh2.get_columns(['id', 'name', 'course_name', 'class_related','duration', 'lesson_type','preferred_timings', 'approved'  ],"formstoadmin_schedulerequest")
 print(soft)
@@ -20,6 +21,7 @@ print(soft)
 firstday = datetime.date(2019,4,22)
 def db_to_ls():
     new_data = []
+    inputls = []
     for d in data:
         #print(d)
         new_d = list(d)
@@ -32,11 +34,18 @@ def db_to_ls():
         new_data[i][3] = new_data[i][3].split(",")
         new_data[i][6] = int(float(new_data[i][6]) * 2)
         #print(new_data[i])
+    for j in range(10,50):
+        inputls.append(new_data[j])
+        print(new_data[j])
+ 
+    #return new_data
+    return inputls   
+        #print(new_data[i])
     #print(new_data)
-     
+'''    
         count_C = 2
     for i in range(len(new_data)-1):
-    
+        count_C = count_C + 1
         new_data[0][4] = "CC1"
         if new_data[i][1] == new_data[i+1][1]:
             new_data[i+1][4] = new_data[i][4]
@@ -48,16 +57,11 @@ def db_to_ls():
         if new_data[j][-1] == "LEC" or new_data[j][-1] == "LAB":
             new_data[j][4] = "lt" + str(j) 
         #print(new_data[j])
-        
-    
-    inputls = []
-    for i in range(0,10):
-        inputls.append(new_data[i])
-    
-    # return new_data
-    return inputls    
+'''       
+     
 
 inputls = db_to_ls()
+#print(inputls)
 
 for i in range(len(soft)):
     if soft[i][7] == 1:
@@ -96,7 +100,7 @@ for i in range(len(soft)):
                                     
                                 elif soft[i][6] == "afternoon":
                                     inputls[j].append("afternoon")
-print(inputls)
+
                             
                                     
                             
@@ -114,7 +118,7 @@ initial_slots_other = [Slot([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19], 1
 temp = initial_slots + initial_slots_HASS + initial_slots_other
 
 Slot.slots = copy.deepcopy(temp)
-print(initial_slots_HASS)
+#print(initial_slots_HASS)
 given_duration = 0
 for i in range(len(initial_slots)):
     given_duration = given_duration + len(initial_slots[i].block)
@@ -460,8 +464,8 @@ def check_slot_time(chromosomes):
             max_score = max_score + 1
             if Slot.slots[int(slot_bits(_c),2)].block[0] >= 11:
                 scores = scores + 1
-    #print("score", scores)
-    #print("max score", max_score)
+    print("score", scores)
+    print("max score", max_score)
     if max_score == 0:
         return 1
     
@@ -564,7 +568,6 @@ def evaluate(chromosomes):
     score = score + appropriate_lab(chromosomes)
     score = score + check_slots(chromosomes)
     score = score + appropriate_slot(chromosomes)
-    print(score)
     return score
 
 def evaluate_softconstraints(chromosomes):
@@ -639,42 +642,44 @@ def print_chromosome_csv(max_chromosomes):
     out = open('schedule.csv','a', newline='')
     csv_write = csv.writer(out, dialect = 'excel')
     csv_write.writerow(label)
-    for i in range(0,14):
-        if i != 6:
-            print (i)
-            for chromosome in max_chromosomes:
-                date = firstday + timedelta(days = (i * 7 + Slot.slots[int(slot_bits(chromosome), 2)].day-1))
-                time = str(Slot.slots[int(slot_bits(chromosome),2)]).split("-")
-                csv_row = [CourseClass.classes[int(course_bits(chromosome), 2)].dbid,\
-                           CourseClass.classes[int(course_bits(chromosome), 2)].code,\
-                           Professor.professors[int(professor_bits(chromosome), 2)],\
-                           Group.groups[int(group_bits(chromosome), 2)],\
-                           Room.rooms[int(lt_bits(chromosome), 2)]] +time
-                csv_row.append(date)
-                csv_write.writerow(csv_row)
-                print(CourseClass.classes[int(course_bits(chromosome), 2)], " | ",
-                  Professor.professors[int(professor_bits(chromosome), 2)], " | ",
-                  Group.groups[int(group_bits(chromosome), 2)], " | ",
-                  Room.rooms[int(lt_bits(chromosome), 2)], " | ",
-                  Slot.slots[int(slot_bits(chromosome), 2)], " | ", date)
+    #for i in range(0,14):
+        #if i != 6:
+           #print (i)
+    for chromosome in max_chromosomes:
+        date = firstday + timedelta(days = (Slot.slots[int(slot_bits(chromosome), 2)].day-1))
+        time = str(Slot.slots[int(slot_bits(chromosome),2)]).split("-")
+        csv_row = [CourseClass.classes[int(course_bits(chromosome), 2)].dbid,\
+                   CourseClass.classes[int(course_bits(chromosome), 2)].code,\
+                   Professor.professors[int(professor_bits(chromosome), 2)],\
+                   Group.groups[int(group_bits(chromosome), 2)],\
+                   Room.rooms[int(lt_bits(chromosome), 2)]] +time
+        csv_row.append(date)
+        csv_write.writerow(csv_row)
+        print(CourseClass.classes[int(course_bits(chromosome), 2)], " | ",
+          Professor.professors[int(professor_bits(chromosome), 2)], " | ",
+          Group.groups[int(group_bits(chromosome), 2)], " | ",
+          Room.rooms[int(lt_bits(chromosome), 2)], " | ",
+          Slot.slots[int(slot_bits(chromosome), 2)], " | ", date)
                 
     
     out.close()
     print("finish csv writing")
                
 def write_to_db(max_chromosomes):
-    db = dba.db_helper(mydb)
     out = []
+    
     for chromosome in max_chromosomes:
-        date = firstday + timedelta(days = (i * 7 + Slot.slots[int(slot_bits(chromosome), 2)].day-1))
+        date = firstday + timedelta(days = (Slot.slots[int(slot_bits(chromosome), 2)].day-1))
         time = str(Slot.slots[int(slot_bits(chromosome),2)]).split("-")
         data = [CourseClass.classes[int(course_bits(chromosome), 2)].dbid,\
                    Group.groups[int(group_bits(chromosome), 2)],\
                    Room.rooms[int(lt_bits(chromosome), 2)],\
-                   date] + time
+                   Slot.slots[int(slot_bits(chromosome), 2)].day,\
+                   str(date) +" "+ str(time[0]),\
+                   str(date) +" "+ str(time[1])]
         out.append(data)
     print(out)
-    db.update_db(out)
+    dbh.update_db(out)
     print("UPDATED DB")  
 
 # Simple Searching Neighborhood
@@ -724,16 +729,18 @@ def acceptance_probability(old_cost, new_cost, temperature):
 def simulated_annealing():
     print("\n------------- Simulated Annealing Start--------------\n")
     alpha = 0.9
-    T = 0.5
-    T_min = 0.00001
+    T = 1
+    #T_min = 0.00001
     convert_input_to_bin()
     population = init_population(1) # as simulated annealing is a single-state method
     old_cost = cost(population[0])
     # print("Cost of original random solution: ", old_cost)
     # print("Original population:")
     # print(population)
-
-    while evaluate(population[0]) != 8.0 or evaluate_softconstraints(population[0]) < 0.3:
+    generation = 0
+    count = 0
+    while evaluate(population[0]) != 8.0: #or evaluate_softconstraints(population[0]) < 0.3:
+        #print(count)
         new_solution = swn(population[0])
         new_solution = ssn(population[0])
         new_cost = cost(new_solution[0])
@@ -741,8 +748,16 @@ def simulated_annealing():
         if ap > random.random():
             population = new_solution
             old_cost = new_cost
+            count = 0
+        else:
+            count = count + 1
+        if count > 500:
+            print("Hard to find suitable schedule, check constraints")
+            return -1
         T = T * alpha
-
+        generation = generation + 1
+        #print("generation: ", generation)
+        print("score: ", evaluate(population[0]))
     # print("Cost of altered solution: ", cost(population[0]))
     print("\n------------- Simulated Annealing Result--------------\n")
     out = open('schedule.csv','a', newline='')
@@ -788,7 +803,8 @@ def genetic_algorithm():
 
                 #print("mutate time :" + str(dtime3))
         generation = generation + 1
-        # print("Gen: ", generation)
+        #print("Gen: ", generation)
+        print(evaluate(max(population, key=evaluate)))
 
     # print("Population", len(population))
 
@@ -809,4 +825,5 @@ def main():
     dtime = endtime - starttime
     
     print("time take: ",dtime)
+    return 1
 main()
