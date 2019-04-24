@@ -87,7 +87,7 @@ $(document).ready(function(){
                         Ahem = JSON.parse(ahem);
                         select.options.length = 0;
                         for (var i = 0; i < Ahem.length; i++){
-                            $("#course-selected").append($('<option>', {value: 4, text: index}));
+                            // $("#course-selected").append($('<option>', {value: 4, text: index}));
                             select.options[select.options.length] = new Option(Ahem[i].title);
                         };
                         alert(select.options.length);

@@ -16,8 +16,8 @@ class EventBuilder:
         self.output = {}
         self.timezone = "Asia/Singapore"
 
-    def add_event(self, subject_code, subject_name):
-        self.output['summary'] = f"{subject_code} - {subject_name}"
+    def add_event(self, subject_name):
+        self.output['summary'] = f"{subject_name}"
         return self
 
     def add_location(self, location):
@@ -28,13 +28,17 @@ class EventBuilder:
         self.output['description'] = f"{description}"
         return self
 
-    def add_startTime(self, date, start_time, timezone="Asia/Singapore"):
-        self.output['start'] = {'dateTime':f"{date}T{start_time}",
+    def add_startTime(self, start, timezone="Asia/Singapore"):
+        a = start.split(" ")
+        start = a[0] +"T" +a[1]+":00"
+        self.output['start'] = {'dateTime':f"{start}",
                                 'timeZone':timezone}
         return self
 
-    def add_endTime(self, date, end_time, timezone="Asia/Singapore"):
-        self.output['end'] = {'dateTime':f"{date}T{end_time}",
+    def add_endTime(self, end, timezone="Asia/Singapore"):
+        a = end.split(" ")
+        end = a[0] + "T" +a[1]+":00"
+        self.output['end'] = {'dateTime':f"{end}",
                                 'timeZone':timezone}
         return self
 
@@ -44,7 +48,7 @@ class EventBuilder:
 class Gcal:
 
     def __init__(self, calendar_id='primary'):
-        self.creds_file = 'credentials.json'
+        self.creds_file = '../credentials.json'
         self.creds = None
         self.calendar_id = calendar_id
         self._set_creds()
@@ -70,7 +74,15 @@ class Gcal:
     def _create_event(self, event, calendar_id=""):
         if calendar_id == "":
             calendar_id = self.calendar_id
-        event = self.service.events().insert(calendarId=calendar_id, body=event).execute()
+
+        event_data = (EventBuilder()
+                    .add_event(event[1])
+                    .add_location([5])
+                    .add_startTime(event[2])
+                    .add_endTime(event[3])
+                    .build())
+
+        event = self.service.events().insert(calendarId=calendar_id, body=event_data).execute()
         print ('Event created: %s' % (event.get('htmlLink')))
 
     def create_events(self,event_list):
@@ -108,5 +120,5 @@ def main():
     gcal.create_events(events)
     
 
-if __name__ == '__main__':
-    main()
+# if __name__ == '__main__':
+#     main()

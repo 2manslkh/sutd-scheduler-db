@@ -10,6 +10,8 @@ from users.models import Module
 from users.models import Class
 from users.models import FilteredResults
 
+import export_to_gcal
+
 @login_required
 def home(request):
     return render(request, 'schedule/home.html')
@@ -54,6 +56,8 @@ def return_data(request,Classs = "",modyews = ""):
                     for i in courses:
                         qsetcourse = Class.objects.filter(title__contains = i)
                         data.extend(list(qsetcourse.values('title', 'start','end','description','location')))
+                    print("DATA: " + str(data))
+                    make_temp_model(data)
                 # else:
                 #     qset1 = Class.objects.filter(class_related__contains = Classs)
                 #     data = list(qset1.values('title', 'start','end','description','location'))
@@ -68,8 +72,5 @@ def return_data(request,Classs = "",modyews = ""):
     #     'events': Module.timetable_objects.values('title', 'start','end','description','location')
     # }
 
-    print("DATA: " + str(data))
-    print("CLASS:" + Classs)
     json_response = JsonResponse(data, safe=False)
-    make_temp_model(data)
     return json_response

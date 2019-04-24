@@ -1,4 +1,4 @@
-import django.mysite.gcal_quickstart as gCal
+import gcal_quickstart as gCal
 import sqlite3
 
 db = "db.sqlite3"
