@@ -8,7 +8,7 @@ import db_to_algo as dba
 import datetime
 from datetime import timedelta 
 
-mydb = r"C:\Users\kengh\Desktop\Scheduler Database\django\mysite\db.sqlite3"
+mydb = r"..\django\mysite\db.sqlite3"
 dbh = dba.db_helper(mydb)
 dbh2 = dba.db_helper(mydb)
 dbh2.print_all_columns("formstoadmin_schedulerequest")
@@ -50,12 +50,12 @@ def db_to_ls():
         #print(new_data[j])
         
     
-    # inputls = []
-    # for i in range(40,51):
-    #     inputls.append(new_data[i])
+    inputls = []
+    for i in range(0,10):
+        inputls.append(new_data[i])
     
-    return new_data
-    # return inputls    
+    # return new_data
+    return inputls    
 
 inputls = db_to_ls()
 
@@ -564,6 +564,7 @@ def evaluate(chromosomes):
     score = score + appropriate_lab(chromosomes)
     score = score + check_slots(chromosomes)
     score = score + appropriate_slot(chromosomes)
+    print(score)
     return score
 
 def evaluate_softconstraints(chromosomes):
