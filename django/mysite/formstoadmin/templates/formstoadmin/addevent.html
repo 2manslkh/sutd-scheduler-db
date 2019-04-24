@@ -5,32 +5,78 @@
 {% endblock %}
 
 {% block morejs %}
+<style>
+ul.list-group li.list-group-item:hover {
+  background-color: #ccc;
+}
+</style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+<script type="text/javascript">
+    $(window).on('load',function(){
+        $('#myModal').modal('show');
+    });
+</script>
 {% endblock %}
 
 {% load crispy_forms_tags %}
 
 {% block content %}
-<h2>Generate date and locations for in-vivo events</h2>
-<strong>Note: Please plan your activities at least 1 week ahead</strong>
- <form method="post">
-    {% csrf_token %}
 
-    {{ form.persons_in_charge|as_crispy_field }}
-    {{ form.event_name|as_crispy_field }}
+  <h2>Generate date and locations for in-vivo events</h2>
+  <strong>Note: Please plan your activities at least 1 week ahead</strong>
+   <form method="post">
+      {% csrf_token %}
 
-    {{ form.relevant_pillars|as_crispy_field }}
-    <div class="form-row">
-      <div class="form-group col-md-6 mb-0">
-        {{ form.duration|as_crispy_field }}
+      {{ form.persons_in_charge|as_crispy_field }}
+      {{ form.event_name|as_crispy_field }}
+
+      {{ form.relevant_pillars|as_crispy_field }}
+      <div class="form-row">
+        <div class="form-group col-md-6 mb-0">
+          {{ form.duration|as_crispy_field }}
+        </div>
+        <div class="form-group col-md-6 mb-0">
+          {{ form.num_people|as_crispy_field }}
+        </div>
       </div>
-      <div class="form-group col-md-6 mb-0">
-        {{ form.num_people|as_crispy_field }}
+      {{form.date|as_crispy_field}}
+
+    {% if not time_to_choose %}
+      <button type="submit" class="btn btn-primary">Submit</button>
+    {% endif %}
+    </form>
+
+{% if time_to_choose %}
+<!-- When event request is submitted -->
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Choose a suggested timeslot and location!</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="card" >
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"><strong>Location: Lecture Theatre 2<br>Date: 24/4/2019</strong></li>
+            <li class="list-group-item"><strong>Location: Lecture Theatre 2<br>Date: 24/4/2019</strong></li>
+            <li class="list-group-item"><strong>Location: Lecture Theatre 2<br>Date: 24/4/2019</strong></li>
+            <li class="list-group-item"><strong>Location: Lecture Theatre 2<br>Date: 24/4/2019</strong></li>
+            <li class="list-group-item"><strong>Location: Lecture Theatre 2<br>Date: 24/4/2019</strong></li>
+          </ul>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Choose</button>
       </div>
     </div>
-    {{form.date|as_crispy_field}}
+  </div>
+</div>
 
 
-    <button type="submit" class="btn btn-primary">Submit</button>
-  </form>
+{% endif %}
 {% endblock content %}
