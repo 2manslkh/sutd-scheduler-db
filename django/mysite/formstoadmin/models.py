@@ -7,12 +7,11 @@ PREFERRED_TIMINGS = (
 )
 
 PILLARS = (
-
-    ('asd', 'ASD'),
-    ('epd', 'EPD'),
-    ('esd', 'ESD'),
-    ('istd', 'ISTD'),
-    ('hass', 'HASS'),
+    ('ASD', 'ASD'),
+    ('EPD', 'EPD'),
+    ('ESD', 'ESD'),
+    ('ISTD', 'ISTD'),
+    ('HASS', 'HASS'),
 )
 
 
@@ -54,3 +53,4 @@ class EventRequestResponse(models.Model):
     end_time = models.CharField(max_length=200)
     location = models.CharField(max_length=200)
     submitted_by = models.CharField(max_length=200)
+    chosen = models.BooleanField(null=True)
