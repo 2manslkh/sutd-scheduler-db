@@ -36,7 +36,9 @@ urlpatterns = [
     path('generate-schedule/', scheduleViews.generateSchedule, name="generate-schedule"),
     path('module-upload/', formstoadminViews.moduleUpload, name="module-upload"),
     path('input-class-info/', formstoadminViews.InputClassInfo.as_view(), name="input-class-info"),
+    path('runAlgo/',scheduleViews.runAlgo),
     re_path(r'^return_data/(?P<Classs>[^/]+)/(?P<modyews>[^/]+)/$',scheduleViews.return_data),
     re_path(r'^return_data/(?P<Classs>[^/]+)/$',scheduleViews.return_data),
     re_path(r'^return_data/$',scheduleViews.return_data),
+    path('gcalExport/',scheduleViews.gcalExport),
 ]

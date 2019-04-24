@@ -7,6 +7,8 @@ from django.http import JsonResponse
 from django.core import serializers
 from users.models import Module
 from users.models import Class
+from schedule import algo
+import schedule.export_to_gcal
 
 @login_required
 def home(request):
@@ -16,10 +18,16 @@ def home(request):
 @login_required
 def generateSchedule(request):
     if request.method == "POST":
+        algo.run()
         messages.success(request, "Generating Schedule...")
 
     return render(request, 'schedule/generateSchedule.html')
 
+def make_temp_model(data):
+    FilteredResults.objects.delete()
+    for i in data:
+        FilteredResults(title=i["title"],start=i["start"],end=i["end"],description=i["description"],location=i["location"])
+        FilteredResults.save()
 
 def return_data(request,Classs = "",modyews = ""):
     json_serializer = serializers.get_serializer("json")()
@@ -61,4 +69,36 @@ def return_data(request,Classs = "",modyews = ""):
     # }
     print(data)
     print (Classs)
+    #make_temp_model(json_response.content)
     return JsonResponse(data, safe = False)
+
+
+def runAlgo(request):
+    reply = "nope"
+    #if request.method == "POST": #os request.GET()
+    reply = "yep"
+    algo.run()
+    messages.success(request, "Generating Schedule...")
+    return HttpResponse(reply)
+
+def gcalExport(request):
+    if request.method == 'POST':
+        # post_text = request.POST.get('the_post')
+        # response_data = {}
+
+        # post = Post(text=post_text, author=request.user)
+        # post.save()
+
+        # response_data['result'] = 'Create post successful!'
+        # response_data['postpk'] = post.pk
+        # response_data['text'] = post.text
+        # response_data['created'] = post.created.strftime('%B %d, %Y %I:%M %p')
+        # response_data['author'] = post.author.username
+        print("YEET")
+        django.mysite.schedule.export_to_gcal.main()
+        return HttpResponse("Completed export to Google Calendar!" )
+    else:
+        return HttpResponse(
+            json.dumps({"nothing to see": "this isn't happening"}),
+            content_type="application/json"
+        )
