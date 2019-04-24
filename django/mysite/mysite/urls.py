@@ -37,9 +37,9 @@ urlpatterns = [
     path('module-upload/', formstoadminViews.moduleUpload, name="module-upload"),
     path('input-class-info-start/', formstoadminViews.inputClassInfo_start, name="input-class-info-start"),
     path('input-class-info/<int:mod_id>/<int:idx>/<int:step>/', formstoadminViews.inputClassInfo, name="input-class-info"),
-    path('runAlgo/',scheduleViews.runAlgo),
+    # path('runAlgo/',scheduleViews.runAlgo),
     re_path(r'^return_data/(?P<Classs>[^/]+)/(?P<modyews>[^/]+)/$',scheduleViews.return_data),
     re_path(r'^return_data/(?P<Classs>[^/]+)/$',scheduleViews.return_data),
     re_path(r'^return_data/$',scheduleViews.return_data),
-    path('gcalExport/',scheduleViews.gcalExport),
+    # path('gcalExport/',scheduleViews.gcalExport),
 ]
