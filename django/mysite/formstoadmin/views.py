@@ -3,7 +3,7 @@ from django.http import JsonResponse, HttpResponseRedirect, Http404
 from django.contrib.auth.decorators import login_required
 from .forms import ScheduleRequestForm, InputModuleInformation, EventRequestForm, InputClassInformation
 from django.contrib import messages
-from .models import ScheduleRequest, EventRequest
+from .models import ScheduleRequest, EventRequest, EventRequestResponse
 from django.core import serializers
 from django.contrib.auth.models import User
 import pandas as pd
