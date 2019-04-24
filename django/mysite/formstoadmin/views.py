@@ -39,12 +39,15 @@ def scheduleRequest(request):
             s.save()
             form = ScheduleRequestForm(initial={'name': request.user.get_username()})
     else:
-        form = ScheduleRequestForm(initial={'name': request.user.get_username()})  # or use user.get_username() for username
+        form = ScheduleRequestForm(initial={'name': request.user.get_username()})
     return render(request, 'formstoadmin/schedulerequest.html', {'form': form})
 
 
 @login_required
 def inputModule(request):
+    if request.user.profile.is_student():
+        messages.error(request, "Not authorized")
+        redirect(request.path_info)
     if request.method == "POST":
         module_form = InputModuleInformation(request.POST)
         if module_form.is_valid():
@@ -78,6 +81,9 @@ def inputModule(request):
 
 
 def inputClassInfo(request, mod_id=0, idx=0, step=0):
+    if request.user.profile.is_student():
+        messages.error(request, "Not authorized")
+        redirect(request.path_info)
     module = Module.objects.filter(id=mod_id)[0].subject
     try:
         classes = Class.objects.filter(module__subject=module)
@@ -118,6 +124,9 @@ def inputClassInfo(request, mod_id=0, idx=0, step=0):
 
 
 def inputClassInfo_start(request):
+    if request.user.profile.is_student():
+        messages.error(request, "Not authorized")
+        redirect(request.path_info)
     form = InputClassInformation()
     if request.method == "POST":
         mod_id = request.POST.get("module", "")
@@ -151,10 +160,9 @@ def addEvent(request):
 
 @login_required
 def viewRequests(request):
-    if not request.user.is_superuser:
+    if not request.user.profile.is_cc():
         messages.error(request, "Not authorized")
         redirect(request.path_info)
-
     all_requests = ScheduleRequest.objects.all()
     if request.method == "GET":
         query_results = ScheduleRequest.objects.filter(approved__isnull=True)
@@ -162,7 +170,11 @@ def viewRequests(request):
         return render(request, 'formstoadmin/viewrequests.html', {"query_results": query_results, "all_requests": all_requests})
 
 
+@login_required
 def request_action(request, requestID, status):
+    if not request.user.profile.is_cc():
+        messages.error(request, "Not authorized")
+        redirect(request.path_info)
     query_results = ScheduleRequest.objects.filter(approved__isnull=True)
     all_requests = ScheduleRequest.objects.all()
     fields = ScheduleRequest._meta.get_fields()
@@ -184,8 +196,11 @@ def generate_courses(request):
     return JsonResponse(data, safe=False)
 
 
-@permission_required('admin.can_add_log_entry')
+@login_required
 def moduleUpload(request):
+    if request.user.profile.is_student():
+        messages.error(request, "Not authorized")
+        redirect(request.path_info)
     template = "formstoadmin/moduleupload.html"
     context = {'loaded_data': None}
 

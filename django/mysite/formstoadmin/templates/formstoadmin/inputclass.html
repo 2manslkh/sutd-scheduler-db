@@ -14,6 +14,7 @@
 {% endblock %}
 
 {% block content %}
+{% if not request.user.profile.is_student %}
 <h2>Input class information</h2>
 <a href="/input-class-info-start/">Back to module selection page</a>
 {% if start %}
@@ -98,5 +99,5 @@
     <button type="submit" class="btn btn-primary">Update</button>
   </form>
 {% endif %}
-
+{% endif %}
 {% endblock content %}
