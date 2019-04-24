@@ -16,7 +16,9 @@
 {% block content %}
 {% if not request.user.profile.is_student %}
 <h2>Input class information</h2>
+{% if not start %}
 <a href="/input-class-info-start/">Back to module selection page</a>
+{% endif %}
 {% if start %}
 <form method="post">
 {% csrf_token %}

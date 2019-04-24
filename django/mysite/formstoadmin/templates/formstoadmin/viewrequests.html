@@ -12,7 +12,6 @@
 {% endblock %}
 {% block content %}
 {% if request.user.profile.is_cc %}
-{% if not query_empty %}
 <h2>Requests pending action</h2>
 <table class="table">
     <tr>
@@ -40,8 +39,7 @@
     </tr>
     {% endfor %}
 </table>
-{% endif %}
-
+<!-- If want to show all requests
 <h2>All Requests</h2>
 <table class="table">
     <tr>
@@ -65,7 +63,7 @@
         <td> {{obj.approved}}</td>
     </tr>
     {% endfor %}
-</table>
+</table> -->
 {% endif %}
 {% endblock %}
 
