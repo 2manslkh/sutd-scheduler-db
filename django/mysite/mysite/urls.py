@@ -42,4 +42,5 @@ urlpatterns = [
     re_path(r'^return_data/(?P<Classs>[^/]+)/$', scheduleViews.return_data),
     re_path(r'^return_data/$', scheduleViews.return_data),
     path('gcalExport/', scheduleViews.export),
+    path('add-event/<int:_id>/', formstoadminViews.addEventResponse),
 ]

@@ -158,15 +158,20 @@ def addEvent(request):
             latest = EventRequest.objects.filter(submitted_by=request.user.username).order_by('id')[0]
             form = EventRequestForm(instance=latest)
             time_to_choose = True
+            latest_five = EventRequestResponse.objects.filter(submitted_by=request.user.username, chosen=None).order_by('-id')[:3]
+            context = {"form": form, "time_to_choose": time_to_choose, "latest_five": latest_five}
 
     else:
         form = EventRequestForm()
-    context = {"form": form, "time_to_choose": time_to_choose}
+        context = {"form": form, "time_to_choose": time_to_choose}
     return render(request, 'formstoadmin/addevent.html', context)
 
 
-def choose_suggestion(request, instance, suggestion):
-    # LOGIC TO HANDLE CHOOSING OF SUGGESTION
+def addEventResponse(request, _id):
+    a = EventRequestResponse.objects.filter(id=_id)[0]
+    print(a)
+    a.chosen = True
+    a.save()
     return redirect('/add-event')
 
 

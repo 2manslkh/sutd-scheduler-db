@@ -1,7 +1,7 @@
 from django import forms
 import datetime
 from users.models import Module, Class
-from .models import EventRequest
+from .models import EventRequest, EventRequestResponse
 
 PREFERRED_TIMINGS = (
     ('Morning', 'Morning'),
@@ -56,6 +56,12 @@ class EventRequestForm(forms.ModelForm):
     date = forms.DateTimeField(input_formats=['%d/%m/%Y'], help_text="DD/MM/YYYY. Suggested timeslots will be given around the date provided")
     duration = forms.IntegerField(label="Duration (in minutes)", min_value=1)
     num_people = forms.IntegerField(label="Number of people attending", min_value=1)
+
+
+class EventRequestResponseForm(forms.ModelForm):
+    class Meta:
+        model = EventRequestResponse
+        fields = ['chosen']
 
 
 class InputModuleInformation(forms.Form):

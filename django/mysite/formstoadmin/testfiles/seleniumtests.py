@@ -4,7 +4,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.action_chains import ActionChains
-from selenium.common.exceptions import NoSuchElementException, StaleElementReferenceException
+from selenium.common.exceptions import NoSuchElementException, StaleElementReferenceException, WebDriverException
 from selenium.webdriver.support.select import Select
 from selenium.webdriver.chrome.options import Options
 
@@ -220,10 +220,12 @@ def upload_modules_via_csv():
     assert bclass('alert-success')
     assert "Uploaded file" in driver.page_source
 
+    choose_btn = bxpath('//input[@type="file"]')
     choose_btn.send_keys(r'C:\Users\Tea\Desktop\50.003 Event Scheduler\sutd-scheduler-db\django\mysite\formstoadmin\testfiles\SampleModuleData_EmptyCells.csv')
     bxpath('//button[text()="Upload"]').click()
     assert bclass('alert-success')
 
+    choose_btn = bxpath('//input[@type="file"]')
     choose_btn.send_keys(r'C:\Users\Tea\Desktop\50.003 Event Scheduler\sutd-scheduler-db\django\mysite\formstoadmin\testfiles\SampleModuleData_WrongNumColumns.csv')
     bxpath('//button[text()="Upload"]').click()
     assert bclass('alert-error')
@@ -264,7 +266,10 @@ def input_class_info():
 
     ''' Checking disabled button is disabled '''
     current_url = driver.current_url
-    prev.click()
+    try:
+        prev.click()
+    except WebDriverException:
+        pass
     assert driver.current_url == current_url
 
 
@@ -323,7 +328,6 @@ def check_restrictions_student():
     assert bclass("alert-error")
 
 
-
 def logout():
     driver.find_element_by_xpath('//a[text()="Logout"]').click()
 
@@ -333,30 +337,29 @@ def end():
 
 
 try:
-    # setup(_login=True, user_level=3)
-    # add_event()
-    # schedule_request()
-    # input_mod_info()
-    # upload_modules_via_csv()
-    # input_class_info()
-    # view_requests()
-    # schedule_filter()
-    # logout()
-    # setup(_login=True, user_level=2)
+    setup(_login=True, user_level=3)
+    add_event()
+    schedule_request()
+    input_mod_info()
+    upload_modules_via_csv()
+    input_class_info()
+    view_requests()
+    schedule_filter()
+    logout()
+    setup(_login=True, user_level=2)
 
     # EYES
 
-    # check_restrictions_faculty()
-    # logout()
+    check_restrictions_faculty()
+    logout()
     setup(_login=True, user_level=1)
-
+    check_restrictions_student()
     # EYES
-
 
 
 except Exception:
     logger2.error(Exception)
     traceback.print_exc()
 # finally:
-#     logout()
+    # logout()
 #     end()

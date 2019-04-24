@@ -61,8 +61,10 @@
       <div class="modal-body">
         <div class="card" >
           <ul class="list-group list-group-flush">
-            <li class="list-group-item"><strong>Location: Lecture Theatre 2<br>Date: 24/4/2019</strong></li>
-            <a href="#" type="button" class="btn btn-outline-primary confirmation" role="button">Accept</a>
+            {% for obj in latest_five %}
+            <li class="list-group-item"><strong>Location: {{obj.location}}<br>Date: {{obj.date}}</strong></li>
+            <a href="/add-event/{{obj.id}}" type="button" class="btn btn-outline-primary confirmation" role="button">Accept</a>
+            {% endfor %}
           </ul>
         </div>
       </div>

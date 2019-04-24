@@ -31,7 +31,7 @@ div.alert-error {
 </script>
 {% endblock %}
 {% block content %}
-{% if not request.user.profile.is_student %}
+{% if request.user.profile.is_cc %}
 <h2>Generate Schedule</h2>
 <br>
 
