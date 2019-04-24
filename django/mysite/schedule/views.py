@@ -18,6 +18,7 @@ def home(request):
 @login_required
 def generateSchedule(request):
     if request.method == "POST":
+        algo.run()
         messages.success(request, "Generating Schedule...")
 
     return render(request, 'schedule/generateSchedule.html')
