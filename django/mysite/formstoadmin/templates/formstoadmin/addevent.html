@@ -5,16 +5,15 @@
 {% endblock %}
 
 {% block morejs %}
-<style>
-ul.list-group li.list-group-item:hover {
-  background-color: #ccc;
-}
-</style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
 <script type="text/javascript">
     $(window).on('load',function(){
         $('#myModal').modal('show');
     });
+    $('.confirmation').on('click', function () {
+      return confirm('Confirm selection?');
+  });
+
 </script>
 {% endblock %}
 
@@ -49,6 +48,7 @@ ul.list-group li.list-group-item:hover {
 {% if time_to_choose %}
 <!-- When event request is submitted -->
 <!-- Modal -->
+<a class="btn btn-primary" data-toggle="modal" href="#myModal">View Suggestions</a>
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
@@ -61,22 +61,16 @@ ul.list-group li.list-group-item:hover {
       <div class="modal-body">
         <div class="card" >
           <ul class="list-group list-group-flush">
-            <li class="list-group-item"><strong>Location: Lecture Theatre 2<br>Date: 24/4/2019</strong></li>
-            <li class="list-group-item"><strong>Location: Lecture Theatre 2<br>Date: 24/4/2019</strong></li>
-            <li class="list-group-item"><strong>Location: Lecture Theatre 2<br>Date: 24/4/2019</strong></li>
-            <li class="list-group-item"><strong>Location: Lecture Theatre 2<br>Date: 24/4/2019</strong></li>
-            <li class="list-group-item"><strong>Location: Lecture Theatre 2<br>Date: 24/4/2019</strong></li>
+            {% for obj in latest_five %}
+            <li class="list-group-item"><strong>Location: {{obj.location}}<br>Date: {{obj.date}}</strong></li>
+            <a href="/add-event/{{obj.id}}" type="button" class="btn btn-outline-primary confirmation" role="button">Accept</a>
+            {% endfor %}
           </ul>
         </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Choose</button>
       </div>
     </div>
   </div>
 </div>
-
 
 {% endif %}
 {% endblock content %}

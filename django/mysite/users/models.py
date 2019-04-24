@@ -60,6 +60,7 @@ class Class(models.Model):
     start = models.CharField(max_length=200, default="")
     end = models.CharField(max_length=200, default="")
 
+
 class FilteredResults(models.Model):
     title = models.CharField(max_length=200, default="")
     start = models.CharField(max_length=200, default="")
@@ -67,10 +68,12 @@ class FilteredResults(models.Model):
     description = models.CharField(max_length=200, default="")
     location = models.CharField(max_length=200, default="")
 
+
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
-        myUser.objects.create(user=instance,access_level=1,assigned_classes="1,2,3,")
+        myUser.objects.create(user=instance, access_level=1, assigned_classes="1,2,3,")
+
 
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, **kwargs):

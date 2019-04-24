@@ -3,7 +3,7 @@ from django.http import JsonResponse, HttpResponseRedirect, Http404
 from django.contrib.auth.decorators import login_required
 from .forms import ScheduleRequestForm, InputModuleInformation, EventRequestForm, InputClassInformation
 from django.contrib import messages
-from .models import ScheduleRequest, EventRequest
+from .models import ScheduleRequest, EventRequest, EventRequestResponse
 from django.core import serializers
 from django.contrib.auth.models import User
 import pandas as pd
@@ -19,12 +19,13 @@ from users.models import Module, Class
 
 @login_required
 def scheduleRequest(request):
+    if request.user.profile.is_student():
+        messages.error(request, "Not authorized")
+        redirect(request.path_info)
     if request.method == "POST":
         form = ScheduleRequestForm(request.POST, initial={'name': request.user.get_username()})
         if form.is_valid():
             messages.success(request, 'Request submitted')
-
-            # def save(self):
             data = form.cleaned_data
             s = ScheduleRequest(
                 name=request.user.get_username(),
@@ -157,15 +158,20 @@ def addEvent(request):
             latest = EventRequest.objects.filter(submitted_by=request.user.username).order_by('id')[0]
             form = EventRequestForm(instance=latest)
             time_to_choose = True
+            latest_five = EventRequestResponse.objects.filter(submitted_by=request.user.username, chosen=None).order_by('-id')[:5]
+            context = {"form": form, "time_to_choose": time_to_choose, "latest_five": latest_five}
 
     else:
         form = EventRequestForm()
-    context = {"form": form, "time_to_choose": time_to_choose}
+        context = {"form": form, "time_to_choose": time_to_choose}
     return render(request, 'formstoadmin/addevent.html', context)
 
 
-def choose_suggestion(request, instance, suggestion):
-    # LOGIC TO HANDLE CHOOSING OF SUGGESTION
+def addEventResponse(request, _id):
+    a = EventRequestResponse.objects.filter(id=_id)[0]
+    print(a)
+    a.chosen = True
+    a.save()
     return redirect('/add-event')
 
 

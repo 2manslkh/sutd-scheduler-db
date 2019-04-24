@@ -1,7 +1,7 @@
 from django import forms
 import datetime
 from users.models import Module, Class
-from .models import EventRequest
+from .models import EventRequest, EventRequestResponse
 
 PREFERRED_TIMINGS = (
     ('Morning', 'Morning'),
@@ -38,7 +38,7 @@ class ScheduleRequestForm(forms.Form):
     course_name = forms.ModelChoiceField(queryset=Module.objects.all().order_by('subject').distinct())
     duration = forms.IntegerField(label="Duration (in minutes)", min_value=1)
     class_related = forms.CharField(required=True, widget=forms.Textarea(attrs={'rows': 2, 'cols': 20, 'placeholder': "Input relevant classes separated by a comma. Eg. 5CISTD01, 5CISTD02."}))
-    lesson_type = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple, choices=LESSON_TYPE)
+    lesson_type = forms.MultipleChoiceField(required=False, widget=forms.CheckboxSelectMultiple, choices=LESSON_TYPE)
     preferred_timings = forms.MultipleChoiceField(required=False, widget=forms.CheckboxSelectMultiple, choices=PREFERRED_TIMINGS)
     reasons = forms.CharField(widget=forms.Textarea(attrs={'rows': 3, 'cols': 20}))
     remarks = forms.CharField(required=False, widget=forms.Textarea(attrs={'rows': 3, 'cols': 20}))
@@ -56,6 +56,12 @@ class EventRequestForm(forms.ModelForm):
     date = forms.DateTimeField(input_formats=['%d/%m/%Y'], help_text="DD/MM/YYYY. Suggested timeslots will be given around the date provided")
     duration = forms.IntegerField(label="Duration (in minutes)", min_value=1)
     num_people = forms.IntegerField(label="Number of people attending", min_value=1)
+
+
+class EventRequestResponseForm(forms.ModelForm):
+    class Meta:
+        model = EventRequestResponse
+        fields = ['chosen']
 
 
 class InputModuleInformation(forms.Form):
