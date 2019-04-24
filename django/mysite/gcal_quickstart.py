@@ -77,7 +77,7 @@ class Gcal:
 
         event_data = (EventBuilder()
                     .add_event(event[1])
-                    .add_location([5])
+                    .add_location(event[5])
                     .add_startTime(event[2])
                     .add_endTime(event[3])
                     .build())
