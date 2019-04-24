@@ -7,7 +7,22 @@ $(document).ready(function(){
 
         $('#export-button').click(function(){
             alert("THIS NEEDS TO EXPORT CSV")
-            // TODO: EXPORT EVENTS FROM 2
+            var toexport;
+            var request = new XMLHttpRequest();
+            request.open("GET", urlconfig);
+            request.onreadystatechange = function() {
+                if (this.readyState == this.DONE && this.status == 200) {
+                    if (this.responseText) { 
+                        toexport = this.responseText;
+                        
+                        // alert(ahem);
+                    }
+                    else {
+                        console.log("Error: Data is empty");
+                    }
+                };
+            }
+            
         })
 
 
@@ -17,8 +32,8 @@ $(document).ready(function(){
             $.each($(".selectpicker option:selected"), function(){
             targets.push($(this).val());
             });
-            alert("You have selected the targets: " + targets.join(", "));
-            alert("tahgets: " + targets)
+            // alert("You have selected the targets: " + targets.join(", "));
+            // alert("tahgets: " + targets)
             const urlconfig = "/return_data/"+targets.join("+");
             if (targets.join(", ") !=""){
             var request = new XMLHttpRequest();
@@ -28,10 +43,11 @@ $(document).ready(function(){
                     if (this.responseText) { 
                         ahem = this.responseText;
                         // alert(ahem);
-                        $('#calendar').fullCalendar('addEventSource',urlconfig);                        
+                        $('#calendar').fullCalendar('addEventSource',urlconfig);
                         $('#calendar').fullCalendar('refetchEvents');
                     }
-                    else {
+                else {
+                        alert("no response");
                         console.log("Error: Data is empty");
                     }
                 };
@@ -42,6 +58,7 @@ $(document).ready(function(){
                 // $('#calendar').fullCalendar( 'removeEventSources');
                 // alert("DO NOTHING")
             }
+            
             // alert(urlconfig)
             // alert("get sent")
         });
@@ -53,18 +70,6 @@ $(document).ready(function(){
         $('div.filter-option-inner-inner').click(function() {
             var select = document.getElementById("course-selector");
             var ahem = '';
-            // alert( "Handler for .click() called." );
-            // var myobjecc = '';
-            // $.ajax({
-            //     method: 'GET',
-            //     dataType: "JSON",
-            //     contentType: "application/json; charset=utf-8",
-            //     url: '/return_data/courses/',
-            //     data: myobjecc,
-            //     success: function (d) {
-            //     myobjecc=d.data
-            //     }
-            // });
             var request = new XMLHttpRequest();
             request.open("GET", "/return_data/courses");
             request.onreadystatechange = function() {
@@ -94,11 +99,9 @@ $(document).ready(function(){
                 };
             }
             request.send();
-            var myobject = {
-                ValueA : 'Text A',
-                ValueB : 'Text B',
-                ValueC : 'Text C'
-            };
+
           });
 
-});
+    });
+// });
+
