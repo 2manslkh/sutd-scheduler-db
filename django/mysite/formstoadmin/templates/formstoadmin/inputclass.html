@@ -3,17 +3,14 @@
 {% load crispy_forms_tags %}
 
 {% block morejs %}
+<link rel='stylesheet' href="..\..\static\formstoadmin\forms.css">
 <style>
 .page-buttons{
-  margin-bottom: -15px;
+  margin-bottom: -20px;
   margin-top: -5px;
   margin-right: 1px;
 }
 </style>
-
-<script>
-
-</script>
 {% endblock %}
 
 {% block content %}
@@ -31,12 +28,24 @@
 <div class="row justify-content-end page-buttons">
   <nav aria-label="...">
     <ul class="pagination">
-      <li class="page-item">
-        <a class="page-link" href="/yooo">Previous</a>
+      {% if idx == 0 %}
+      <li class="page-item disabled">
+        <a class="page-link" href="#" tabindex="-1">Previous</a>
       </li>
+      {% else %}
       <li class="page-item">
-        <a class="page-link" href="#">Next</a>
+        <a class="page-link" href="/input-class-info/{{mod_id}}/{{idx}}/1">Previous</a>
       </li>
+      {% endif %}
+      {% if idx == end_idx %}
+      <li class="page-item disabled">
+        <a class="page-link" href="#" tabindex="-1">Next</a>
+      </li>
+      {% else %}
+      <li class="page-item">
+        <a class="page-link" href="/input-class-info/{{mod_id}}/{{idx}}/2">Next</a>
+      </li>
+      {% endif %}
     </ul>
   </nav>
 </div>
