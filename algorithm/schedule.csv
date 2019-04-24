@@ -1,11 +1,425 @@
+soft constraints score
+1.0
 id,Course,Professors,Class,Room, Day,Start,End
-500051,CSE,Natalie,Cl02,CC12,2,13:30,15:00
-500052,CSE,David,Cl03,CC12,4,10:30,12:00
-500053,CSE,Natalie,Cl01,CC12,2,15:00,16:30
-500054,CSE,Natalie,Cl02,CC12,3,9:00,10:30
-500055,CSE,David,Cl03,CC12,1,9:00,10:30
-500056,CSE,Natalie,Cl01,CC12,3,11:00,12:30
-500057,CSE lab,"Natalie, David","Cl01, Cl02, Cl03",lt2,5,8:30,10:30
-500031,ESC,Sun Jun,Cl02,CC11,2,16:00,17:30
-500032,ESC,Sun Jun,Cl03,CC11,1,11:30,13:00
-500033,ESC,Sun Jun,Cl01,CC11,4,10:30,12:00
+41,Introduction to Information Systems & Programming,Norman Lee,4CISTD3,CC2,9:30,11:00,2019-04-22
+42,Introduction to Information Systems & Programming,Norman Lee,4CISTD3,CC2,10:30,12:30,2019-04-25
+43,Introduction to Algorithms,Gemma Roig,4CISTD1,CC2,16:00,17:30,2019-04-23
+44,Introduction to Algorithms,Gemma Roig,4CISTD1,CC2,13:00,14:30,2019-04-25
+45,Introduction to Algorithms,Gemma Roig,4CISTD1,CC2,8:30,10:30,2019-04-26
+46,Introduction to Algorithms,Gemma Roig,4CISTD2,CC2,11:00,12:30,2019-04-23
+47,Introduction to Algorithms,Gemma Roig,4CISTD2,CC2,11:00,12:30,2019-04-22
+48,Introduction to Algorithms,Gemma Roig,4CISTD2,CC2,8:30,10:30,2019-04-25
+49,Introduction to Algorithms,Gemma Roig,4CISTD3,CC2,13:30,15:00,2019-04-23
+50,Introduction to Algorithms,Gemma Roig,4CISTD3,CC2,12:30,14:00,2019-04-22
+51,Introduction to Algorithms,Gemma Roig,4CISTD3,CC2,8:30,10:30,2019-04-24
+41,Introduction to Information Systems & Programming,Norman Lee,4CISTD3,CC2,9:30,11:00,2019-04-29
+42,Introduction to Information Systems & Programming,Norman Lee,4CISTD3,CC2,10:30,12:30,2019-05-02
+43,Introduction to Algorithms,Gemma Roig,4CISTD1,CC2,16:00,17:30,2019-04-30
+44,Introduction to Algorithms,Gemma Roig,4CISTD1,CC2,13:00,14:30,2019-05-02
+45,Introduction to Algorithms,Gemma Roig,4CISTD1,CC2,8:30,10:30,2019-05-03
+46,Introduction to Algorithms,Gemma Roig,4CISTD2,CC2,11:00,12:30,2019-04-30
+47,Introduction to Algorithms,Gemma Roig,4CISTD2,CC2,11:00,12:30,2019-04-29
+48,Introduction to Algorithms,Gemma Roig,4CISTD2,CC2,8:30,10:30,2019-05-02
+49,Introduction to Algorithms,Gemma Roig,4CISTD3,CC2,13:30,15:00,2019-04-30
+50,Introduction to Algorithms,Gemma Roig,4CISTD3,CC2,12:30,14:00,2019-04-29
+51,Introduction to Algorithms,Gemma Roig,4CISTD3,CC2,8:30,10:30,2019-05-01
+41,Introduction to Information Systems & Programming,Norman Lee,4CISTD3,CC2,9:30,11:00,2019-05-06
+42,Introduction to Information Systems & Programming,Norman Lee,4CISTD3,CC2,10:30,12:30,2019-05-09
+43,Introduction to Algorithms,Gemma Roig,4CISTD1,CC2,16:00,17:30,2019-05-07
+44,Introduction to Algorithms,Gemma Roig,4CISTD1,CC2,13:00,14:30,2019-05-09
+45,Introduction to Algorithms,Gemma Roig,4CISTD1,CC2,8:30,10:30,2019-05-10
+46,Introduction to Algorithms,Gemma Roig,4CISTD2,CC2,11:00,12:30,2019-05-07
+47,Introduction to Algorithms,Gemma Roig,4CISTD2,CC2,11:00,12:30,2019-05-06
+48,Introduction to Algorithms,Gemma Roig,4CISTD2,CC2,8:30,10:30,2019-05-09
+49,Introduction to Algorithms,Gemma Roig,4CISTD3,CC2,13:30,15:00,2019-05-07
+50,Introduction to Algorithms,Gemma Roig,4CISTD3,CC2,12:30,14:00,2019-05-06
+51,Introduction to Algorithms,Gemma Roig,4CISTD3,CC2,8:30,10:30,2019-05-08
+41,Introduction to Information Systems & Programming,Norman Lee,4CISTD3,CC2,9:30,11:00,2019-05-13
+42,Introduction to Information Systems & Programming,Norman Lee,4CISTD3,CC2,10:30,12:30,2019-05-16
+43,Introduction to Algorithms,Gemma Roig,4CISTD1,CC2,16:00,17:30,2019-05-14
+44,Introduction to Algorithms,Gemma Roig,4CISTD1,CC2,13:00,14:30,2019-05-16
+45,Introduction to Algorithms,Gemma Roig,4CISTD1,CC2,8:30,10:30,2019-05-17
+46,Introduction to Algorithms,Gemma Roig,4CISTD2,CC2,11:00,12:30,2019-05-14
+47,Introduction to Algorithms,Gemma Roig,4CISTD2,CC2,11:00,12:30,2019-05-13
+48,Introduction to Algorithms,Gemma Roig,4CISTD2,CC2,8:30,10:30,2019-05-16
+49,Introduction to Algorithms,Gemma Roig,4CISTD3,CC2,13:30,15:00,2019-05-14
+50,Introduction to Algorithms,Gemma Roig,4CISTD3,CC2,12:30,14:00,2019-05-13
+51,Introduction to Algorithms,Gemma Roig,4CISTD3,CC2,8:30,10:30,2019-05-15
+41,Introduction to Information Systems & Programming,Norman Lee,4CISTD3,CC2,9:30,11:00,2019-05-20
+42,Introduction to Information Systems & Programming,Norman Lee,4CISTD3,CC2,10:30,12:30,2019-05-23
+43,Introduction to Algorithms,Gemma Roig,4CISTD1,CC2,16:00,17:30,2019-05-21
+44,Introduction to Algorithms,Gemma Roig,4CISTD1,CC2,13:00,14:30,2019-05-23
+45,Introduction to Algorithms,Gemma Roig,4CISTD1,CC2,8:30,10:30,2019-05-24
+46,Introduction to Algorithms,Gemma Roig,4CISTD2,CC2,11:00,12:30,2019-05-21
+47,Introduction to Algorithms,Gemma Roig,4CISTD2,CC2,11:00,12:30,2019-05-20
+48,Introduction to Algorithms,Gemma Roig,4CISTD2,CC2,8:30,10:30,2019-05-23
+49,Introduction to Algorithms,Gemma Roig,4CISTD3,CC2,13:30,15:00,2019-05-21
+50,Introduction to Algorithms,Gemma Roig,4CISTD3,CC2,12:30,14:00,2019-05-20
+51,Introduction to Algorithms,Gemma Roig,4CISTD3,CC2,8:30,10:30,2019-05-22
+41,Introduction to Information Systems & Programming,Norman Lee,4CISTD3,CC2,9:30,11:00,2019-05-27
+42,Introduction to Information Systems & Programming,Norman Lee,4CISTD3,CC2,10:30,12:30,2019-05-30
+43,Introduction to Algorithms,Gemma Roig,4CISTD1,CC2,16:00,17:30,2019-05-28
+44,Introduction to Algorithms,Gemma Roig,4CISTD1,CC2,13:00,14:30,2019-05-30
+45,Introduction to Algorithms,Gemma Roig,4CISTD1,CC2,8:30,10:30,2019-05-31
+46,Introduction to Algorithms,Gemma Roig,4CISTD2,CC2,11:00,12:30,2019-05-28
+47,Introduction to Algorithms,Gemma Roig,4CISTD2,CC2,11:00,12:30,2019-05-27
+48,Introduction to Algorithms,Gemma Roig,4CISTD2,CC2,8:30,10:30,2019-05-30
+49,Introduction to Algorithms,Gemma Roig,4CISTD3,CC2,13:30,15:00,2019-05-28
+50,Introduction to Algorithms,Gemma Roig,4CISTD3,CC2,12:30,14:00,2019-05-27
+51,Introduction to Algorithms,Gemma Roig,4CISTD3,CC2,8:30,10:30,2019-05-29
+41,Introduction to Information Systems & Programming,Norman Lee,4CISTD3,CC2,9:30,11:00,2019-06-10
+42,Introduction to Information Systems & Programming,Norman Lee,4CISTD3,CC2,10:30,12:30,2019-06-13
+43,Introduction to Algorithms,Gemma Roig,4CISTD1,CC2,16:00,17:30,2019-06-11
+44,Introduction to Algorithms,Gemma Roig,4CISTD1,CC2,13:00,14:30,2019-06-13
+45,Introduction to Algorithms,Gemma Roig,4CISTD1,CC2,8:30,10:30,2019-06-14
+46,Introduction to Algorithms,Gemma Roig,4CISTD2,CC2,11:00,12:30,2019-06-11
+47,Introduction to Algorithms,Gemma Roig,4CISTD2,CC2,11:00,12:30,2019-06-10
+48,Introduction to Algorithms,Gemma Roig,4CISTD2,CC2,8:30,10:30,2019-06-13
+49,Introduction to Algorithms,Gemma Roig,4CISTD3,CC2,13:30,15:00,2019-06-11
+50,Introduction to Algorithms,Gemma Roig,4CISTD3,CC2,12:30,14:00,2019-06-10
+51,Introduction to Algorithms,Gemma Roig,4CISTD3,CC2,8:30,10:30,2019-06-12
+41,Introduction to Information Systems & Programming,Norman Lee,4CISTD3,CC2,9:30,11:00,2019-06-17
+42,Introduction to Information Systems & Programming,Norman Lee,4CISTD3,CC2,10:30,12:30,2019-06-20
+43,Introduction to Algorithms,Gemma Roig,4CISTD1,CC2,16:00,17:30,2019-06-18
+44,Introduction to Algorithms,Gemma Roig,4CISTD1,CC2,13:00,14:30,2019-06-20
+45,Introduction to Algorithms,Gemma Roig,4CISTD1,CC2,8:30,10:30,2019-06-21
+46,Introduction to Algorithms,Gemma Roig,4CISTD2,CC2,11:00,12:30,2019-06-18
+47,Introduction to Algorithms,Gemma Roig,4CISTD2,CC2,11:00,12:30,2019-06-17
+48,Introduction to Algorithms,Gemma Roig,4CISTD2,CC2,8:30,10:30,2019-06-20
+49,Introduction to Algorithms,Gemma Roig,4CISTD3,CC2,13:30,15:00,2019-06-18
+50,Introduction to Algorithms,Gemma Roig,4CISTD3,CC2,12:30,14:00,2019-06-17
+51,Introduction to Algorithms,Gemma Roig,4CISTD3,CC2,8:30,10:30,2019-06-19
+41,Introduction to Information Systems & Programming,Norman Lee,4CISTD3,CC2,9:30,11:00,2019-06-24
+42,Introduction to Information Systems & Programming,Norman Lee,4CISTD3,CC2,10:30,12:30,2019-06-27
+43,Introduction to Algorithms,Gemma Roig,4CISTD1,CC2,16:00,17:30,2019-06-25
+44,Introduction to Algorithms,Gemma Roig,4CISTD1,CC2,13:00,14:30,2019-06-27
+45,Introduction to Algorithms,Gemma Roig,4CISTD1,CC2,8:30,10:30,2019-06-28
+46,Introduction to Algorithms,Gemma Roig,4CISTD2,CC2,11:00,12:30,2019-06-25
+47,Introduction to Algorithms,Gemma Roig,4CISTD2,CC2,11:00,12:30,2019-06-24
+48,Introduction to Algorithms,Gemma Roig,4CISTD2,CC2,8:30,10:30,2019-06-27
+49,Introduction to Algorithms,Gemma Roig,4CISTD3,CC2,13:30,15:00,2019-06-25
+50,Introduction to Algorithms,Gemma Roig,4CISTD3,CC2,12:30,14:00,2019-06-24
+51,Introduction to Algorithms,Gemma Roig,4CISTD3,CC2,8:30,10:30,2019-06-26
+41,Introduction to Information Systems & Programming,Norman Lee,4CISTD3,CC2,9:30,11:00,2019-07-01
+42,Introduction to Information Systems & Programming,Norman Lee,4CISTD3,CC2,10:30,12:30,2019-07-04
+43,Introduction to Algorithms,Gemma Roig,4CISTD1,CC2,16:00,17:30,2019-07-02
+44,Introduction to Algorithms,Gemma Roig,4CISTD1,CC2,13:00,14:30,2019-07-04
+45,Introduction to Algorithms,Gemma Roig,4CISTD1,CC2,8:30,10:30,2019-07-05
+46,Introduction to Algorithms,Gemma Roig,4CISTD2,CC2,11:00,12:30,2019-07-02
+47,Introduction to Algorithms,Gemma Roig,4CISTD2,CC2,11:00,12:30,2019-07-01
+48,Introduction to Algorithms,Gemma Roig,4CISTD2,CC2,8:30,10:30,2019-07-04
+49,Introduction to Algorithms,Gemma Roig,4CISTD3,CC2,13:30,15:00,2019-07-02
+50,Introduction to Algorithms,Gemma Roig,4CISTD3,CC2,12:30,14:00,2019-07-01
+51,Introduction to Algorithms,Gemma Roig,4CISTD3,CC2,8:30,10:30,2019-07-03
+41,Introduction to Information Systems & Programming,Norman Lee,4CISTD3,CC2,9:30,11:00,2019-07-08
+42,Introduction to Information Systems & Programming,Norman Lee,4CISTD3,CC2,10:30,12:30,2019-07-11
+43,Introduction to Algorithms,Gemma Roig,4CISTD1,CC2,16:00,17:30,2019-07-09
+44,Introduction to Algorithms,Gemma Roig,4CISTD1,CC2,13:00,14:30,2019-07-11
+45,Introduction to Algorithms,Gemma Roig,4CISTD1,CC2,8:30,10:30,2019-07-12
+46,Introduction to Algorithms,Gemma Roig,4CISTD2,CC2,11:00,12:30,2019-07-09
+47,Introduction to Algorithms,Gemma Roig,4CISTD2,CC2,11:00,12:30,2019-07-08
+48,Introduction to Algorithms,Gemma Roig,4CISTD2,CC2,8:30,10:30,2019-07-11
+49,Introduction to Algorithms,Gemma Roig,4CISTD3,CC2,13:30,15:00,2019-07-09
+50,Introduction to Algorithms,Gemma Roig,4CISTD3,CC2,12:30,14:00,2019-07-08
+51,Introduction to Algorithms,Gemma Roig,4CISTD3,CC2,8:30,10:30,2019-07-10
+41,Introduction to Information Systems & Programming,Norman Lee,4CISTD3,CC2,9:30,11:00,2019-07-15
+42,Introduction to Information Systems & Programming,Norman Lee,4CISTD3,CC2,10:30,12:30,2019-07-18
+43,Introduction to Algorithms,Gemma Roig,4CISTD1,CC2,16:00,17:30,2019-07-16
+44,Introduction to Algorithms,Gemma Roig,4CISTD1,CC2,13:00,14:30,2019-07-18
+45,Introduction to Algorithms,Gemma Roig,4CISTD1,CC2,8:30,10:30,2019-07-19
+46,Introduction to Algorithms,Gemma Roig,4CISTD2,CC2,11:00,12:30,2019-07-16
+47,Introduction to Algorithms,Gemma Roig,4CISTD2,CC2,11:00,12:30,2019-07-15
+48,Introduction to Algorithms,Gemma Roig,4CISTD2,CC2,8:30,10:30,2019-07-18
+49,Introduction to Algorithms,Gemma Roig,4CISTD3,CC2,13:30,15:00,2019-07-16
+50,Introduction to Algorithms,Gemma Roig,4CISTD3,CC2,12:30,14:00,2019-07-15
+51,Introduction to Algorithms,Gemma Roig,4CISTD3,CC2,8:30,10:30,2019-07-17
+41,Introduction to Information Systems & Programming,Norman Lee,4CISTD3,CC2,9:30,11:00,2019-07-22
+42,Introduction to Information Systems & Programming,Norman Lee,4CISTD3,CC2,10:30,12:30,2019-07-25
+43,Introduction to Algorithms,Gemma Roig,4CISTD1,CC2,16:00,17:30,2019-07-23
+44,Introduction to Algorithms,Gemma Roig,4CISTD1,CC2,13:00,14:30,2019-07-25
+45,Introduction to Algorithms,Gemma Roig,4CISTD1,CC2,8:30,10:30,2019-07-26
+46,Introduction to Algorithms,Gemma Roig,4CISTD2,CC2,11:00,12:30,2019-07-23
+47,Introduction to Algorithms,Gemma Roig,4CISTD2,CC2,11:00,12:30,2019-07-22
+48,Introduction to Algorithms,Gemma Roig,4CISTD2,CC2,8:30,10:30,2019-07-25
+49,Introduction to Algorithms,Gemma Roig,4CISTD3,CC2,13:30,15:00,2019-07-23
+50,Introduction to Algorithms,Gemma Roig,4CISTD3,CC2,12:30,14:00,2019-07-22
+51,Introduction to Algorithms,Gemma Roig,4CISTD3,CC2,8:30,10:30,2019-07-24
+soft constraints score
+1.0
+id,Course,Professors,Class,Room, Day,Start,End
+41,Introduction to Information Systems & Programming,Norman Lee,4CISTD3,CC2,16:00,17:30,2019-04-23
+42,Introduction to Information Systems & Programming,Norman Lee,4CISTD3,CC2,12:30,14:30,2019-04-22
+43,Introduction to Algorithms,Gemma Roig,4CISTD1,CC2,10:30,12:00,2019-04-23
+44,Introduction to Algorithms,Gemma Roig,4CISTD1,CC2,9:30,11:00,2019-04-25
+45,Introduction to Algorithms,Gemma Roig,4CISTD1,CC2,10:30,12:30,2019-04-24
+46,Introduction to Algorithms,Gemma Roig,4CISTD2,CC2,11:00,12:30,2019-04-22
+47,Introduction to Algorithms,Gemma Roig,4CISTD2,CC2,8:30,10:00,2019-04-24
+48,Introduction to Algorithms,Gemma Roig,4CISTD2,CC2,11:30,13:30,2019-04-25
+49,Introduction to Algorithms,Gemma Roig,4CISTD3,CC2,9:30,11:00,2019-04-22
+50,Introduction to Algorithms,Gemma Roig,4CISTD3,CC2,12:30,14:00,2019-04-23
+51,Introduction to Algorithms,Gemma Roig,4CISTD3,CC2,8:30,10:30,2019-04-26
+41,Introduction to Information Systems & Programming,Norman Lee,4CISTD3,CC2,16:00,17:30,2019-04-30
+42,Introduction to Information Systems & Programming,Norman Lee,4CISTD3,CC2,12:30,14:30,2019-04-29
+43,Introduction to Algorithms,Gemma Roig,4CISTD1,CC2,10:30,12:00,2019-04-30
+44,Introduction to Algorithms,Gemma Roig,4CISTD1,CC2,9:30,11:00,2019-05-02
+45,Introduction to Algorithms,Gemma Roig,4CISTD1,CC2,10:30,12:30,2019-05-01
+46,Introduction to Algorithms,Gemma Roig,4CISTD2,CC2,11:00,12:30,2019-04-29
+47,Introduction to Algorithms,Gemma Roig,4CISTD2,CC2,8:30,10:00,2019-05-01
+48,Introduction to Algorithms,Gemma Roig,4CISTD2,CC2,11:30,13:30,2019-05-02
+49,Introduction to Algorithms,Gemma Roig,4CISTD3,CC2,9:30,11:00,2019-04-29
+50,Introduction to Algorithms,Gemma Roig,4CISTD3,CC2,12:30,14:00,2019-04-30
+51,Introduction to Algorithms,Gemma Roig,4CISTD3,CC2,8:30,10:30,2019-05-03
+41,Introduction to Information Systems & Programming,Norman Lee,4CISTD3,CC2,16:00,17:30,2019-05-07
+42,Introduction to Information Systems & Programming,Norman Lee,4CISTD3,CC2,12:30,14:30,2019-05-06
+43,Introduction to Algorithms,Gemma Roig,4CISTD1,CC2,10:30,12:00,2019-05-07
+44,Introduction to Algorithms,Gemma Roig,4CISTD1,CC2,9:30,11:00,2019-05-09
+45,Introduction to Algorithms,Gemma Roig,4CISTD1,CC2,10:30,12:30,2019-05-08
+46,Introduction to Algorithms,Gemma Roig,4CISTD2,CC2,11:00,12:30,2019-05-06
+47,Introduction to Algorithms,Gemma Roig,4CISTD2,CC2,8:30,10:00,2019-05-08
+48,Introduction to Algorithms,Gemma Roig,4CISTD2,CC2,11:30,13:30,2019-05-09
+49,Introduction to Algorithms,Gemma Roig,4CISTD3,CC2,9:30,11:00,2019-05-06
+50,Introduction to Algorithms,Gemma Roig,4CISTD3,CC2,12:30,14:00,2019-05-07
+51,Introduction to Algorithms,Gemma Roig,4CISTD3,CC2,8:30,10:30,2019-05-10
+41,Introduction to Information Systems & Programming,Norman Lee,4CISTD3,CC2,16:00,17:30,2019-05-14
+42,Introduction to Information Systems & Programming,Norman Lee,4CISTD3,CC2,12:30,14:30,2019-05-13
+43,Introduction to Algorithms,Gemma Roig,4CISTD1,CC2,10:30,12:00,2019-05-14
+44,Introduction to Algorithms,Gemma Roig,4CISTD1,CC2,9:30,11:00,2019-05-16
+45,Introduction to Algorithms,Gemma Roig,4CISTD1,CC2,10:30,12:30,2019-05-15
+46,Introduction to Algorithms,Gemma Roig,4CISTD2,CC2,11:00,12:30,2019-05-13
+47,Introduction to Algorithms,Gemma Roig,4CISTD2,CC2,8:30,10:00,2019-05-15
+48,Introduction to Algorithms,Gemma Roig,4CISTD2,CC2,11:30,13:30,2019-05-16
+49,Introduction to Algorithms,Gemma Roig,4CISTD3,CC2,9:30,11:00,2019-05-13
+50,Introduction to Algorithms,Gemma Roig,4CISTD3,CC2,12:30,14:00,2019-05-14
+51,Introduction to Algorithms,Gemma Roig,4CISTD3,CC2,8:30,10:30,2019-05-17
+41,Introduction to Information Systems & Programming,Norman Lee,4CISTD3,CC2,16:00,17:30,2019-05-21
+42,Introduction to Information Systems & Programming,Norman Lee,4CISTD3,CC2,12:30,14:30,2019-05-20
+43,Introduction to Algorithms,Gemma Roig,4CISTD1,CC2,10:30,12:00,2019-05-21
+44,Introduction to Algorithms,Gemma Roig,4CISTD1,CC2,9:30,11:00,2019-05-23
+45,Introduction to Algorithms,Gemma Roig,4CISTD1,CC2,10:30,12:30,2019-05-22
+46,Introduction to Algorithms,Gemma Roig,4CISTD2,CC2,11:00,12:30,2019-05-20
+47,Introduction to Algorithms,Gemma Roig,4CISTD2,CC2,8:30,10:00,2019-05-22
+48,Introduction to Algorithms,Gemma Roig,4CISTD2,CC2,11:30,13:30,2019-05-23
+49,Introduction to Algorithms,Gemma Roig,4CISTD3,CC2,9:30,11:00,2019-05-20
+50,Introduction to Algorithms,Gemma Roig,4CISTD3,CC2,12:30,14:00,2019-05-21
+51,Introduction to Algorithms,Gemma Roig,4CISTD3,CC2,8:30,10:30,2019-05-24
+41,Introduction to Information Systems & Programming,Norman Lee,4CISTD3,CC2,16:00,17:30,2019-05-28
+42,Introduction to Information Systems & Programming,Norman Lee,4CISTD3,CC2,12:30,14:30,2019-05-27
+43,Introduction to Algorithms,Gemma Roig,4CISTD1,CC2,10:30,12:00,2019-05-28
+44,Introduction to Algorithms,Gemma Roig,4CISTD1,CC2,9:30,11:00,2019-05-30
+45,Introduction to Algorithms,Gemma Roig,4CISTD1,CC2,10:30,12:30,2019-05-29
+46,Introduction to Algorithms,Gemma Roig,4CISTD2,CC2,11:00,12:30,2019-05-27
+47,Introduction to Algorithms,Gemma Roig,4CISTD2,CC2,8:30,10:00,2019-05-29
+48,Introduction to Algorithms,Gemma Roig,4CISTD2,CC2,11:30,13:30,2019-05-30
+49,Introduction to Algorithms,Gemma Roig,4CISTD3,CC2,9:30,11:00,2019-05-27
+50,Introduction to Algorithms,Gemma Roig,4CISTD3,CC2,12:30,14:00,2019-05-28
+51,Introduction to Algorithms,Gemma Roig,4CISTD3,CC2,8:30,10:30,2019-05-31
+41,Introduction to Information Systems & Programming,Norman Lee,4CISTD3,CC2,16:00,17:30,2019-06-11
+42,Introduction to Information Systems & Programming,Norman Lee,4CISTD3,CC2,12:30,14:30,2019-06-10
+43,Introduction to Algorithms,Gemma Roig,4CISTD1,CC2,10:30,12:00,2019-06-11
+44,Introduction to Algorithms,Gemma Roig,4CISTD1,CC2,9:30,11:00,2019-06-13
+45,Introduction to Algorithms,Gemma Roig,4CISTD1,CC2,10:30,12:30,2019-06-12
+46,Introduction to Algorithms,Gemma Roig,4CISTD2,CC2,11:00,12:30,2019-06-10
+47,Introduction to Algorithms,Gemma Roig,4CISTD2,CC2,8:30,10:00,2019-06-12
+48,Introduction to Algorithms,Gemma Roig,4CISTD2,CC2,11:30,13:30,2019-06-13
+49,Introduction to Algorithms,Gemma Roig,4CISTD3,CC2,9:30,11:00,2019-06-10
+50,Introduction to Algorithms,Gemma Roig,4CISTD3,CC2,12:30,14:00,2019-06-11
+51,Introduction to Algorithms,Gemma Roig,4CISTD3,CC2,8:30,10:30,2019-06-14
+41,Introduction to Information Systems & Programming,Norman Lee,4CISTD3,CC2,16:00,17:30,2019-06-18
+42,Introduction to Information Systems & Programming,Norman Lee,4CISTD3,CC2,12:30,14:30,2019-06-17
+43,Introduction to Algorithms,Gemma Roig,4CISTD1,CC2,10:30,12:00,2019-06-18
+44,Introduction to Algorithms,Gemma Roig,4CISTD1,CC2,9:30,11:00,2019-06-20
+45,Introduction to Algorithms,Gemma Roig,4CISTD1,CC2,10:30,12:30,2019-06-19
+46,Introduction to Algorithms,Gemma Roig,4CISTD2,CC2,11:00,12:30,2019-06-17
+47,Introduction to Algorithms,Gemma Roig,4CISTD2,CC2,8:30,10:00,2019-06-19
+48,Introduction to Algorithms,Gemma Roig,4CISTD2,CC2,11:30,13:30,2019-06-20
+49,Introduction to Algorithms,Gemma Roig,4CISTD3,CC2,9:30,11:00,2019-06-17
+50,Introduction to Algorithms,Gemma Roig,4CISTD3,CC2,12:30,14:00,2019-06-18
+51,Introduction to Algorithms,Gemma Roig,4CISTD3,CC2,8:30,10:30,2019-06-21
+41,Introduction to Information Systems & Programming,Norman Lee,4CISTD3,CC2,16:00,17:30,2019-06-25
+42,Introduction to Information Systems & Programming,Norman Lee,4CISTD3,CC2,12:30,14:30,2019-06-24
+43,Introduction to Algorithms,Gemma Roig,4CISTD1,CC2,10:30,12:00,2019-06-25
+44,Introduction to Algorithms,Gemma Roig,4CISTD1,CC2,9:30,11:00,2019-06-27
+45,Introduction to Algorithms,Gemma Roig,4CISTD1,CC2,10:30,12:30,2019-06-26
+46,Introduction to Algorithms,Gemma Roig,4CISTD2,CC2,11:00,12:30,2019-06-24
+47,Introduction to Algorithms,Gemma Roig,4CISTD2,CC2,8:30,10:00,2019-06-26
+48,Introduction to Algorithms,Gemma Roig,4CISTD2,CC2,11:30,13:30,2019-06-27
+49,Introduction to Algorithms,Gemma Roig,4CISTD3,CC2,9:30,11:00,2019-06-24
+50,Introduction to Algorithms,Gemma Roig,4CISTD3,CC2,12:30,14:00,2019-06-25
+51,Introduction to Algorithms,Gemma Roig,4CISTD3,CC2,8:30,10:30,2019-06-28
+41,Introduction to Information Systems & Programming,Norman Lee,4CISTD3,CC2,16:00,17:30,2019-07-02
+42,Introduction to Information Systems & Programming,Norman Lee,4CISTD3,CC2,12:30,14:30,2019-07-01
+43,Introduction to Algorithms,Gemma Roig,4CISTD1,CC2,10:30,12:00,2019-07-02
+44,Introduction to Algorithms,Gemma Roig,4CISTD1,CC2,9:30,11:00,2019-07-04
+45,Introduction to Algorithms,Gemma Roig,4CISTD1,CC2,10:30,12:30,2019-07-03
+46,Introduction to Algorithms,Gemma Roig,4CISTD2,CC2,11:00,12:30,2019-07-01
+47,Introduction to Algorithms,Gemma Roig,4CISTD2,CC2,8:30,10:00,2019-07-03
+48,Introduction to Algorithms,Gemma Roig,4CISTD2,CC2,11:30,13:30,2019-07-04
+49,Introduction to Algorithms,Gemma Roig,4CISTD3,CC2,9:30,11:00,2019-07-01
+50,Introduction to Algorithms,Gemma Roig,4CISTD3,CC2,12:30,14:00,2019-07-02
+51,Introduction to Algorithms,Gemma Roig,4CISTD3,CC2,8:30,10:30,2019-07-05
+41,Introduction to Information Systems & Programming,Norman Lee,4CISTD3,CC2,16:00,17:30,2019-07-09
+42,Introduction to Information Systems & Programming,Norman Lee,4CISTD3,CC2,12:30,14:30,2019-07-08
+43,Introduction to Algorithms,Gemma Roig,4CISTD1,CC2,10:30,12:00,2019-07-09
+44,Introduction to Algorithms,Gemma Roig,4CISTD1,CC2,9:30,11:00,2019-07-11
+45,Introduction to Algorithms,Gemma Roig,4CISTD1,CC2,10:30,12:30,2019-07-10
+46,Introduction to Algorithms,Gemma Roig,4CISTD2,CC2,11:00,12:30,2019-07-08
+47,Introduction to Algorithms,Gemma Roig,4CISTD2,CC2,8:30,10:00,2019-07-10
+48,Introduction to Algorithms,Gemma Roig,4CISTD2,CC2,11:30,13:30,2019-07-11
+49,Introduction to Algorithms,Gemma Roig,4CISTD3,CC2,9:30,11:00,2019-07-08
+50,Introduction to Algorithms,Gemma Roig,4CISTD3,CC2,12:30,14:00,2019-07-09
+51,Introduction to Algorithms,Gemma Roig,4CISTD3,CC2,8:30,10:30,2019-07-12
+41,Introduction to Information Systems & Programming,Norman Lee,4CISTD3,CC2,16:00,17:30,2019-07-16
+42,Introduction to Information Systems & Programming,Norman Lee,4CISTD3,CC2,12:30,14:30,2019-07-15
+43,Introduction to Algorithms,Gemma Roig,4CISTD1,CC2,10:30,12:00,2019-07-16
+44,Introduction to Algorithms,Gemma Roig,4CISTD1,CC2,9:30,11:00,2019-07-18
+45,Introduction to Algorithms,Gemma Roig,4CISTD1,CC2,10:30,12:30,2019-07-17
+46,Introduction to Algorithms,Gemma Roig,4CISTD2,CC2,11:00,12:30,2019-07-15
+47,Introduction to Algorithms,Gemma Roig,4CISTD2,CC2,8:30,10:00,2019-07-17
+48,Introduction to Algorithms,Gemma Roig,4CISTD2,CC2,11:30,13:30,2019-07-18
+49,Introduction to Algorithms,Gemma Roig,4CISTD3,CC2,9:30,11:00,2019-07-15
+50,Introduction to Algorithms,Gemma Roig,4CISTD3,CC2,12:30,14:00,2019-07-16
+51,Introduction to Algorithms,Gemma Roig,4CISTD3,CC2,8:30,10:30,2019-07-19
+41,Introduction to Information Systems & Programming,Norman Lee,4CISTD3,CC2,16:00,17:30,2019-07-23
+42,Introduction to Information Systems & Programming,Norman Lee,4CISTD3,CC2,12:30,14:30,2019-07-22
+43,Introduction to Algorithms,Gemma Roig,4CISTD1,CC2,10:30,12:00,2019-07-23
+44,Introduction to Algorithms,Gemma Roig,4CISTD1,CC2,9:30,11:00,2019-07-25
+45,Introduction to Algorithms,Gemma Roig,4CISTD1,CC2,10:30,12:30,2019-07-24
+46,Introduction to Algorithms,Gemma Roig,4CISTD2,CC2,11:00,12:30,2019-07-22
+47,Introduction to Algorithms,Gemma Roig,4CISTD2,CC2,8:30,10:00,2019-07-24
+48,Introduction to Algorithms,Gemma Roig,4CISTD2,CC2,11:30,13:30,2019-07-25
+49,Introduction to Algorithms,Gemma Roig,4CISTD3,CC2,9:30,11:00,2019-07-22
+50,Introduction to Algorithms,Gemma Roig,4CISTD3,CC2,12:30,14:00,2019-07-23
+51,Introduction to Algorithms,Gemma Roig,4CISTD3,CC2,8:30,10:30,2019-07-26
+soft constraints score
+1.0
+id,Course,Professors,Class,Room, Day,Start,End
+1,Introduction to Probability and Statistics,"Subhajit Datta, Alexander Binder, Tony Quek",5CISTD1,CC1,8:30,10:30,2019-04-26
+2,Introduction to Probability and Statistics,"Subhajit Datta, Alexander Binder, Tony Quek",5CISTD2,CC1,9:00,11:00,2019-04-24
+3,Introduction to Probability and Statistics,"Subhajit Datta, Alexander Binder, Tony Quek",5CISTD3,CC1,9:30,11:30,2019-04-25
+4,Introduction to Probability and Statistics,"Subhajit Datta, Alexander Binder, Tony Quek","5CISTD1, 5CISTD2, 5CISTD3",lt3,14:00,15:30,2019-04-23
+5,Introduction to Probability and Statistics,"Subhajit Datta, Alexander Binder, Tony Quek","5CISTD1, 5CISTD2, 5CISTD3",lt4,9:00,10:30,2019-04-22
+6,Elements of Software Construction,"Sun Jun, Sudipta",5CISTD1,CC2,10:00,11:30,2019-04-23
+7,Elements of Software Construction,"Sun Jun, Sudipta",5CISTD1,CC2,9:00,10:30,2019-04-24
+8,Elements of Software Construction,"Sun Jun, Sudipta",5CISTD1,CC2,11:30,13:30,2019-04-25
+9,Elements of Software Construction,"Sun Jun, Sudipta",5CISTD2,CC2,13:00,14:30,2019-04-22
+10,Elements of Software Construction,"Sun Jun, Sudipta",5CISTD2,CC2,12:00,13:30,2019-04-23
+1,Introduction to Probability and Statistics,"Subhajit Datta, Alexander Binder, Tony Quek",5CISTD1,CC1,8:30,10:30,2019-05-03
+2,Introduction to Probability and Statistics,"Subhajit Datta, Alexander Binder, Tony Quek",5CISTD2,CC1,9:00,11:00,2019-05-01
+3,Introduction to Probability and Statistics,"Subhajit Datta, Alexander Binder, Tony Quek",5CISTD3,CC1,9:30,11:30,2019-05-02
+4,Introduction to Probability and Statistics,"Subhajit Datta, Alexander Binder, Tony Quek","5CISTD1, 5CISTD2, 5CISTD3",lt3,14:00,15:30,2019-04-30
+5,Introduction to Probability and Statistics,"Subhajit Datta, Alexander Binder, Tony Quek","5CISTD1, 5CISTD2, 5CISTD3",lt4,9:00,10:30,2019-04-29
+6,Elements of Software Construction,"Sun Jun, Sudipta",5CISTD1,CC2,10:00,11:30,2019-04-30
+7,Elements of Software Construction,"Sun Jun, Sudipta",5CISTD1,CC2,9:00,10:30,2019-05-01
+8,Elements of Software Construction,"Sun Jun, Sudipta",5CISTD1,CC2,11:30,13:30,2019-05-02
+9,Elements of Software Construction,"Sun Jun, Sudipta",5CISTD2,CC2,13:00,14:30,2019-04-29
+10,Elements of Software Construction,"Sun Jun, Sudipta",5CISTD2,CC2,12:00,13:30,2019-04-30
+1,Introduction to Probability and Statistics,"Subhajit Datta, Alexander Binder, Tony Quek",5CISTD1,CC1,8:30,10:30,2019-05-10
+2,Introduction to Probability and Statistics,"Subhajit Datta, Alexander Binder, Tony Quek",5CISTD2,CC1,9:00,11:00,2019-05-08
+3,Introduction to Probability and Statistics,"Subhajit Datta, Alexander Binder, Tony Quek",5CISTD3,CC1,9:30,11:30,2019-05-09
+4,Introduction to Probability and Statistics,"Subhajit Datta, Alexander Binder, Tony Quek","5CISTD1, 5CISTD2, 5CISTD3",lt3,14:00,15:30,2019-05-07
+5,Introduction to Probability and Statistics,"Subhajit Datta, Alexander Binder, Tony Quek","5CISTD1, 5CISTD2, 5CISTD3",lt4,9:00,10:30,2019-05-06
+6,Elements of Software Construction,"Sun Jun, Sudipta",5CISTD1,CC2,10:00,11:30,2019-05-07
+7,Elements of Software Construction,"Sun Jun, Sudipta",5CISTD1,CC2,9:00,10:30,2019-05-08
+8,Elements of Software Construction,"Sun Jun, Sudipta",5CISTD1,CC2,11:30,13:30,2019-05-09
+9,Elements of Software Construction,"Sun Jun, Sudipta",5CISTD2,CC2,13:00,14:30,2019-05-06
+10,Elements of Software Construction,"Sun Jun, Sudipta",5CISTD2,CC2,12:00,13:30,2019-05-07
+1,Introduction to Probability and Statistics,"Subhajit Datta, Alexander Binder, Tony Quek",5CISTD1,CC1,8:30,10:30,2019-05-17
+2,Introduction to Probability and Statistics,"Subhajit Datta, Alexander Binder, Tony Quek",5CISTD2,CC1,9:00,11:00,2019-05-15
+3,Introduction to Probability and Statistics,"Subhajit Datta, Alexander Binder, Tony Quek",5CISTD3,CC1,9:30,11:30,2019-05-16
+4,Introduction to Probability and Statistics,"Subhajit Datta, Alexander Binder, Tony Quek","5CISTD1, 5CISTD2, 5CISTD3",lt3,14:00,15:30,2019-05-14
+5,Introduction to Probability and Statistics,"Subhajit Datta, Alexander Binder, Tony Quek","5CISTD1, 5CISTD2, 5CISTD3",lt4,9:00,10:30,2019-05-13
+6,Elements of Software Construction,"Sun Jun, Sudipta",5CISTD1,CC2,10:00,11:30,2019-05-14
+7,Elements of Software Construction,"Sun Jun, Sudipta",5CISTD1,CC2,9:00,10:30,2019-05-15
+8,Elements of Software Construction,"Sun Jun, Sudipta",5CISTD1,CC2,11:30,13:30,2019-05-16
+9,Elements of Software Construction,"Sun Jun, Sudipta",5CISTD2,CC2,13:00,14:30,2019-05-13
+10,Elements of Software Construction,"Sun Jun, Sudipta",5CISTD2,CC2,12:00,13:30,2019-05-14
+1,Introduction to Probability and Statistics,"Subhajit Datta, Alexander Binder, Tony Quek",5CISTD1,CC1,8:30,10:30,2019-05-24
+2,Introduction to Probability and Statistics,"Subhajit Datta, Alexander Binder, Tony Quek",5CISTD2,CC1,9:00,11:00,2019-05-22
+3,Introduction to Probability and Statistics,"Subhajit Datta, Alexander Binder, Tony Quek",5CISTD3,CC1,9:30,11:30,2019-05-23
+4,Introduction to Probability and Statistics,"Subhajit Datta, Alexander Binder, Tony Quek","5CISTD1, 5CISTD2, 5CISTD3",lt3,14:00,15:30,2019-05-21
+5,Introduction to Probability and Statistics,"Subhajit Datta, Alexander Binder, Tony Quek","5CISTD1, 5CISTD2, 5CISTD3",lt4,9:00,10:30,2019-05-20
+6,Elements of Software Construction,"Sun Jun, Sudipta",5CISTD1,CC2,10:00,11:30,2019-05-21
+7,Elements of Software Construction,"Sun Jun, Sudipta",5CISTD1,CC2,9:00,10:30,2019-05-22
+8,Elements of Software Construction,"Sun Jun, Sudipta",5CISTD1,CC2,11:30,13:30,2019-05-23
+9,Elements of Software Construction,"Sun Jun, Sudipta",5CISTD2,CC2,13:00,14:30,2019-05-20
+10,Elements of Software Construction,"Sun Jun, Sudipta",5CISTD2,CC2,12:00,13:30,2019-05-21
+1,Introduction to Probability and Statistics,"Subhajit Datta, Alexander Binder, Tony Quek",5CISTD1,CC1,8:30,10:30,2019-05-31
+2,Introduction to Probability and Statistics,"Subhajit Datta, Alexander Binder, Tony Quek",5CISTD2,CC1,9:00,11:00,2019-05-29
+3,Introduction to Probability and Statistics,"Subhajit Datta, Alexander Binder, Tony Quek",5CISTD3,CC1,9:30,11:30,2019-05-30
+4,Introduction to Probability and Statistics,"Subhajit Datta, Alexander Binder, Tony Quek","5CISTD1, 5CISTD2, 5CISTD3",lt3,14:00,15:30,2019-05-28
+5,Introduction to Probability and Statistics,"Subhajit Datta, Alexander Binder, Tony Quek","5CISTD1, 5CISTD2, 5CISTD3",lt4,9:00,10:30,2019-05-27
+6,Elements of Software Construction,"Sun Jun, Sudipta",5CISTD1,CC2,10:00,11:30,2019-05-28
+7,Elements of Software Construction,"Sun Jun, Sudipta",5CISTD1,CC2,9:00,10:30,2019-05-29
+8,Elements of Software Construction,"Sun Jun, Sudipta",5CISTD1,CC2,11:30,13:30,2019-05-30
+9,Elements of Software Construction,"Sun Jun, Sudipta",5CISTD2,CC2,13:00,14:30,2019-05-27
+10,Elements of Software Construction,"Sun Jun, Sudipta",5CISTD2,CC2,12:00,13:30,2019-05-28
+1,Introduction to Probability and Statistics,"Subhajit Datta, Alexander Binder, Tony Quek",5CISTD1,CC1,8:30,10:30,2019-06-14
+2,Introduction to Probability and Statistics,"Subhajit Datta, Alexander Binder, Tony Quek",5CISTD2,CC1,9:00,11:00,2019-06-12
+3,Introduction to Probability and Statistics,"Subhajit Datta, Alexander Binder, Tony Quek",5CISTD3,CC1,9:30,11:30,2019-06-13
+4,Introduction to Probability and Statistics,"Subhajit Datta, Alexander Binder, Tony Quek","5CISTD1, 5CISTD2, 5CISTD3",lt3,14:00,15:30,2019-06-11
+5,Introduction to Probability and Statistics,"Subhajit Datta, Alexander Binder, Tony Quek","5CISTD1, 5CISTD2, 5CISTD3",lt4,9:00,10:30,2019-06-10
+6,Elements of Software Construction,"Sun Jun, Sudipta",5CISTD1,CC2,10:00,11:30,2019-06-11
+7,Elements of Software Construction,"Sun Jun, Sudipta",5CISTD1,CC2,9:00,10:30,2019-06-12
+8,Elements of Software Construction,"Sun Jun, Sudipta",5CISTD1,CC2,11:30,13:30,2019-06-13
+9,Elements of Software Construction,"Sun Jun, Sudipta",5CISTD2,CC2,13:00,14:30,2019-06-10
+10,Elements of Software Construction,"Sun Jun, Sudipta",5CISTD2,CC2,12:00,13:30,2019-06-11
+1,Introduction to Probability and Statistics,"Subhajit Datta, Alexander Binder, Tony Quek",5CISTD1,CC1,8:30,10:30,2019-06-21
+2,Introduction to Probability and Statistics,"Subhajit Datta, Alexander Binder, Tony Quek",5CISTD2,CC1,9:00,11:00,2019-06-19
+3,Introduction to Probability and Statistics,"Subhajit Datta, Alexander Binder, Tony Quek",5CISTD3,CC1,9:30,11:30,2019-06-20
+4,Introduction to Probability and Statistics,"Subhajit Datta, Alexander Binder, Tony Quek","5CISTD1, 5CISTD2, 5CISTD3",lt3,14:00,15:30,2019-06-18
+5,Introduction to Probability and Statistics,"Subhajit Datta, Alexander Binder, Tony Quek","5CISTD1, 5CISTD2, 5CISTD3",lt4,9:00,10:30,2019-06-17
+6,Elements of Software Construction,"Sun Jun, Sudipta",5CISTD1,CC2,10:00,11:30,2019-06-18
+7,Elements of Software Construction,"Sun Jun, Sudipta",5CISTD1,CC2,9:00,10:30,2019-06-19
+8,Elements of Software Construction,"Sun Jun, Sudipta",5CISTD1,CC2,11:30,13:30,2019-06-20
+9,Elements of Software Construction,"Sun Jun, Sudipta",5CISTD2,CC2,13:00,14:30,2019-06-17
+10,Elements of Software Construction,"Sun Jun, Sudipta",5CISTD2,CC2,12:00,13:30,2019-06-18
+1,Introduction to Probability and Statistics,"Subhajit Datta, Alexander Binder, Tony Quek",5CISTD1,CC1,8:30,10:30,2019-06-28
+2,Introduction to Probability and Statistics,"Subhajit Datta, Alexander Binder, Tony Quek",5CISTD2,CC1,9:00,11:00,2019-06-26
+3,Introduction to Probability and Statistics,"Subhajit Datta, Alexander Binder, Tony Quek",5CISTD3,CC1,9:30,11:30,2019-06-27
+4,Introduction to Probability and Statistics,"Subhajit Datta, Alexander Binder, Tony Quek","5CISTD1, 5CISTD2, 5CISTD3",lt3,14:00,15:30,2019-06-25
+5,Introduction to Probability and Statistics,"Subhajit Datta, Alexander Binder, Tony Quek","5CISTD1, 5CISTD2, 5CISTD3",lt4,9:00,10:30,2019-06-24
+6,Elements of Software Construction,"Sun Jun, Sudipta",5CISTD1,CC2,10:00,11:30,2019-06-25
+7,Elements of Software Construction,"Sun Jun, Sudipta",5CISTD1,CC2,9:00,10:30,2019-06-26
+8,Elements of Software Construction,"Sun Jun, Sudipta",5CISTD1,CC2,11:30,13:30,2019-06-27
+9,Elements of Software Construction,"Sun Jun, Sudipta",5CISTD2,CC2,13:00,14:30,2019-06-24
+10,Elements of Software Construction,"Sun Jun, Sudipta",5CISTD2,CC2,12:00,13:30,2019-06-25
+1,Introduction to Probability and Statistics,"Subhajit Datta, Alexander Binder, Tony Quek",5CISTD1,CC1,8:30,10:30,2019-07-05
+2,Introduction to Probability and Statistics,"Subhajit Datta, Alexander Binder, Tony Quek",5CISTD2,CC1,9:00,11:00,2019-07-03
+3,Introduction to Probability and Statistics,"Subhajit Datta, Alexander Binder, Tony Quek",5CISTD3,CC1,9:30,11:30,2019-07-04
+4,Introduction to Probability and Statistics,"Subhajit Datta, Alexander Binder, Tony Quek","5CISTD1, 5CISTD2, 5CISTD3",lt3,14:00,15:30,2019-07-02
+5,Introduction to Probability and Statistics,"Subhajit Datta, Alexander Binder, Tony Quek","5CISTD1, 5CISTD2, 5CISTD3",lt4,9:00,10:30,2019-07-01
+6,Elements of Software Construction,"Sun Jun, Sudipta",5CISTD1,CC2,10:00,11:30,2019-07-02
+7,Elements of Software Construction,"Sun Jun, Sudipta",5CISTD1,CC2,9:00,10:30,2019-07-03
+8,Elements of Software Construction,"Sun Jun, Sudipta",5CISTD1,CC2,11:30,13:30,2019-07-04
+9,Elements of Software Construction,"Sun Jun, Sudipta",5CISTD2,CC2,13:00,14:30,2019-07-01
+10,Elements of Software Construction,"Sun Jun, Sudipta",5CISTD2,CC2,12:00,13:30,2019-07-02
+1,Introduction to Probability and Statistics,"Subhajit Datta, Alexander Binder, Tony Quek",5CISTD1,CC1,8:30,10:30,2019-07-12
+2,Introduction to Probability and Statistics,"Subhajit Datta, Alexander Binder, Tony Quek",5CISTD2,CC1,9:00,11:00,2019-07-10
+3,Introduction to Probability and Statistics,"Subhajit Datta, Alexander Binder, Tony Quek",5CISTD3,CC1,9:30,11:30,2019-07-11
+4,Introduction to Probability and Statistics,"Subhajit Datta, Alexander Binder, Tony Quek","5CISTD1, 5CISTD2, 5CISTD3",lt3,14:00,15:30,2019-07-09
+5,Introduction to Probability and Statistics,"Subhajit Datta, Alexander Binder, Tony Quek","5CISTD1, 5CISTD2, 5CISTD3",lt4,9:00,10:30,2019-07-08
+6,Elements of Software Construction,"Sun Jun, Sudipta",5CISTD1,CC2,10:00,11:30,2019-07-09
+7,Elements of Software Construction,"Sun Jun, Sudipta",5CISTD1,CC2,9:00,10:30,2019-07-10
+8,Elements of Software Construction,"Sun Jun, Sudipta",5CISTD1,CC2,11:30,13:30,2019-07-11
+9,Elements of Software Construction,"Sun Jun, Sudipta",5CISTD2,CC2,13:00,14:30,2019-07-08
+10,Elements of Software Construction,"Sun Jun, Sudipta",5CISTD2,CC2,12:00,13:30,2019-07-09
+1,Introduction to Probability and Statistics,"Subhajit Datta, Alexander Binder, Tony Quek",5CISTD1,CC1,8:30,10:30,2019-07-19
+2,Introduction to Probability and Statistics,"Subhajit Datta, Alexander Binder, Tony Quek",5CISTD2,CC1,9:00,11:00,2019-07-17
+3,Introduction to Probability and Statistics,"Subhajit Datta, Alexander Binder, Tony Quek",5CISTD3,CC1,9:30,11:30,2019-07-18
+4,Introduction to Probability and Statistics,"Subhajit Datta, Alexander Binder, Tony Quek","5CISTD1, 5CISTD2, 5CISTD3",lt3,14:00,15:30,2019-07-16
+5,Introduction to Probability and Statistics,"Subhajit Datta, Alexander Binder, Tony Quek","5CISTD1, 5CISTD2, 5CISTD3",lt4,9:00,10:30,2019-07-15
+6,Elements of Software Construction,"Sun Jun, Sudipta",5CISTD1,CC2,10:00,11:30,2019-07-16
+7,Elements of Software Construction,"Sun Jun, Sudipta",5CISTD1,CC2,9:00,10:30,2019-07-17
+8,Elements of Software Construction,"Sun Jun, Sudipta",5CISTD1,CC2,11:30,13:30,2019-07-18
+9,Elements of Software Construction,"Sun Jun, Sudipta",5CISTD2,CC2,13:00,14:30,2019-07-15
+10,Elements of Software Construction,"Sun Jun, Sudipta",5CISTD2,CC2,12:00,13:30,2019-07-16
+1,Introduction to Probability and Statistics,"Subhajit Datta, Alexander Binder, Tony Quek",5CISTD1,CC1,8:30,10:30,2019-07-26
+2,Introduction to Probability and Statistics,"Subhajit Datta, Alexander Binder, Tony Quek",5CISTD2,CC1,9:00,11:00,2019-07-24
+3,Introduction to Probability and Statistics,"Subhajit Datta, Alexander Binder, Tony Quek",5CISTD3,CC1,9:30,11:30,2019-07-25
+4,Introduction to Probability and Statistics,"Subhajit Datta, Alexander Binder, Tony Quek","5CISTD1, 5CISTD2, 5CISTD3",lt3,14:00,15:30,2019-07-23
+5,Introduction to Probability and Statistics,"Subhajit Datta, Alexander Binder, Tony Quek","5CISTD1, 5CISTD2, 5CISTD3",lt4,9:00,10:30,2019-07-22
+6,Elements of Software Construction,"Sun Jun, Sudipta",5CISTD1,CC2,10:00,11:30,2019-07-23
+7,Elements of Software Construction,"Sun Jun, Sudipta",5CISTD1,CC2,9:00,10:30,2019-07-24
+8,Elements of Software Construction,"Sun Jun, Sudipta",5CISTD1,CC2,11:30,13:30,2019-07-25
+9,Elements of Software Construction,"Sun Jun, Sudipta",5CISTD2,CC2,13:00,14:30,2019-07-22
+10,Elements of Software Construction,"Sun Jun, Sudipta",5CISTD2,CC2,12:00,13:30,2019-07-23

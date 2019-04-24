@@ -9,8 +9,33 @@ div.alert-error {
 </style>
 {% endblock %}
 
+
+{% block headcontent %}
+<script>
+    function runAlgo(){
+        alert("waht[aojw op");
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.open("POST","/runAlgo");
+        var xmlDoc;
+        xmlhttp.onreadystatechange = function() {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                alert(this.responseText);
+                alert("yes");
+            }
+            else{
+                alert("nope");
+            }
+        };
+    alert("closing")
+    }
+</script>
+{% endblock %}
 {% block content %}
+<<<<<<< HEAD
+
+=======
 {% if not request.user.profile.is_student %}
+>>>>>>> frontend
 <h2>Generate Schedule</h2>
 <br>
 
@@ -19,5 +44,12 @@ div.alert-error {
     <button type="submit" class="btn btn-primary btn-md">Generate Schedule</button>
 </form>
 
+<<<<<<< HEAD
+<button type="button" class="btn btn-primary btn-md" id = "runalgo" onclick = "runAlgo()" >Generate Schedule</button>
+
+
+=======
 {% endif %}
+>>>>>>> frontend
 {% endblock content %}
+

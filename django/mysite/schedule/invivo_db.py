@@ -30,11 +30,8 @@ class db_helper:
     # Takes input from algorithm and puts it back into the classtable
     def update_db(self, data):
         for i in data:
-            _id = i[0]
-            day = i[3]
-            start = i[4]
-            end = i[5]
-            self.cursor.execute(f"UPDATE users_class SET day='{day}', start='{start}', end='{end}' WHERE id = {_id}")
+            print("i",i)
+            self.cursor.execute("INSERT INTO formstoadmin_eventrequestresponse VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ",i)
             print("wrote")
         self.conn.commit()
 
@@ -50,6 +47,6 @@ class db_helper:
         try:
             conn = sqlite3.connect(self.db_file)
             return conn
-        except:
-            print("ERROR CONNECTING TO DB")
+        except Error as e:
+            print(e)
         return None

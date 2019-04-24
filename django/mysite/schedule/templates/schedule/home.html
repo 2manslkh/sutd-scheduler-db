@@ -53,10 +53,7 @@
           {% endif %}
 
       <div id="calendar-additions">
-        <select class="selectpicker" multiple data-actions-box="true">
-          <option>Course 1</option>
-          <option>Course 2</option>
-          <option>Course 3</option>
+        <select class="selectpicker" multiple data-actions-box="true" id = "course-selector" onclick = "ahem()">
         </select>
 
         <button class='btn button-submit'>
@@ -82,3 +79,40 @@ style="overflow:visible; enable-background:new 0 0 48 48;; fill:#000000;"><g id=
       </div>
     </main>
   </body>
+<!-- <script>function ahem(){
+            var select = document.getElementById("course-selector");
+            alert( "Handler for .click() called." );
+            var myobject = {
+                ValueA : 'Text A',
+                ValueB : 'Text B',
+                ValueC : 'Text C'
+            };
+            for(index in myobject) {
+                alert(index)
+                select.options[select.options.length] = new Option(myobject[index], index);
+                alert(select.options[select.options.length-1])
+            }
+}</script> -->
+<!-- <script>
+function loadDoc(){
+  var onFilter = function () {
+    var objecc = '';
+        $.ajax({
+            method: 'GET',
+            dataType: "JSON",
+            contentType: "application/json; charset=utf-8",
+            url: '/return_data/courses/',
+            data: obj,
+            success: function (d) {
+            objecc=d.data
+            }
+        });
+    }
+}
+</script>
+<script>
+    function changeText() {
+      x = document.getElementById("mySelect");
+      x.options[x.selectedIndex].text = "Melon";
+    }
+</script> -->

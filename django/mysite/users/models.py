@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
-
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 # # Create your models here.
 
 
@@ -9,6 +10,8 @@ class myUser(models.Model):
     user = models.OneToOneField(User, related_name='profile', unique=True, on_delete=models.CASCADE)
     access_level = models.IntegerField()
     assigned_classes = models.CharField(max_length=200, default="")
+<<<<<<< HEAD
+=======
 
     def is_student(self):
         if self.access_level == 1:
@@ -25,6 +28,7 @@ class myUser(models.Model):
             return True
         return False
 
+>>>>>>> frontend
 
 class Module(models.Model):
     subject = models.CharField(max_length=200, default="")
@@ -58,3 +62,19 @@ class Class(models.Model):
     day = models.CharField(max_length=200, default="")
     start = models.CharField(max_length=200, default="")
     end = models.CharField(max_length=200, default="")
+
+class FilteredResults(models.Model):
+    title = models.CharField(max_length=200, default="")
+    start = models.CharField(max_length=200, default="")
+    end = models.CharField(max_length=200, default="")
+    description = models.CharField(max_length=200, default="")
+    location = models.CharField(max_length=200, default="")
+
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        myUser.objects.create(user=instance,access_level=1,assigned_classes="1,2,3,")
+
+@receiver(post_save, sender=User)
+def save_user_profile(sender, instance, **kwargs):
+    instance.profile.save()

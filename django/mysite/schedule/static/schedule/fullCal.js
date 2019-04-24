@@ -21,25 +21,29 @@ $(document).ready(function(){
             /* Min and Max time on calendar */
             minTime: "08:00:00",
             maxTime: "20:00:00",
-            events:[
+            // events:[
+            //     {
+            //         title: "Elements of Software Construction",
+            //         start: "2019-02-25 10:00", //YYYY-MM-DD
+            //         end: "2019-02-25 11:30",
+            //         assigned_professors: "Prof",
+            //         location: "LT"
+            //     },
+            //     {
+            //         title: "Probs and Stats",
+            //         start: "2019-04-01 08:00",
+            //         end: "2019-04-01 09:40",
+            //         assigned_professors: "Prof",
+            //         location: "CC13"
+            //     }
+            // ],
+            // color: 'yellow',
+            // textColor: 'black',
+            eventSources:[
                 {
-                    title: "Elements of Software Construction",
-                    start: "2019-02-25 10:00", //YYYY-MM-DD
-                    end: "2019-02-25 11:30",
-                    assigned_professors: "Prof",
-                    location: "LT"
-                },
-                {
-                    title: "Probs and Stats",
-                    start: "2019-04-01 08:00",
-                    end: "2019-04-01 09:40",
-                    assigned_professors: "Prof",
-                    location: "CC13"
+                url: '/return_data', // use the `url` property
                 }
             ],
-            color: 'yellow',
-            textColor: 'black',
-
             eventRender: function(objEvent, element, view) {
                 if (view.name === "agendaWeek" || view.name === "agendaDay"){
                  element.find(".fc-content").append(objEvent.location + "</br>" + objEvent.assigned_professors);

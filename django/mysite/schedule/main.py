@@ -34,7 +34,7 @@ def db_to_ls():
         new_data[i][3] = new_data[i][3].split(",")
         new_data[i][6] = int(float(new_data[i][6]) * 2)
         #print(new_data[i])
-    for j in range(10,50):
+    for j in range(0,10):
         inputls.append(new_data[j])
         print(new_data[j])
  
@@ -61,7 +61,7 @@ def db_to_ls():
      
 
 inputls = db_to_ls()
-#print(inputls)
+print(inputls)
 
 for i in range(len(soft)):
     if soft[i][7] == 1:
@@ -642,24 +642,24 @@ def print_chromosome_csv(max_chromosomes):
     out = open('schedule.csv','a', newline='')
     csv_write = csv.writer(out, dialect = 'excel')
     csv_write.writerow(label)
-    #for i in range(0,14):
-        #if i != 6:
-           #print (i)
-    for chromosome in max_chromosomes:
-        date = firstday + timedelta(days = (Slot.slots[int(slot_bits(chromosome), 2)].day-1))
-        time = str(Slot.slots[int(slot_bits(chromosome),2)]).split("-")
-        csv_row = [CourseClass.classes[int(course_bits(chromosome), 2)].dbid,\
-                   CourseClass.classes[int(course_bits(chromosome), 2)].code,\
-                   Professor.professors[int(professor_bits(chromosome), 2)],\
-                   Group.groups[int(group_bits(chromosome), 2)],\
-                   Room.rooms[int(lt_bits(chromosome), 2)]] +time
-        csv_row.append(date)
-        csv_write.writerow(csv_row)
-        print(CourseClass.classes[int(course_bits(chromosome), 2)], " | ",
-          Professor.professors[int(professor_bits(chromosome), 2)], " | ",
-          Group.groups[int(group_bits(chromosome), 2)], " | ",
-          Room.rooms[int(lt_bits(chromosome), 2)], " | ",
-          Slot.slots[int(slot_bits(chromosome), 2)], " | ", date)
+    for i in range(0,14):
+        if i != 6:
+            print (i)
+            for chromosome in max_chromosomes:
+                date = firstday + timedelta(days = (i * 7 + Slot.slots[int(slot_bits(chromosome), 2)].day-1))
+                time = str(Slot.slots[int(slot_bits(chromosome),2)]).split("-")
+                csv_row = [CourseClass.classes[int(course_bits(chromosome), 2)].dbid,\
+                           CourseClass.classes[int(course_bits(chromosome), 2)].code,\
+                           Professor.professors[int(professor_bits(chromosome), 2)],\
+                           Group.groups[int(group_bits(chromosome), 2)],\
+                           Room.rooms[int(lt_bits(chromosome), 2)]] +time
+                csv_row.append(date)
+                csv_write.writerow(csv_row)
+                print(CourseClass.classes[int(course_bits(chromosome), 2)], " | ",
+                  Professor.professors[int(professor_bits(chromosome), 2)], " | ",
+                  Group.groups[int(group_bits(chromosome), 2)], " | ",
+                  Room.rooms[int(lt_bits(chromosome), 2)], " | ",
+                  Slot.slots[int(slot_bits(chromosome), 2)], " | ", date)
                 
     
     out.close()
@@ -757,7 +757,7 @@ def simulated_annealing():
         T = T * alpha
         generation = generation + 1
         #print("generation: ", generation)
-        print("score: ", evaluate(population[0]))
+        #print("score: ", evaluate(population[0]))
     # print("Cost of altered solution: ", cost(population[0]))
     print("\n------------- Simulated Annealing Result--------------\n")
     out = open('schedule.csv','a', newline='')
