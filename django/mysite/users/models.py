@@ -10,8 +10,6 @@ class myUser(models.Model):
     user = models.OneToOneField(User, related_name='profile', unique=True, on_delete=models.CASCADE)
     access_level = models.IntegerField()
     assigned_classes = models.CharField(max_length=200, default="")
-<<<<<<< HEAD
-=======
 
     def is_student(self):
         if self.access_level == 1:
@@ -28,7 +26,6 @@ class myUser(models.Model):
             return True
         return False
 
->>>>>>> frontend
 
 class Module(models.Model):
     subject = models.CharField(max_length=200, default="")
