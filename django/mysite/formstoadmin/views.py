@@ -19,12 +19,13 @@ from users.models import Module, Class
 
 @login_required
 def scheduleRequest(request):
+    if request.user.profile.is_student():
+        messages.error(request, "Not authorized")
+        redirect(request.path_info)
     if request.method == "POST":
         form = ScheduleRequestForm(request.POST, initial={'name': request.user.get_username()})
         if form.is_valid():
             messages.success(request, 'Request submitted')
-
-            # def save(self):
             data = form.cleaned_data
             s = ScheduleRequest(
                 name=request.user.get_username(),

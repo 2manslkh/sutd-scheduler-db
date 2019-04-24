@@ -9,6 +9,7 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
+{% if not request.user.profile.is_student %}
 <h2>Schedule request</h2>
 <em>Note that requests will be subjected to approval by the course coordinator</em>
 
@@ -33,4 +34,5 @@
     {{ form.remarks | as_crispy_field }}
     <button type="submit" class="btn btn-primary">Submit</button>
   </form>
+{% endif %}
 {% endblock content %}
