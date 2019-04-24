@@ -11,7 +11,7 @@ from django.core import serializers
 from users.models import Module
 from users.models import Class
 from users.models import FilteredResults
-
+import algo
 import export_to_gcal
 
 @login_required
@@ -26,7 +26,7 @@ def generateSchedule(request):
         redirect(request.path_info)
 
     if request.method == "POST":
-        algo.run()
+        algo.main()
         messages.success(request, "Generating Schedule...")
 
     return render(request, 'schedule/generateSchedule.html')
@@ -85,3 +85,4 @@ def return_data(request,Classs = "",modyews = ""):
 def export(request):
     export_to_gcal.main()
     return HttpResponse("OK")
+

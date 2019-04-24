@@ -8,7 +8,7 @@ import db_to_algo as dba
 import datetime
 from datetime import timedelta 
 
-db_name = r"..\django\mysite\db.sqlite3"
+db_name = r"db.sqlite3"
 dbh = dba.db_helper(db_name)
 dbh2 = dba.db_helper(db_name)
 dbh2.print_all_columns("formstoadmin_schedulerequest")
@@ -826,4 +826,3 @@ def main():
     
     print("time take: ",dtime)
     return 1
-main()
