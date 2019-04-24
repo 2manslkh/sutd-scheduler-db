@@ -2,6 +2,8 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.views.decorators.csrf import csrf_exempt
+
 # Create your views here.
 
 from django.http import JsonResponse
@@ -74,3 +76,8 @@ def return_data(request,Classs = "",modyews = ""):
 
     json_response = JsonResponse(data, safe=False)
     return json_response
+
+@csrf_exempt
+def export(request):
+    export_to_gcal.main()
+    return HttpResponse("OK")

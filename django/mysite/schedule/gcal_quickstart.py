@@ -48,7 +48,7 @@ class EventBuilder:
 class Gcal:
 
     def __init__(self, calendar_id='primary'):
-        self.creds_file = '../credentials.json'
+        self.creds_file = 'credentials.json'
         self.creds = None
         self.calendar_id = calendar_id
         self._set_creds()
@@ -57,7 +57,7 @@ class Gcal:
     def _set_creds(self):
         creds = None
         if os.path.exists('token.pickle'):
-            with open('token.pickle', 'rb') as token:
+            with open('../token.pickle', 'rb') as token:
                 self.creds = pickle.load(token)
         # If there are no (valid) credentials available, let the user log in.
         if not self.creds or not self.creds.valid:
@@ -68,7 +68,7 @@ class Gcal:
                     self.creds_file, SCOPES)
                 self.creds = flow.run_local_server()
             # Save the credentials for the next run
-            with open('token.pickle', 'wb') as token:
+            with open('../token.pickle', 'wb') as token:
                 pickle.dump(self.creds, token)
 
     def _create_event(self, event, calendar_id=""):

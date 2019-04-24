@@ -2,7 +2,7 @@ import gcal_quickstart as gCal
 import sqlite3
 
 db = "db.sqlite3"
-FILTERED_CLASS_TABLE = "users_class_filtered"
+FILTERED_CLASS_TABLE = "users_filteredresults"
 
 def create_connection(db_file):
     try:
@@ -21,8 +21,8 @@ def main():
     # Get Rows from FILTERED_CLASS_TABLE
     c.execute(f"SELECT * from {FILTERED_CLASS_TABLE}")
     data = c.fetchall()
-
-    gcal = gCal()
+    print(data)
+    gcal = gCal.Gcal()
     gcal.create_events(data)
 
 

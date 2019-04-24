@@ -10,7 +10,7 @@ $(document).ready(function(){
             var toexport;
             console.log("create post is working!") // sanity check
             $.ajax({
-                url : "/gcal", // the endpoint
+                url : "/gcalExport/", // the endpoint
                 type : "POST", // http method
                 // data : { the_post : $('#post-text').val() }, // data sent with the post request
                 // handle a successful response
