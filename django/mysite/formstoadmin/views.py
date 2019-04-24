@@ -151,6 +151,10 @@ def addEvent(request):
 
 @login_required
 def viewRequests(request):
+    if not request.user.is_superuser:
+        messages.error(request, "Not authorized")
+        redirect(request.path_info)
+
     all_requests = ScheduleRequest.objects.all()
     if request.method == "GET":
         query_results = ScheduleRequest.objects.filter(approved__isnull=True)

@@ -10,8 +10,8 @@
 </script>
 
 {% endblock %}
-
 {% block content %}
+{% if request.user.profile.is_cc %}
 <h2>Requests pending action</h2>
 <table class="table">
     <tr>
@@ -35,7 +35,6 @@
         <td>
             <a href="/requestform/{{obj.id}}/0" type="button" class="btn btn-outline-primary confirmation" role="button">Accept</a>
             <a href="/requestform/{{obj.id}}/1" type="button" class="btn btn-outline-primary confirmation" role="button">Reject</a>
-
         </td>
     </tr>
     {% endfor %}
@@ -65,5 +64,6 @@
     </tr>
     {% endfor %}
 </table> -->
+{% endif %}
 {% endblock %}
 

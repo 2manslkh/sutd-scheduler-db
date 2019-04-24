@@ -16,46 +16,10 @@
     {% block headcontent %} {% endblock %}
 </head>
 <body>
-    <header class="site-header">
-      <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
-        <div class="container">
-          <a class="navbar-brand mr-4" href="{% url 'schedule-home' %}">Event Scheduler</a>
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarToggle">
-            <div class="navbar-nav mr-auto">
-              <a class="nav-item nav-link" href="{% url 'schedule-home' %}">Home</a>
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Forms
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <a class="dropdown-item" href="{% url 'request-form' %}">Schedule Request</a>
-                  <a class="dropdown-item" href="{% url 'input-module-info' %}">Input Module Information</a>
-                  <a class="dropdown-item" href="{% url 'input-class-info-start' %}">Input Class Information</a>
+    {% block header %}
+    {% include 'schedule/header.html' %}
+    {% endblock header %}
 
-                  <div class="dropdown-divider"></div>
-                  <a class="dropdown-item" href="{% url 'add-event' %}">In-vivo Event</a>
-                  <div class="dropdown-divider"></div>
-                  <a class="dropdown-item" href="{% url 'view-requests' %}">View Requests</a>
-                </div>
-              </li>
-              <a class="nav-item nav-link" href="{% url 'generate-schedule' %}">Generate Schedule</a>
-            </div>
-            <!-- Navbar Right Side -->
-            <div class="navbar-nav">
-              {% if user.is_authenticated %}
-                <a class="nav-item nav-link" href = "{% url 'logout' %}">Logout</a>
-              {% else %}
-                <a class="nav-item nav-link" href="{% url 'login' %}">Login</a>
-                <a class="nav-item nav-link" href="{% url 'register' %}">Register</a>
-              {% endif %}
-            </div>
-          </div>
-        </div>
-      </nav>
-    </header>
     <main role="main" class="container">
       <div class="row">
         <div class="col-md-12">

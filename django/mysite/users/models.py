@@ -8,6 +8,22 @@ class myUser(models.Model):
     REQUIRED_FIELDS = ('user',)
     user = models.OneToOneField(User, related_name='profile', unique=True, on_delete=models.CASCADE)
     access_level = models.IntegerField()
+    assigned_classes = models.CharField(max_length=200, default="")
+
+    def is_student(self):
+        if self.access_level == 1:
+            return True
+        return False
+
+    def is_faculty(self):
+        if self.access_level == 2:
+            return True
+        return False
+
+    def is_cc(self):
+        if self.access_level == 3:
+            return True
+        return False
 
 
 class Module(models.Model):
