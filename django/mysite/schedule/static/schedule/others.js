@@ -68,30 +68,32 @@ $(document).ready(function(){
             $('#calendar').fullCalendar( 'removeEventSources');
         })
         $('div.filter-option-inner-inner').click(function() {
+            alert("Handler")
             var select = document.getElementById("course-selector");
             var ahem = '';
             var request = new XMLHttpRequest();
             request.open("GET", "/return_data/courses");
+            alert("req opened")
             request.onreadystatechange = function() {
                 if (this.readyState == this.DONE && this.status == 200) {
                     if (this.responseText) { 
                         ahem = this.responseText;
-                        // alert(ahem);
+                        alert(ahem);
                         Ahem = JSON.parse(ahem);
                         select.options.length = 0;
                         for (var i = 0; i < Ahem.length; i++){
-                            //$("#course-selected").append($('<option>', {value: 4, text: index}));
+                            $("#course-selected").append($('<option>', {value: 4, text: index}));
                             select.options[select.options.length] = new Option(Ahem[i].title);
                         };
-                        // alert(select.options.length);
+                        alert(select.options.length);
                         var txt = "";
                         var i;
                         for (i = 0; i < select.length; i++) {
                           txt = txt + " " + select.options[i].text;
                         };
-                        // alert("there are" + select.options.length + " option objects in the selectpicker");
+                        alert("there are" + select.options.length + " option objects in the selectpicker");
                         $('.selectpicker').selectpicker('refresh');
-                        // alert("selectpicker refresh");
+                        alert("selectpicker refresh");
                     }
                     else {
                         console.log("Error: Data is empty");
@@ -99,7 +101,7 @@ $(document).ready(function(){
                 };
             }
             request.send();
-
+            alert("closing")
           });
 
     });

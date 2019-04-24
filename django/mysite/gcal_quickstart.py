@@ -28,13 +28,13 @@ class EventBuilder:
         self.output['description'] = f"{description}"
         return self
 
-    def add_startTime(self, date, start_time, timezone="Asia/Singapore"):
-        self.output['start'] = {'dateTime':f"{date}T{start_time}",
+    def add_startTime(self, start, timezone="Asia/Singapore"):
+        self.output['start'] = {'dateTime':f"{start}",
                                 'timeZone':timezone}
         return self
 
-    def add_endTime(self, date, end_time, timezone="Asia/Singapore"):
-        self.output['end'] = {'dateTime':f"{date}T{end_time}",
+    def add_endTime(self, end, timezone="Asia/Singapore"):
+        self.output['end'] = {'dateTime':f"{end}",
                                 'timeZone':timezone}
         return self
 
@@ -70,7 +70,15 @@ class Gcal:
     def _create_event(self, event, calendar_id=""):
         if calendar_id == "":
             calendar_id = self.calendar_id
-        event = self.service.events().insert(calendarId=calendar_id, body=event).execute()
+
+        event_data = (EventBuilder()
+                    .add_event(event["title"])
+                    .add_location(event["location"])
+                    .add_startTime(event["start"])
+                    .add_endTime(event["end"])
+                    .build())
+
+        self.service.events().insert(calendarId=calendar_id, body=event_data).execute()
         print ('Event created: %s' % (event.get('htmlLink')))
 
     def create_events(self,event_list):

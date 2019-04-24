@@ -1,4 +1,4 @@
-import django.mysite.gcal_quickstart as gcal
+import django.mysite.gcal_quickstart as gCal
 import sqlite3
 
 db = "db.sqlite3"
@@ -22,8 +22,8 @@ def main():
     c.execute(f"SELECT * from {FILTERED_CLASS_TABLE}")
     data = c.fetchall()
 
-
-    #TODO: Get from DB
+    gcal = gCal()
+    gcal.create_events(data)
 
 
 if __name__ == '__main__':

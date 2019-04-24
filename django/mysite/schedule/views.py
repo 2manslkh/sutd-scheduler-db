@@ -25,7 +25,8 @@ def generateSchedule(request):
 def make_temp_model(data):
     FilteredResults.objects.all().delete()
     for i in data:
-        FilteredResults(title=i["title"],start=i["start"],end=i["end"],description=i["description"],location=i["location"])
+        a = FilteredResults(title=i["title"],start=i["start"],end=i["end"],description=i["description"],location=i["location"])
+        a.save()
 
 def return_data(request,Classs = "",modyews = ""):
     json_serializer = serializers.get_serializer("json")()
