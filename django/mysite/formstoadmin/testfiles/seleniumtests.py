@@ -80,6 +80,12 @@ def setup(_login=False, user_level=3):
         if user_level == 3:
             login(username="huanan", password="testing321")
 
+        elif user_level == 2:
+            login(username="faculty")
+
+        elif user_level == 1:  # student
+            login(username == "1002858")
+
 
 def register():
     ran_name, email = generate_user()
@@ -277,6 +283,47 @@ def view_requests(clear=True):
             run_again = False
 
 
+def schedule_filter(export=True):
+    driver.get('http://localhost:8000/')
+    bxpath('//button[@title="Nothing selected"]').click()
+    bxpath('//button[text()="Select All"]').click()
+    bclass('button-submit').click()
+
+    # EYES
+    for i in range(10):
+        bid('export-button').click()
+        print("click")
+
+
+def check_restrictions_faculty():
+    driver.get("http://localhost:8000/view-requests")
+    assert bclass('alert-error')
+    assert "Requests" not in driver.page_source
+
+    driver.get("http://localhost:8000/generate-schedule/")
+    assert bclass('alert-error')
+    assert "Generate" not in driver.page_source
+
+
+def check_restrictions_student():
+    driver.get('http://localhost:8000/input-module-info')
+    assert bclass('alert-error')
+    assert "Module" not in driver.page_source
+
+    driver.get('http://localhost:8000/input-class-info-start/')
+    assert bclass('alert-error')
+
+    driver.get('http://localhost:8000/generate-schedule/')
+    assert bclass('alert-error')
+
+    driver.get("http://localhost:8000/view-requests/")
+    assert bclass('alert-error')
+
+    driver.get('http://localhost:8000/request-form/')
+    assert bclass("alert-error")
+
+
+
 def logout():
     driver.find_element_by_xpath('//a[text()="Logout"]').click()
 
@@ -286,15 +333,27 @@ def end():
 
 
 try:
-    setup(_login=True)
+    # setup(_login=True, user_level=3)
     # add_event()
-    for i in range(5):
-        schedule_request()
-
+    # schedule_request()
     # input_mod_info()
     # upload_modules_via_csv()
     # input_class_info()
-    view_requests()
+    # view_requests()
+    # schedule_filter()
+    # logout()
+    # setup(_login=True, user_level=2)
+
+    # EYES
+
+    # check_restrictions_faculty()
+    # logout()
+    setup(_login=True, user_level=1)
+
+    # EYES
+
+
+
 except Exception:
     logger2.error(Exception)
     traceback.print_exc()
