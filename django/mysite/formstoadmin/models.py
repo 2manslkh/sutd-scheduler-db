@@ -39,6 +39,7 @@ class EventRequest(models.Model):
     start_time = models.CharField(max_length=200)
     end_time = models.CharField(max_length=200)
     location = models.CharField(max_length=200)
+    submitted_by = models.CharField(max_length=200)
 
 
 class EventRequestResponse(models.Model):
@@ -52,3 +53,4 @@ class EventRequestResponse(models.Model):
     start_time = models.CharField(max_length=200)
     end_time = models.CharField(max_length=200)
     location = models.CharField(max_length=200)
+    submitted_by = models.CharField(max_length=200)
