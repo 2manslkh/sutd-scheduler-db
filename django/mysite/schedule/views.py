@@ -23,11 +23,9 @@ def generateSchedule(request):
     return render(request, 'schedule/generateSchedule.html')
 
 def make_temp_model(data):
-    FilteredResults.objects.delete()
+    FilteredResults.objects.all().delete()
     for i in data:
         FilteredResults(title=i["title"],start=i["start"],end=i["end"],description=i["description"],location=i["location"])
-        FilteredResults.save()
-
 
 def return_data(request,Classs = "",modyews = ""):
     json_serializer = serializers.get_serializer("json")()
@@ -68,8 +66,8 @@ def return_data(request,Classs = "",modyews = ""):
     #     'events': Module.timetable_objects.values('title', 'start','end','description','location')
     # }
 
-    print(data)
-    print (Classs)
+    print("DATA: " + str(data))
+    print("CLASS:" + Classs)
     json_response = JsonResponse(data, safe=False)
-    make_temp_model(json_response.content)
+    make_temp_model(data)
     return json_response
