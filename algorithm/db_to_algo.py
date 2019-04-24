@@ -50,6 +50,6 @@ class db_helper:
         try:
             conn = sqlite3.connect(self.db_file)
             return conn
-        except Error as e:
-            print(e)
+        except:
+            print("ERROR CONNECTING TO DB")
         return None

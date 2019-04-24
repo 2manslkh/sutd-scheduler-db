@@ -8,9 +8,9 @@ import db_to_algo as dba
 import datetime
 from datetime import timedelta 
 
-
-dbh = dba.db_helper(r"C:\Users\Desktop\esc\sutd-scheduler-db\django\mysite\db2.sqlite3")
-dbh2 = dba.db_helper(r"C:\Users\Desktop\esc fake master\sutd-scheduler-db\django\mysite\db.sqlite3")
+mydb = r"C:\Users\kengh\Desktop\Scheduler Database\django\mysite\db.sqlite3"
+dbh = dba.db_helper(mydb)
+dbh2 = dba.db_helper(mydb)
 dbh2.print_all_columns("formstoadmin_schedulerequest")
 data = dbh.get_columns(["id","title","assigned_professors","class_related","location","pillar","duration","type"],"users_class")
 soft = dbh2.get_columns(['id', 'name', 'course_name', 'class_related','duration', 'lesson_type','preferred_timings', 'approved'  ],"formstoadmin_schedulerequest")
@@ -50,12 +50,12 @@ def db_to_ls():
         #print(new_data[j])
         
     
-    inputls = []
-    for i in range(40,51):
-        inputls.append(new_data[i])
+    # inputls = []
+    # for i in range(40,51):
+    #     inputls.append(new_data[i])
     
-    #return new_data
-    return inputls    
+    return new_data
+    # return inputls    
 
 inputls = db_to_ls()
 
@@ -662,14 +662,15 @@ def print_chromosome_csv(max_chromosomes):
     print("finish csv writing")
                
 def write_to_db(max_chromosomes):
-    db = dba.db_helper("db.sqlite3")
+    db = dba.db_helper(mydb)
     out = []
     for chromosome in max_chromosomes:
+        date = firstday + timedelta(days = (i * 7 + Slot.slots[int(slot_bits(chromosome), 2)].day-1))
         time = str(Slot.slots[int(slot_bits(chromosome),2)]).split("-")
         data = [CourseClass.classes[int(course_bits(chromosome), 2)].dbid,\
                    Group.groups[int(group_bits(chromosome), 2)],\
                    Room.rooms[int(lt_bits(chromosome), 2)],\
-                   Slot.slots[int(slot_bits(chromosome), 2)].day] + time
+                   date] + time
         out.append(data)
     print(out)
     db.update_db(out)
