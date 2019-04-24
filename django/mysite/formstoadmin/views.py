@@ -81,14 +81,14 @@ def inputClassInfo(request, mod_id=0, idx=0, step=0):
     module = Module.objects.filter(id=mod_id)[0].subject
     try:
         classes = Class.objects.filter(module__subject=module)
-        num_classes = len(classes)
+        end_idx = len(classes) - 1
     except:
         messages.error(request, "There are no classes under this module!")
         return redirect("/input-class-info-start/")
 
     if step == 1 and idx != 0:
         idx -= 1
-    elif step == 2 and idx != num_classes:
+    elif step == 2 and idx != end_idx:
         idx += 1
 
     try:
@@ -112,7 +112,7 @@ def inputClassInfo(request, mod_id=0, idx=0, step=0):
         #     print(c.id, c.module)
         form = InputClassInformation(instance=current_class)
 
-    context = {'form': form, 'mod_id': mod_id, 'num_classes': num_classes, 'idx': idx, 'step': step}
+    context = {'form': form, 'mod_id': mod_id, 'end_idx': end_idx, 'idx': idx, 'step': step}
 
     return render(request, "formstoadmin/inputclass.html", context)
 
