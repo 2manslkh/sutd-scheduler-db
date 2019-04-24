@@ -138,6 +138,7 @@ def inputClassInfo_start(request):
 
 @login_required
 def addEvent(request):
+    time_to_choose = False
     if request.method == "POST":
         form = EventRequestForm(request.POST)
         if form.is_valid():
@@ -148,14 +149,24 @@ def addEvent(request):
                 relevant_pillars=data['relevant_pillars'],
                 date=data['date'],
                 duration=data['duration'],
+                submitted_by=request.user.username,
             )
             e.save()
-            # messages.success(request, 'Event Schedule form submitted')
-            form = EventRequestForm()
+            print("IT COMES IN HERE")
+            messages.success(request, 'Event Schedule form submitted')
+            latest = EventRequest.objects.filter(submitted_by=request.user.username).order_by('id')[0]
+            form = EventRequestForm(instance=latest)
+            time_to_choose = True
 
     else:
         form = EventRequestForm()
-    return render(request, 'formstoadmin/addevent.html', {'form': form})
+    context = {"form": form, "time_to_choose": time_to_choose}
+    return render(request, 'formstoadmin/addevent.html', context)
+
+
+def choose_suggestion(request, instance, suggestion):
+    # LOGIC TO HANDLE CHOOSING OF SUGGESTION
+    return redirect('/add-event')
 
 
 @login_required
@@ -163,11 +174,14 @@ def viewRequests(request):
     if not request.user.profile.is_cc():
         messages.error(request, "Not authorized")
         redirect(request.path_info)
+    query_empty = False
     all_requests = ScheduleRequest.objects.all()
     if request.method == "GET":
         query_results = ScheduleRequest.objects.filter(approved__isnull=True)
+        if len(query_results) == 0:
+            query_empty = True
         fields = ScheduleRequest._meta.get_fields()
-        return render(request, 'formstoadmin/viewrequests.html', {"query_results": query_results, "all_requests": all_requests})
+        return render(request, 'formstoadmin/viewrequests.html', {"query_results": query_results, "all_requests": all_requests, "query_empty": query_empty})
 
 
 @login_required
