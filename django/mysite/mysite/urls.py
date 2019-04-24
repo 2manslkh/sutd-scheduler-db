@@ -36,6 +36,6 @@ urlpatterns = [
     path('generate-schedule/', scheduleViews.generateSchedule, name="generate-schedule"),
     path('module-upload/', formstoadminViews.moduleUpload, name="module-upload"),
     path('input-class-info-start/', formstoadminViews.inputClassInfo_start, name="input-class-info-start"),
-    path('input-class-info/<mod_id>/<class_id>/<step>', formstoadminViews.inputClassInfo, name="input-class-info"),
+    path('input-class-info/<int:mod_id>/<int:idx>/<int:step>/', formstoadminViews.inputClassInfo, name="input-class-info"),
 
 ]

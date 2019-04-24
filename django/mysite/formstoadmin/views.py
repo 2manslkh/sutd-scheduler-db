@@ -77,43 +77,44 @@ def inputModule(request):
     return render(request, 'formstoadmin/inputmodule.html', {'form': module_form})
 
 
-def inputClassInfo(request, mod_id=0, class_id=0, step=0):
-    template_name = "formstoadmin/inputclass.html"
+def inputClassInfo(request, mod_id=0, idx=0, step=0):
+    module = Module.objects.filter(id=mod_id)[0].subject
+    try:
+        classes = Class.objects.filter(module__subject=module)
+        num_classes = len(classes)
+    except:
+        messages.error(request, "There are no classes under this module!")
+        return redirect("/input-class-info-start/")
 
-    for m in Module.objects.filter(id=mod_id):
-        module = m.subject
+    if step == 1 and idx != 0:
+        idx -= 1
+    elif step == 2 and idx != num_classes:
+        idx += 1
 
-    current_cid = class_id + step
+    try:
+        current_class = classes[int(idx)]
+        print(current_class)
+    except:
+        messages.error(request, "Somehow you accessed a non-existent class!")
+        return redirect("/input-class-info-start/")
 
     if request.method == "POST":
         form = InputClassInformation(request.POST)
         form.module = module
         if form.is_valid():
-            print("is valid")
-            data = form.cleaned_data
-            subject = data['module']
-            print(module)
-            if Class.objects.filter(module__subject=subject).exists():
-                print("exists")
-                a = Class.objects.filter(module__subject=subject)[class_id]
-                form = InputClassInformation(request.POST, instance=a)
-                form.save()
-                messages.success(request, 'Class information updated')
-                form = InputClassInformation(instance=a)
-
-        context = {'form': form}
+            form = InputClassInformation(request.POST, instance=current_class)
+            form.save()
+            messages.success(request, 'Class information updated')
+            form = InputClassInformation(instance=current_class)
 
     else:
-        classes = Class.objects.filter(module__subject=module)
-        first_class = classes[0]
-        num_classes = len(classes)
-        for c in classes:
-            print(c.id, c.module)
+        # for c in classes:
+        #     print(c.id, c.module)
+        form = InputClassInformation(instance=current_class)
 
-        form = InputClassInformation(instance=first_class)
-        context = {'form': form, 'num_classes': num_classes}
+    context = {'form': form, 'mod_id': mod_id, 'num_classes': num_classes, 'idx': idx, 'step': step}
 
-    return render(request, template_name, context)
+    return render(request, "formstoadmin/inputclass.html", context)
 
 
 def inputClassInfo_start(request):
