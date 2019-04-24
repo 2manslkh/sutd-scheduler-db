@@ -4,7 +4,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.action_chains import ActionChains
-from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import NoSuchElementException, StaleElementReferenceException
 from selenium.webdriver.support.select import Select
 from selenium.webdriver.chrome.options import Options
 
@@ -71,6 +71,7 @@ driver = webdriver.Chrome(r"C:\Users\Tea\Desktop\chromedriver_win32 (1)\chromedr
 
 formatter = logging.Formatter('%(asctime)s:%(name)s:%(levelname)s:%(message)s')
 logger = setup_logger('info_level_logger', 'formsINFO.log')
+logger2 = setup_logger('info_level_logger', 'formsERROR.log')
 
 
 def setup(_login=False, user_level=3):
@@ -121,18 +122,18 @@ def add_event():
     driver.find_element_by_id('id_duration').send_keys(ran_num)
     driver.find_element_by_id('id_num_people').send_keys(ran_num)
     driver.find_element_by_id('id_date').send_keys("28/4/2019")
-    submit = driver.find_element_by_id('add-event-submit').click()
+    bxpath('//button[text()="Submit"]').click()
 
     bxpath('button[@class="close"]').click()
     bxpath('//a[text()="View Suggestions"]').click()
     bxpath('//a[text()="Accept"]').click()
-    obj = driver.switch_to.alert()
+    obj = driver.switch_to.alert
     msg = obj.text
     logger.info(f'alert dialog message: {msg}')
     obj.dismiss()
 
     bxpath('//a[text()="Accept"]').click()
-    obj = driver.switch_to.alert()
+    obj = driver.switch_to.alert
     obj.accept()
 
 
@@ -168,8 +169,8 @@ def input_mod_info():
     bxpath('//a[text()="Input Module Information"]').click()
     logger.info(f"\ninput-module-info url:{driver.current_url}")
 
-    bid('id_subject_code').send_keys("02.131")
-    bid('id_subject').send_keys('Documentary')
+    bid('id_subject_code').send_keys("50.009")
+    bid('id_subject').send_keys('TestSubject')
     select = Select(bid('id_pillar'))
     logger.info(f"Pillars: {select.options}")
     ran_num = get_ran_num(end=len(select.options))
@@ -225,8 +226,8 @@ def input_class_info():
 
     select = Select(bid('id_module'))
     logger.info(f"Pillars: {select.options}")
-    ran_num = get_ran_num(end=len(select.options))
-    for index in range(ran_num):
+    ran_num = get_ran_num(start=1, end=len(select.options))
+    for index in range(1, ran_num):
         select = Select(bid('id_module'))
         select.select_by_index(index)
 
@@ -258,9 +259,15 @@ def input_class_info():
     assert driver.current_url == current_url
 
 
-def view_requests():
+def view_requests(clear=True):
     bid("navbarDropdown").click()
     bxpath('//a[text()="View Requests"]').click()
+    rejects = driver.find_elements_by_xpath('//a[text()="Reject"]')
+    for r in rejects:
+        r.click()
+        WebDriverWait(driver, 3).until(EC.alert_is_present())
+        obj = driver.switch_to.alert
+        obj.accept()
 
 
 def logout():
@@ -272,13 +279,15 @@ def end():
 
 
 try:
-    setup(_login=True, mobile=False)
+    setup(_login=True)
     # add_event()
     # schedule_request()
     # input_mod_info()
     # upload_modules_via_csv()
-    input_class_info()
+    # input_class_info()
+    view_requests()
 except Exception:
+    logger2.error(Exception)
     traceback.print_exc()
 # finally:
 #     logout()
