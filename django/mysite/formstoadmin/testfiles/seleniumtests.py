@@ -160,7 +160,10 @@ def schedule_request():
     if yes_or_no():
         bid('id_remarks').send_keys("I'll buy you coffee!")
     bxpath('//button[text()="Submit"]').click()
-    success = bclass('alert-success')
+    try:
+        success = bclass('alert-success')
+    except NoSuchElementException:
+        schedule_request()
     assert success.text == "Request submitted"
 
 
@@ -262,12 +265,16 @@ def input_class_info():
 def view_requests(clear=True):
     bid("navbarDropdown").click()
     bxpath('//a[text()="View Requests"]').click()
-    rejects = driver.find_elements_by_xpath('//a[text()="Reject"]')
-    for r in rejects:
-        r.click()
-        WebDriverWait(driver, 3).until(EC.alert_is_present())
-        obj = driver.switch_to.alert
-        obj.accept()
+    run_again = True
+    while run_again:
+        try:
+            reject = driver.find_element_by_xpath('//a[text()="Reject"]')
+            reject.click()
+            WebDriverWait(driver, 3).until(EC.alert_is_present())
+            obj = driver.switch_to.alert
+            obj.accept()
+        except NoSuchElementException:
+            run_again = False
 
 
 def logout():
@@ -281,7 +288,9 @@ def end():
 try:
     setup(_login=True)
     # add_event()
-    # schedule_request()
+    for i in range(5):
+        schedule_request()
+
     # input_mod_info()
     # upload_modules_via_csv()
     # input_class_info()
