@@ -9,6 +9,7 @@ $(document).ready(function(){
             alert("THIS NEEDS TO EXPORT CSV")
             var toexport;
             console.log("create post is working!") // sanity check
+<<<<<<< HEAD
             $.ajax({
                 url : "/gcalExport/", // the endpoint
                 type : "POST", // http method
@@ -27,8 +28,46 @@ $(document).ready(function(){
                     console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
                 }
             });
+=======
+            var request = new XMLHttpRequest();
+            request.open("POST", /gcalExport/);
+            request.onreadystatechange = function() {
+                if (this.readyState == this.DONE && this.status == 200) {
+                    if (this.responseText) { 
+                        ahem = this.responseText;
+                        console.log(ahem)
+                        alert(ahem)
+                    }
+                else {
+                        alert("no response");
+                        console.log("Error: Data is empty");
+                    }
+                };
+            }
+            request.send();
+            
+>>>>>>> server
         })
 
+        // $.ajax({
+            //     url : "/gcalExport/", // the endpoint
+            //     type : "POST", // http method
+            //     // data : { the_post : $('#post-text').val() }, // data sent with the post request
+            //     // handle a successful response
+            //     success : function(kek) {
+            //         // $('#post-text').val(''); // remove the value from the input
+            //         console.log(kek); // log the returned kek to the console
+            //         console.log("success"); // another sanity check
+            //     },
+        
+            //     // handle a non-successful response
+            //     error : function(xhr,errmsg,err) {
+            //         $('#results').html("<div class='alert-box alert radius' data-alert>Oops! We have encountered an error: "+errmsg+
+            //             " <a href='#' class='close'>&times;</a></div>"); // add the error to the dom
+            //         console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+            //     }
+            // });
+            
 
 
         $('select').on('change', function(e){
