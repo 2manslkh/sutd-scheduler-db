@@ -29,7 +29,7 @@ urlpatterns = [
     path('logout/', auth_views.LogoutView.as_view(template_name="users/logout.html"), name='logout'),
     path('requestform/', include('formstoadmin.urls')),
     # '' contains string after /requestform
-    path('request-form', formstoadminViews.ScheduleRequest, name='request-form'),
+    path('request-form/', formstoadminViews.scheduleRequest, name='request-form'),
     path('input-module-info', formstoadminViews.inputModule, name='input-module-info'),
     path('view-requests/', formstoadminViews.viewRequests, name='view-requests'),
     path('add-event/', formstoadminViews.addEvent, name='add-event'),
@@ -38,8 +38,8 @@ urlpatterns = [
     path('input-class-info-start/', formstoadminViews.inputClassInfo_start, name="input-class-info-start"),
     path('input-class-info/<int:mod_id>/<int:idx>/<int:step>/', formstoadminViews.inputClassInfo, name="input-class-info"),
     # path('runAlgo/',scheduleViews.runAlgo),
-    re_path(r'^return_data/(?P<Classs>[^/]+)/(?P<modyews>[^/]+)/$',scheduleViews.return_data),
-    re_path(r'^return_data/(?P<Classs>[^/]+)/$',scheduleViews.return_data),
-    re_path(r'^return_data/$',scheduleViews.return_data),
-    path('gcalExport/',scheduleViews.export),
+    re_path(r'^return_data/(?P<Classs>[^/]+)/(?P<modyews>[^/]+)/$', scheduleViews.return_data),
+    re_path(r'^return_data/(?P<Classs>[^/]+)/$', scheduleViews.return_data),
+    re_path(r'^return_data/$', scheduleViews.return_data),
+    path('gcalExport/', scheduleViews.export),
 ]
