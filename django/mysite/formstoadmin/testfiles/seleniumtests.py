@@ -354,6 +354,6 @@ try:
 except Exception:
     logger2.error(Exception)
     traceback.print_exc()
-# finally:
-    # logout()
-#     end()
+finally:
+    logout()
+    end()
