@@ -4,7 +4,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.action_chains import ActionChains
-from selenium.common.exceptions import NoSuchElementException, StaleElementReferenceException, WebDriverException
+from selenium.common.exceptions import NoSuchElementException, StaleElementReferenceException, WebDriverException, TimeoutException
 from selenium.webdriver.support.select import Select
 from selenium.webdriver.chrome.options import Options
 
@@ -84,7 +84,7 @@ def setup(_login=False, user_level=3):
             login(username="faculty")
 
         elif user_level == 1:  # student
-            login(username == "1002858")
+            login(username="1002858")
 
 
 def register():
@@ -130,15 +130,15 @@ def add_event():
     driver.find_element_by_id('id_date').send_keys("28/4/2019")
     bxpath('//button[text()="Submit"]').click()
 
-    bxpath('button[@class="close"]').click()
+    WebDriverWait(driver, 3).until(EC.visibility_of_element_located((By.CLASS_NAME, 'modal-content')))
+    bxpath('//button[@class="close"]').click()
+    driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+    time.sleep(1)
     bxpath('//a[text()="View Suggestions"]').click()
+    WebDriverWait(driver, 3).until(EC.visibility_of_element_located((By.CLASS_NAME, 'modal-content')))
     bxpath('//a[text()="Accept"]').click()
-    obj = driver.switch_to.alert
-    msg = obj.text
-    logger.info(f'alert dialog message: {msg}')
-    obj.dismiss()
 
-    bxpath('//a[text()="Accept"]').click()
+    WebDriverWait(driver, 3).until(EC.alert_is_present())
     obj = driver.switch_to.alert
     obj.accept()
 
@@ -236,16 +236,25 @@ def input_class_info():
     bxpath('//a[text()="Input Class Information"]').click()
 
     select = Select(bid('id_module'))
-    logger.info(f"Pillars: {select.options}")
     ran_num = get_ran_num(start=1, end=len(select.options))
     for index in range(1, ran_num):
         select = Select(bid('id_module'))
         select.select_by_index(index)
 
     bxpath('//button[@type="submit"]').click()
-    bxpath('//a[contains(text(),"Back")]').click()
-    assert driver.current_url == "http://localhost:8000/input-class-info-start/"
-    driver.back()
+    try:
+        WebDriverWait(driver, 3).until(EC.visibility_of_element_located((By.XPATH, '//a[contains(text(),"Back")]')))
+        bxpath('//a[contains(text(),"Back")]').click()
+        assert driver.current_url == "http://localhost:8000/input-class-info-start/"
+    except TimeoutException:
+        pass
+
+    select = Select(bid('id_module'))
+    ran_num = get_ran_num(start=1, end=len(select.options))
+    for index in range(1, ran_num):
+        select = Select(bid('id_module'))
+        select.select_by_index(index)
+    bxpath('//button[@type="submit"]').click()
 
     # EYES
     bid('id_location').send_keys("CC13")
@@ -295,9 +304,7 @@ def schedule_filter(export=True):
     bclass('button-submit').click()
 
     # EYES
-    for i in range(10):
-        bid('export-button').click()
-        print("click")
+    bid('export-button').click()
 
 
 def check_restrictions_faculty():
