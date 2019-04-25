@@ -242,21 +242,8 @@ def input_class_info():
         select.select_by_index(index)
 
     bxpath('//button[@type="submit"]').click()
-    try:
-        WebDriverWait(driver, 3).until(EC.visibility_of_element_located((By.XPATH, '//a[contains(text(),"Back")]')))
-        bxpath('//a[contains(text(),"Back")]').click()
-        assert driver.current_url == "http://localhost:8000/input-class-info-start/"
-    except TimeoutException:
-        pass
+    WebDriverWait(driver, 3).until(EC.visibility_of_element_located((By.XPATH, '//a[contains(text(),"Back")]')))
 
-    select = Select(bid('id_module'))
-    ran_num = get_ran_num(start=1, end=len(select.options))
-    for index in range(1, ran_num):
-        select = Select(bid('id_module'))
-        select.select_by_index(index)
-    bxpath('//button[@type="submit"]').click()
-
-    # EYES
     bid('id_location').send_keys("CC13")
 
     # To assert fill out this field pop up present
