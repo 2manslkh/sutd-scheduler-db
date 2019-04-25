@@ -67,7 +67,7 @@ body {
         <div class="card" >
           <ul class="list-group list-group-flush">
             {% for obj in latest_five %}
-            <li class="list-group-item"><strong>Location: {{obj.location}}<br>Date: {{obj.date}}</strong></li>
+            <li class="list-group-item"><strong>Location: {{obj.location}}<br>Date: {{obj.date}}<br>Time:{{obj.start_time}}-{{obj.end_time}}</strong></li>
             <a href="/add-event/{{obj.id}}" type="button" class="btn btn-outline-primary confirmation" role="button">Accept</a>
             {% endfor %}
           </ul>
