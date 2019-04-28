@@ -1,3 +1,10 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Sun Apr 28 23:38:16 2019
+
+@author: jen yang
+"""
+
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
@@ -15,6 +22,7 @@ import time
 import random
 import logging
 import datetime
+import random
 
 LEGAL_PASSWORD = 'testing321'
 
@@ -321,6 +329,19 @@ def check_restrictions_student():
     driver.get('http://localhost:8000/request-form/')
     assert bclass("alert-error")
 
+def schedule_filter_correctly():
+    driver.get('http://localhost:8000/')
+    driver.implicitly_wait(3)
+    bxpath('//button[@title="Nothing selected"]').click()
+    select = bxpath('//select[@class="selectpicker"]')
+    select = Select(driver.find_element_by_id('course-selector'))
+# select by index
+    counter = 0
+    num_of_courses = random.randint(0,len(select.options)-1)
+    while counter < num_of_courses:
+        rng = random.randint(0,len(select.options)-1)
+        select.select_by_index(rng)
+    
 
 def logout():
     driver.find_element_by_xpath('//a[text()="Logout"]').click()
@@ -339,6 +360,7 @@ try:
     input_class_info()
     view_requests()
     schedule_filter()
+    schedule_filter_correctly()
     logout()
     setup(_login=True, user_level=2)
 
